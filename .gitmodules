@@ -1,0 +1,3 @@
+[submodule "deps/dgnix"]
+	path = deps/dgnix
+	url = git@github.com:Asmmax/dgnix.git
