@@ -6,13 +6,17 @@
 
 CameraManipulator::CameraManipulator(const std::shared_ptr<Camera>& camera) :
 	_camera(camera),
-	_input(nullptr)
+	_input(nullptr),
+	_storagedRotation(1.0f, 0.0f, 0.0f ,0.0f),
+	_sumDeltaX(0.0f),
+	_sumDeltaY(0.0f)
 {
 }
 
 void CameraManipulator::init(const std::shared_ptr<InputController>& input)
 {
 	_input = input;
+	_storagedRotation = _camera->getTransform()->getLocalRotation();
 }
 
 void CameraManipulator::update(float deltaTime)
@@ -20,18 +24,25 @@ void CameraManipulator::update(float deltaTime)
 	float deltaX = static_cast<float>(_input->GetXDelta());
 	float deltaY = static_cast<float>(_input->GetYDelta());
 
-	if (_input->isLeftButtonPressed() && (deltaX != 0.0f || deltaY != 0.0f)) {
+	if (_input->isLeftButtonPressed()) {
 
-		std::shared_ptr<Transform> target = _camera->getTransform();
+		if (deltaX != 0.0f || deltaY != 0.0f) {
 
-		auto rotatation = target->getLocalRotation();
+			_sumDeltaX += deltaX;
+			_sumDeltaY += deltaY;
 
-		auto rotY = glm::angleAxis(-glm::radians(deltaX), glm::vec3(0.0f, 1.0f, 0.0f));
-		auto rotX = glm::angleAxis(-glm::radians(deltaY), glm::vec3(1.0f, 0.0f, 0.0f));
+			std::shared_ptr<Transform> target = _camera->getTransform();
 
-		rotatation *= rotX * rotY;
+			auto rotY = glm::angleAxis(-glm::radians(_sumDeltaX), glm::vec3(0.0f, 1.0f, 0.0f));
+			auto rotX = glm::angleAxis(-glm::radians(_sumDeltaY), glm::vec3(1.0f, 0.0f, 0.0f));
 
-		target->setRotation(rotatation);
+			target->setRotation(_storagedRotation * rotY * rotX);
+		}
+	}
+	else {
+		_sumDeltaX = 0.0f;
+		_sumDeltaY = 0.0f;
+		_storagedRotation = _camera->getTransform()->getLocalRotation();
 	}
 
 	double scale = _input->GetScrollDelta();
