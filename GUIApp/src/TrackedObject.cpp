@@ -1,9 +1,18 @@
 #include "TrackedObject.hpp"
-#include "ACurve.hpp
+#include "ACurve.hpp"
 
 #include <glm/glm.hpp>
 
-TrackedObject::TrackedObject(const SharedMeshPtr& mesh, const CurvePtr& path, float velocity):
+TrackedObject::TrackedObject(const CurvePtr& path, float velocity):
+	DynamicObject::DynamicObject(),
+	_path(path),
+	_velocity(velocity),
+	_parameter(0.0f)
+{
+
+}
+
+TrackedObject::TrackedObject(const std::shared_ptr<SharedMesh>& mesh, const CurvePtr& path, float velocity):
 	DynamicObject::DynamicObject(mesh),
 	_path(path),
 	_velocity(velocity),

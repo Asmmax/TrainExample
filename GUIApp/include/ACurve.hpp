@@ -10,7 +10,6 @@ class ACurve
 public:
 	virtual ~ACurve() = default;
 
-	void draw(unsigned int points = 16);
 	std::vector<float> getUniformDistribution(unsigned int points_count, unsigned int accuracy = 10) const;
 	float getNumericalLength(unsigned int accuracy = 100) const;
 	float getNextParamByStep(float current_param, float step, unsigned int accuracy = 10) const;

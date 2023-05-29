@@ -8,7 +8,7 @@ file(GLOB_RECURSE guiapp_src "${guiapp_src_dir}/*.cpp")
 
 add_executable (GUIApp 
 ${guiapp_include}
-${guiapp_src} )
+${guiapp_src})
 
 target_compile_features (GUIApp PRIVATE cxx_std_17)
 target_include_directories(GUIApp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")

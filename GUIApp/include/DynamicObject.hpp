@@ -1,5 +1,5 @@
 #pragma once
-#include "AGameObject.h"
+#include "GameObject.hpp"
 
 #include <memory>
 #include <glm/vec3.hpp>
@@ -9,11 +9,11 @@ class DynamicObject : public GameObject
 {
 public:
 	DynamicObject();
-	DynamicObject(const SharedMeshPtr& mesh);
+	DynamicObject(const std::shared_ptr<SharedMesh>& mesh);
 
 	virtual void interpolate(float value) override;
-	virtual void init() override;
-	virtual void update(float delta_time) override {}
+	virtual void init(const std::shared_ptr<Model>& model) override;
+	virtual void update(float delta_time) override;
 	virtual void fixedUpdate(float fixed_time) override {}
 
 protected:

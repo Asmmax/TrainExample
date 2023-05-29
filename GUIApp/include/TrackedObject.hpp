@@ -1,5 +1,5 @@
 #pragma once
-#include "DynamicObject.h"
+#include "DynamicObject.hpp"
 
 class ACurve;
 
@@ -7,7 +7,8 @@ class TrackedObject : public DynamicObject
 {
 	using CurvePtr = std::shared_ptr<ACurve>;
 public:
-	TrackedObject(const SharedMeshPtr& mesh, const CurvePtr& path, float velocity);
+	TrackedObject(const CurvePtr& path, float velocity);
+	TrackedObject(const std::shared_ptr<SharedMesh>& mesh, const CurvePtr& path, float velocity);
 	
 	void setParameter(float parameter);
 

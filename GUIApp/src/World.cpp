@@ -1,54 +1,24 @@
 #include "World.hpp"
-#include "StaticObject.hpp"
-#include "Circle2D.hpp"
-#include "Primitives.hpp"
-#include "Rails.hpp"
-#include "Sleepers.hpp"
-#include "TrainBuilder.hpp"
-#include "Spline.hpp"
-#include "framework/utils.h"
-
+#include "GameObject.hpp"
+#include "APlayerController.hpp"
+#include "CameraView.hpp"
+#include "MainCameraView.hpp"
+#include "Transform.hpp"
+#include "Model.hpp"
+#include "objects/Light.hpp"
 
 World::World(float fixed_time):
-	_fixed_time(fixed_time)
+	_fixed_time(fixed_time),
+	_time_redundant(0.0f),
+	_isInited(false),
+	_window(nullptr),
+	_mainCamera(std::make_shared<MainCameraView>()),
+	_model(std::make_shared<Model>()),
+	_root(std::make_shared<Transform>())
 {
-	//init curve
-	std::vector<glm::vec3> points;
-	points.reserve(8);
-	points.emplace_back(0.0f, 0.f, 7.0f); // 1
-	points.emplace_back(-6.0f, 0.f, 5.0f); // 2
-	points.emplace_back(-8.0f, 0.f, 1.0f); // 3
-	points.emplace_back(-4.0f, 0.f, -6.0f); // 4
-	points.emplace_back(0.0f, 0.f, -7.0f); // 5
-	points.emplace_back(1.0f, 0.f, -4.0f); // 6
-	points.emplace_back(4.0f, 0.f, -3.0f); // 7
-	points.emplace_back(8.0f, 0.f, 7.0f); // 8
-	_path = std::make_shared<Spline>(points, true);
-
-	// create background objects
-	auto plane_mesh = std::make_shared<Plane>();
-	auto plane_object = std::make_shared<StaticObject>(plane_mesh);
-	plane_object->setColor(0.2f, 0.37f, 0.2f);
-	plane_object->setPosition(glm::vec3(0, -0.01f, 0));
-	plane_object->setRotation(glm::vec3(-90.0f, 0.0f, 0.0f));
-	plane_object->setScale(glm::vec3(20.0f));
-	AddGameObject(plane_object);
-
-	//create movable object
-	TrainBuilder train(_path, 8, 2.0f);
-	train.Build(this);
-
-	//create railway
-	auto rails_mesh = std::make_shared<Rails>(_path, 0.1f, 0.5f, 400);
-	auto rails_object = std::make_shared<StaticObject>(rails_mesh);
-	rails_object->setColor(0.25f, 0.25f, 0.25f);
-	rails_object->setOffset(glm::vec3(0.0f, 0.01f, 0.0f));
-	AddGameObject(rails_object);
-
-	auto sleepers_mesh = std::make_shared<Sleepers>(_path, 0.1f, 1.0f, 0.5f);
-	auto sleepers_object = std::make_shared<StaticObject>(sleepers_mesh);
-	sleepers_object->setColor(0.5f, 0.25f, 0.0f);
-	AddGameObject(sleepers_object);
+	_mainLight = _model->createLight();
+	_mainLight->setRadius(1000.0f);
+	_mainLight->setPosition(glm::vec3(100.0f, 200.0f, 100.0f));
 }
 
 World::~World() = default;
@@ -56,22 +26,55 @@ World::~World() = default;
 void World::AddGameObject(const GameObjectPtr& game_object)
 {
 	_game_objects.push_back(game_object);
+	auto& transform = game_object->getTransform();
+	_root->addChild(transform);
 }
 
-void World::init()
+void World::AddPlayerController(const PlayerControllerPtr& playerController)
+{
+	_playerControllers.push_back(playerController);
+}
+
+void World::setInput(const std::shared_ptr<InputController>& input)
+{
+	_input = input;
+
+	if (_isInited) {
+		for (auto& controller : _playerControllers) {
+			controller->init(_input);
+		}
+	}
+}
+
+std::shared_ptr<ICameraView> World::getMainCameraView() const
+{
+	return _mainCamera;
+}
+
+std::shared_ptr<ICameraView> World::CreateCameraView(int width, int height)
+{
+	auto newCamera = std::make_shared<CameraView>(width, height);
+	_cameras.push_back(newCamera);
+	return newCamera;
+}
+
+void World::init(Window* window)
 {
 	for (auto& game_object : _game_objects) {
-		game_object->init();
+		game_object->init(_model);
 	}
-}
 
-void World::draw()
-{
-#ifdef _DEBUG
-	if (_path) {
-		_path->draw(100);
+	for (auto& controller : _playerControllers) {
+		controller->init(_input);
 	}
-#endif
+
+	_mainCamera->init(window);
+
+	for (auto& camera : _cameras) {
+		camera->init(window);
+	}
+
+	_isInited = true;
 }
 
 void World::update(float delta_time)
@@ -82,10 +85,27 @@ void World::update(float delta_time)
 		fixedUpdate();
 	}
 
+	for (auto& controller : _playerControllers) {
+		controller->update(delta_time);
+	}
+
 	for (auto& game_object : _game_objects) {
 		game_object->interpolate(_time_redundant / _fixed_time);
+	}
+
+	_root->compute();
+
+	for (auto& game_object : _game_objects) {
 		game_object->update(delta_time);
 	}
+}
+
+void World::draw()
+{
+	for (auto& camera : _cameras) {
+		camera->render(*_model);
+	}
+	_mainCamera->render(*_model);
 }
 
 void World::fixedUpdate()

@@ -1,5 +1,5 @@
 #pragma once
-#include "ACurve.h"
+#include "ACurve.hpp"
 #include <vector>
 
 class Spline : public ACurve

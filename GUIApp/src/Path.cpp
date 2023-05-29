@@ -8,7 +8,7 @@ Path::Path(const std::string& settings)
 	loadSettings(settings);
 }
 
-std::string Path::find(const std::string& localPath)
+std::string Path::find(const std::string& localPath) const
 {
 	for (auto& path : _resorcePaths) {
 		std::filesystem::path fullPath(path);

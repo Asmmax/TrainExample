@@ -1,5 +1,5 @@
 #pragma once
-#include "ACurve.h"
+#include "ACurve.hpp"
 #include <glm/vec3.hpp>
 
 class Circle2D : public ACurve

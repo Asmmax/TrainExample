@@ -1,28 +1,5 @@
 #include "ACurve.hpp"
-
-#include "framework/utils.h"
-
-void ACurve::draw(unsigned int points)
-{
-	unsigned int seg_count = isLoop() ? points : points - 1;
-	if (seg_count == 0) {
-		return;
-	}
-
-	float step = 1.0f / seg_count;
-	float current_parameter = 0.0f;
-
-	std::vector<glm::vec3> path;
-	path.reserve(points);
-	for (unsigned int i = 0; i < points; i++) {
-		auto value = getValue(current_parameter);
-		path.emplace_back(value);
-		current_parameter += step;
-	}
-
-	LineDrawer path_drawer(path.data()->data.data, path.size(), isLoop());
-	path_drawer.draw();
-}
+#include <glm/glm.hpp>
 
 std::vector<float> ACurve::getUniformDistribution(unsigned int points_count, unsigned int accuracy) const
 {

@@ -1,30 +1,34 @@
 #include "DynamicObject.hpp"
 #include "SharedMesh.hpp"
-#include "framework/engine.h"
+#include "Transform.hpp"
 
 DynamicObject::DynamicObject() : GameObject::GameObject()
 {
 }
 
-DynamicObject::DynamicObject(const SharedMeshPtr& mesh) : GameObject::GameObject(mesh)
+DynamicObject::DynamicObject(const std::shared_ptr<SharedMesh>& mesh) : GameObject::GameObject(mesh)
 {
 }
 
 void DynamicObject::interpolate(float value)
 {
-	_object->setPosition(glm::mix(_position, _next_position, value) + _offset);
-	_object->setRotation(glm::slerp(_rotation, _next_rotation, value));
-	_object->setScale(glm::mix(_scale, _next_scale, value));
+	_transform->setPosition(glm::mix(_transform->getLocalPosition(), _next_position, value));
+	_transform->setRotation(glm::slerp(_transform->getLocalRotation(), _next_rotation, value));
+	_transform->setScale(glm::mix(_transform->getLocalScale(), _next_scale, value));
 }
 
-void DynamicObject::init()
+void DynamicObject::init(const std::shared_ptr<Model>& model)
 {
-	_next_position = _position;
-	_next_rotation = _rotation;
-	_next_scale = _scale;
-	if (_mesh) {
-		_object->setMesh(_mesh->getMesh());
-	}
+	GameObject::init(model);
+
+	_next_position = _transform->getLocalPosition();
+	_next_rotation = _transform->getLocalRotation();
+	_next_scale = _transform->getLocalScale();
+}
+
+void DynamicObject::update(float delta_time)
+{
+	GameObject::update(delta_time);
 }
 
 void DynamicObject::setNextPosition(const glm::vec3& position)

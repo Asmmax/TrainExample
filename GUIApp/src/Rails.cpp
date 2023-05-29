@@ -19,6 +19,5 @@ Rails::Rails(const std::shared_ptr<ACurve>& path, float width, float gap, int se
 	ParallelCurve right_rail_end(path, glm::vec3(gap / 2 + width, 0, 0));
 	generator.meshPointsStrip(right_rail_beg.getValues(parameters), right_rail_end.getValues(parameters));
 
-	getMesh()->set(generator.getVertices(), generator.getIndices());
-
+	_data = generator.getMeshData();
 }

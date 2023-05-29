@@ -34,5 +34,5 @@ Sleepers::Sleepers(const std::shared_ptr<ACurve>& path, float thickness, float w
 
 	generator.meshPoints(left, right);
 
-	getMesh()->set(generator.getVertices(), generator.getIndices());
+	_data = generator.getMeshData();
 }

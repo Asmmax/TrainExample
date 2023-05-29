@@ -1,16 +1,21 @@
 #pragma once
-#include "framework/mesh.h"
+#include "resources/MeshData.hpp"
 
-// Оболочка для меша. Движковый меш нельзя копировать и нельзя использовать внешние функции-хелперы в парадигме ООП. 
-// Таким образом нам нужен общий меш.
+class Mesh;
+class Loader;
+
 class SharedMesh
 {
 public:
 	SharedMesh() = default;
 	SharedMesh(const SharedMesh& other) = delete;
 
-	Mesh* getMesh() { return &_mesh; }
+	void load(Loader& loader);
+
+	Mesh* getMesh() { return _mesh; }
 
 private:
-	Mesh _mesh;
+	Mesh* _mesh = nullptr;
+protected:
+	MeshData _data;
 };

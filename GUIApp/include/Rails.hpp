@@ -1,5 +1,5 @@
 #pragma once
-#include "SharedMesh.h"
+#include "SharedMesh.hpp"
 #include <memory>
 
 class ACurve;

@@ -24,16 +24,21 @@ TrainBuilder::TrainBuilder(const std::shared_ptr<ACurve>& path, unsigned int blo
 	}
 }
 
-void TrainBuilder::Build(World* world)
+void TrainBuilder::Build(World* world, const std::shared_ptr<SharedMesh>& mesh, const std::shared_ptr<Material>& material)
 {
-	auto cube_mesh = std::make_shared<Cube>();
-
 	for (auto param : _initial_params) {
-		auto movable_object = std::make_shared<TrackedObject>(cube_mesh, _path, _velocity);
+		auto movable_object = std::make_shared<TrackedObject>(_path, _velocity);
 		movable_object->setParameter(param);
-		movable_object->setColor(0.62f, 0.58f, 0.51f);
-		movable_object->setScale(glm::vec3(1.0f, 0.5f, _block_length));
-		movable_object->setOffset(glm::vec3(0.0f, 0.25f, 0.0f));
+
+		auto graphics_object = std::make_shared<GameObject>(mesh);
+		graphics_object->setPosition(glm::vec3(0.0f, 0.25f, 0.0f));
+		graphics_object->setMaterial(material);
+		graphics_object->setScale(glm::vec3(1.0f, 0.5f, _block_length));
+
+		world->AddGameObject(graphics_object);
+
+		movable_object->attachChild(graphics_object);
+
 		world->AddGameObject(movable_object);
 	}
 }
