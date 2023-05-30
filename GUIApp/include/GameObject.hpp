@@ -8,7 +8,6 @@ class Object;
 class Model;
 class SharedMesh;
 class Transform;
-class Batch;
 class Material;
 
 class GameObject
@@ -34,10 +33,12 @@ public:
 	virtual void fixedUpdate(float fixed_time) {}
 
 protected:
+	void applyMaterial();
+
+protected:
 	std::shared_ptr<Transform> _transform;
 	std::shared_ptr<SharedMesh> _mesh;
 	std::shared_ptr<Material> _material;
 	std::shared_ptr<Model> _model;
 	Object* _object;
-	Batch* _batch;
 };
