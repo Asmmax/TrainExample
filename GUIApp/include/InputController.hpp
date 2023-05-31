@@ -16,9 +16,13 @@ private:
 	bool _isRightButtonPressed;
 	bool _isLeftButtonPressed;
 
+	bool _mouseCaptured;
+
 public:
 	explicit InputController(double scrollSpeed = 1.2);
 	void bind(Window* window);
+
+	void setMouseCaptureWhilePressed(bool flag = true);
 
 	bool isRightButtonPressed() const { return _isRightButtonPressed; }
 	bool isLeftButtonPressed() const { return _isLeftButtonPressed; }

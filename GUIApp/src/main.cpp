@@ -139,6 +139,7 @@ int main()
 		return -1;
 
 	std::shared_ptr<InputController> controller = std::make_shared<InputController>();
+	controller->setMouseCaptureWhilePressed();
 	controller->bind(window);
 
 	std::shared_ptr<World> world = std::make_shared<World>(0.02f);

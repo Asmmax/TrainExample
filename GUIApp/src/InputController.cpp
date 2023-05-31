@@ -10,7 +10,8 @@ InputController::InputController(double scrollSpeed):
 	_yPos(0.0),
 	_scrollPos(0.0),
 	_isRightButtonPressed(false),
-	_isLeftButtonPressed(false)
+	_isLeftButtonPressed(false),
+	_mouseCaptured(false)
 {
 }
 
@@ -19,17 +20,34 @@ void InputController::bind(Window* window)
 	window->setPreHandleCallback([this]() {
 		clear();
 	});
-	window->setMouseRightButtonDownCallback([this](double x, double y) {
-		_isRightButtonPressed = true;
+	window->setMouseButtonCallback([this, window](InputEvents::MouseKey key, InputEvents::KeyState state) {
+		if (state == InputEvents::KeyState::KEY_DOWN) {
+			if (key == InputEvents::MouseKey::LEFT_BUTTON) {
+				_isLeftButtonPressed = true;
+			}
+			else if (key == InputEvents::MouseKey::RIGHT_BUTTON) {
+				_isRightButtonPressed = true;
+			}
+
+			if (_mouseCaptured) {
+				window->captureMouse();
+			}
+		}
+		else if (state == InputEvents::KeyState::KEY_UP) {
+			if (key == InputEvents::MouseKey::LEFT_BUTTON) {
+				_isLeftButtonPressed = false;
+			}
+			else if (key == InputEvents::MouseKey::RIGHT_BUTTON) {
+				_isRightButtonPressed = false;
+			}
+
+			if (_mouseCaptured) {
+				window->uncaptureMouse();
+			}
+		}
 		});
-	window->setMouseRightButtonUpCallback([this](double x, double y) {
-		_isRightButtonPressed = false;
-		});
-	window->setMouseLeftButtonDownCallback([this](double x, double y) {
-		_isLeftButtonPressed = true;
-		});
-	window->setMouseLeftButtonUpCallback([this](double x, double y) {
-		_isLeftButtonPressed = false;
+	window->setMouseButtonWithMoveCallback([this](double x, double y, InputEvents::MouseKey key, InputEvents::KeyState state) {
+		setMousePos(x, y);
 		});
 	window->setMouseMoveCallback([this](double x, double y) {
 		setMousePos(x, y);
@@ -37,6 +55,11 @@ void InputController::bind(Window* window)
 	window->setMouseScrollCallback([this](double step) {
 		addMouseScroll(step);
 		});
+}
+
+void InputController::setMouseCaptureWhilePressed(bool flag)
+{
+	_mouseCaptured = flag;
 }
 
 double InputController::GetScrollDelta() const
