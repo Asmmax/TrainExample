@@ -19,9 +19,18 @@
 #include "components/RenderComponent.hpp"
 #include "GameObject.hpp"
 #include "Transform.hpp"
+#include "components/LightComponent.hpp"
 
 void initWorld(World* world, Loader* loader, const Path& directory)
 {
+	//init MainLight
+	auto sun_object = std::make_shared<GameObject>();
+	sun_object->setPosition(glm::vec3{ 100.0f, 200.0f, 100.0f });
+	auto mainLight = sun_object->addComponent<LightComponent>();
+	mainLight->setRadius(1000.0f);
+	mainLight->setIntensity(0.5f);
+	world->AddGameObject(sun_object);
+
 	//init camera
 	auto mainCameraObject = std::make_shared<GameObject>();
 	mainCameraObject->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));

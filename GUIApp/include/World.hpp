@@ -8,7 +8,6 @@ class Window;
 class ICameraView;
 class Transform;
 class Model;
-class Light;
 
 class World
 {
@@ -38,7 +37,6 @@ private:
 	float _time_redundant;
 	bool _isInited;
 	Window* _window;
-	Light* _mainLight;
 	CameraViewPtr _mainCamera;
 	std::shared_ptr<Model> _model;
 	std::vector<GameObjectPtr> _game_objects;

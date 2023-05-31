@@ -4,6 +4,7 @@
 #include "components/RenderComponent.hpp"
 #include "World.hpp"
 #include "ACurve.hpp"
+#include "components/LightComponent.hpp"
 #include <memory>
 
 TrainBuilder::TrainBuilder(const std::shared_ptr<ACurve>& path, unsigned int block_count, float velocity, float block_length, float gap):
@@ -23,10 +24,13 @@ TrainBuilder::TrainBuilder(const std::shared_ptr<ACurve>& path, unsigned int blo
 		parameter = path->getNextParamByStep(parameter, step);
 		_initial_params.push_back(parameter);
 	}
+
+	std::reverse(_initial_params.begin(), _initial_params.end());
 }
 
 void TrainBuilder::Build(World* world, const std::shared_ptr<SharedMesh>& mesh, const std::shared_ptr<Material>& material)
 {
+	bool first = true;
 	for (auto param : _initial_params) {
 		auto movable_object = std::make_shared<TrackedObject>(_path, _velocity);
 		movable_object->setParameter(param);
@@ -42,6 +46,20 @@ void TrainBuilder::Build(World* world, const std::shared_ptr<SharedMesh>& mesh, 
 		world->AddGameObject(graphics_object);
 
 		movable_object->attachChild(graphics_object);
+
+		if (first) {
+			auto projector_object = std::make_shared<GameObject>();
+			projector_object->setPosition(glm::vec3{ 0.0f, 10.0f, -5.0f });
+			auto light = projector_object->addComponent<LightComponent>();
+			light->setRadius(10.0f);
+			light->setFadingArea(10.0f);
+			light->setColor(glm::vec3{ 1.0f, 1.0f, 0.0f });
+
+			world->AddGameObject(projector_object);
+
+			movable_object->attachChild(projector_object);
+			first = false;
+		}
 
 		world->AddGameObject(movable_object);
 	}

@@ -5,7 +5,6 @@
 #include "MainCameraView.hpp"
 #include "Transform.hpp"
 #include "Model.hpp"
-#include "objects/Light.hpp"
 
 World::World(float fixed_time):
 	_fixed_time(fixed_time),
@@ -15,9 +14,6 @@ World::World(float fixed_time):
 	_mainCamera(std::make_shared<MainCameraView>()),
 	_model(std::make_shared<Model>())
 {
-	_mainLight = _model->createLight();
-	_mainLight->setRadius(1000.0f);
-	_mainLight->setPosition(glm::vec3(100.0f, 200.0f, 100.0f));
 }
 
 World::~World() = default;
