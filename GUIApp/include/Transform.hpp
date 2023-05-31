@@ -11,6 +11,7 @@ private:
 	glm::quat _localRotation;
 	glm::vec3 _localScale;
 	std::vector<std::shared_ptr<Transform>> _children;
+	Transform* _parent;
 	glm::mat4 _parentMatrix;
 	mutable glm::mat4 _localMatrix;
 	mutable glm::mat4 _globalMatrix;
@@ -27,6 +28,8 @@ public:
 		const glm::vec3& localScale = glm::vec3(1.0f));
 
 	void setParentMatrix(const glm::mat4& matrix = glm::mat4(1.0f));
+
+	const Transform* getParent() const { return _parent; }
 
 #ifdef _DEBUG
 	void invalidate();
@@ -51,6 +54,8 @@ public:
 protected:
 	void computeGlobalMatrix() const;
 	void computeLocalMatrix() const;
+
+	void setParent(Transform* parent);
 
 #ifdef _DEBUG
 	void invalidateChildren();

@@ -9,10 +9,9 @@ class DynamicObject : public GameObject
 {
 public:
 	DynamicObject();
-	DynamicObject(const std::shared_ptr<SharedMesh>& mesh);
 
 	virtual void interpolate(float value) override;
-	virtual void init(const std::shared_ptr<Model>& model) override;
+	virtual void init() override;
 	virtual void update(float delta_time) override;
 	virtual void fixedUpdate(float fixed_time) override {}
 

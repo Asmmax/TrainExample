@@ -13,8 +13,7 @@ World::World(float fixed_time):
 	_isInited(false),
 	_window(nullptr),
 	_mainCamera(std::make_shared<MainCameraView>()),
-	_model(std::make_shared<Model>()),
-	_root(std::make_shared<Transform>())
+	_model(std::make_shared<Model>())
 {
 	_mainLight = _model->createLight();
 	_mainLight->setRadius(1000.0f);
@@ -26,24 +25,6 @@ World::~World() = default;
 void World::AddGameObject(const GameObjectPtr& game_object)
 {
 	_game_objects.push_back(game_object);
-	auto& transform = game_object->getTransform();
-	_root->addChild(transform);
-}
-
-void World::AddPlayerController(const PlayerControllerPtr& playerController)
-{
-	_playerControllers.push_back(playerController);
-}
-
-void World::setInput(const std::shared_ptr<InputController>& input)
-{
-	_input = input;
-
-	if (_isInited) {
-		for (auto& controller : _playerControllers) {
-			controller->init(_input);
-		}
-	}
 }
 
 std::shared_ptr<ICameraView> World::getMainCameraView() const
@@ -61,11 +42,7 @@ std::shared_ptr<ICameraView> World::CreateCameraView(int width, int height)
 void World::init(Window* window)
 {
 	for (auto& game_object : _game_objects) {
-		game_object->init(_model);
-	}
-
-	for (auto& controller : _playerControllers) {
-		controller->init(_input);
+		game_object->init();
 	}
 
 	_mainCamera->init(window);
@@ -85,18 +62,23 @@ void World::update(float delta_time)
 		fixedUpdate();
 	}
 
-	for (auto& controller : _playerControllers) {
-		controller->update(delta_time);
-	}
-
 	for (auto& game_object : _game_objects) {
 		game_object->interpolate(_time_redundant / _fixed_time);
 	}
 
-	_root->compute();
-
 	for (auto& game_object : _game_objects) {
 		game_object->update(delta_time);
+	}
+
+	for (auto& game_object : _game_objects) {
+		auto& transform = game_object->getTransform();
+		if (!transform->getParent()) {
+			transform->compute();
+		}
+	}
+
+	for (auto& game_object : _game_objects) {
+		game_object->predraw();
 	}
 }
 

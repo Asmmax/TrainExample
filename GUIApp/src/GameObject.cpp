@@ -1,48 +1,31 @@
 #include "GameObject.hpp"
-#include "SharedMesh.hpp"
-#include "objects/Object.hpp"
 #include "Transform.hpp"
-#include "Material.hpp"
+#include "components/AComponent.hpp"
 
 GameObject::GameObject():
-	_transform(std::make_shared<Transform>()),
-	_object(nullptr)
+	_transform(std::make_shared<Transform>())
 {
 }
 
-GameObject::GameObject(const std::shared_ptr<SharedMesh>& mesh):
-	_transform(std::make_shared<Transform>()),
-	_mesh(mesh),
-	_object(nullptr)
+void GameObject::init()
 {
-	assert(_mesh);
-}
-
-void GameObject::init(const std::shared_ptr<Model>& model)
-{
-	_model = model;
-	applyMaterial();
+	for (auto component : _components) {
+		component->init();
+	}
 }
 
 void GameObject::update(float delta_time)
 {
-	if (!_object) {
-		return;
+	for (auto component : _components) {
+		component->update(delta_time);
 	}
-
-	auto& matrix = _transform->getGlobalMatrix();
-	_object->setMatrix(matrix);
 }
 
-void GameObject::setMaterial(const std::shared_ptr<Material>& material)
+void GameObject::predraw()
 {
-	if (_material) {
-		_material->free(_object);
-		_object = nullptr;
+	for (auto component : _components) {
+		component->predraw();
 	}
-
-	_material = material;
-	applyMaterial();
 }
 
 void GameObject::setPosition(const glm::vec3& position)
@@ -66,27 +49,7 @@ void GameObject::setScale(const glm::vec3& scale)
 	_transform->setScale(scale);
 }
 
-void GameObject::setMesh(const std::shared_ptr<SharedMesh>& mesh)
-{
-	_mesh = mesh;
-	if (_mesh && _object) {
-		_object->setMesh(_mesh->getMesh());
-	}
-}
-
 void GameObject::attachChild(const std::shared_ptr<GameObject>& child)
 {
 	_transform->addChild(child->getTransform());
-}
-
-void GameObject::applyMaterial()
-{
-	if (!_material || _object || !_model) {
-		return;
-	}
-
-	_object = _material->apply(_model);
-	if (_mesh) {
-		_object->setMesh(_mesh->getMesh());
-	}
 }

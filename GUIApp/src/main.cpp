@@ -4,9 +4,10 @@
 #include "Path.hpp"
 #include "World.hpp"
 #include "InputController.hpp"
+#include "WorldContext.hpp"
 
-#include "Camera.hpp"
-#include "CameraManipulator.hpp"
+#include "components/CameraComponent.hpp"
+#include "components/CameraManipulator.hpp"
 #include "ACurve.hpp"
 #include "Spline.hpp"
 #include "Primitives.hpp"
@@ -15,20 +16,23 @@
 #include "Sleepers.hpp"
 #include "Material.hpp"
 #include "resources/ShaderData.hpp"
+#include "components/RenderComponent.hpp"
+#include "GameObject.hpp"
+#include "Transform.hpp"
 
 void initWorld(World* world, Loader* loader, const Path& directory)
 {
 	//init camera
-	auto mainCamera = std::make_shared<Camera>();
-	mainCamera->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-	mainCamera->setRotation(glm::vec3(-45.0f, 90.0f, 0.0f));
-	world->AddGameObject(mainCamera);
+	auto mainCameraObject = std::make_shared<GameObject>();
+	mainCameraObject->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	mainCameraObject->setRotation(glm::vec3(-45.0f, 90.0f, 0.0f));
+	auto mainCamera = mainCameraObject->addComponent<CameraComponent>();
+	mainCamera->getTransform()->setPosition(glm::vec3{ 0, 0, 25 });
+	mainCameraObject->getTransform()->addChild(mainCamera->getTransform());
+	auto manipulator = mainCameraObject->addComponent<CameraManipulator>();
+	world->AddGameObject(mainCameraObject);
 
 	mainCamera->addView(world->getMainCameraView());
-
-	//init controller
-	auto manipulator = std::make_shared<CameraManipulator>(mainCamera);
-	world->AddPlayerController(manipulator);
 
 	//init curve
 	std::vector<glm::vec3> points;
@@ -56,11 +60,16 @@ void initWorld(World* world, Loader* loader, const Path& directory)
 
 	auto plane_mesh = std::make_shared<Plane>();
 	plane_mesh->load(*loader);
-	auto plane_object = std::make_shared<GameObject>(plane_mesh);
-	plane_object->setMaterial(grass);
+
+	auto plane_object = std::make_shared<GameObject>();
 	plane_object->setPosition(glm::vec3(0, -0.01f, 0));
 	plane_object->setRotation(glm::vec3(-90.0f, 0.0f, 0.0f));
 	plane_object->setScale(glm::vec3(20.0f));
+
+	auto planeGraphics = plane_object->addComponent<RenderComponent>();
+	planeGraphics->setMesh(plane_mesh);
+	planeGraphics->setMaterial(grass);
+
 	world->AddGameObject(plane_object);
 
 	//create movable object
@@ -93,17 +102,26 @@ void initWorld(World* world, Loader* loader, const Path& directory)
 
 	auto rails_mesh = std::make_shared<Rails>(path, 0.1f, 0.5f, 400);
 	rails_mesh->load(*loader);
-	auto rails_object = std::make_shared<GameObject>(rails_mesh);
-	rails_object->setMaterial(metal);
+
+	auto rails_object = std::make_shared<GameObject>();
 	rails_object->setPosition(glm::vec3(0.0f, 0.01f, 0.0f));
+
+	auto railsGraphics = rails_object->addComponent<RenderComponent>();
+	railsGraphics->setMesh(rails_mesh);
+	railsGraphics->setMaterial(metal);
+
 	world->AddGameObject(rails_object);
 
 	rails->attachChild(rails_object);
 
 	auto sleepers_mesh = std::make_shared<Sleepers>(path, 0.1f, 1.0f, 0.5f);
 	sleepers_mesh->load(*loader);
-	auto sleepers_object = std::make_shared<GameObject>(sleepers_mesh);
-	sleepers_object->setMaterial(wood);
+	auto sleepers_object = std::make_shared<GameObject>();
+
+	auto sleepersGraphics = sleepers_object->addComponent<RenderComponent>();
+	sleepersGraphics->setMesh(sleepers_mesh);
+	sleepersGraphics->setMaterial(wood);
+
 	world->AddGameObject(sleepers_object);
 
 	rails->attachChild(sleepers_object);
@@ -123,11 +141,12 @@ int main()
 	std::shared_ptr<InputController> controller = std::make_shared<InputController>();
 	controller->bind(window);
 
-	World world(0.02f);
-	initWorld(&world, window->getLoader(), path);
+	std::shared_ptr<World> world = std::make_shared<World>(0.02f);
+	WorldContext::getInstance().init(world, controller);
 
-	world.init(window);
-	world.setInput(controller);
+	initWorld(world.get(), window->getLoader(), path);
+
+	world->init(window);
 
 	// main loop
 	float lastFrame = 0.0f;
@@ -139,8 +158,8 @@ int main()
 		float deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		world.update(deltaTime);
-		world.draw();
+		world->update(deltaTime);
+		world->draw();
 	}
 	return 0;
 }

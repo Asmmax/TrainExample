@@ -9,15 +9,6 @@ TrackedObject::TrackedObject(const CurvePtr& path, float velocity):
 	_velocity(velocity),
 	_parameter(0.0f)
 {
-
-}
-
-TrackedObject::TrackedObject(const std::shared_ptr<SharedMesh>& mesh, const CurvePtr& path, float velocity):
-	DynamicObject::DynamicObject(mesh),
-	_path(path),
-	_velocity(velocity),
-	_parameter(0.0f)
-{
 	setParameter(0.0f);
 }
 

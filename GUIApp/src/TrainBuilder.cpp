@@ -1,6 +1,7 @@
 #include "TrainBuilder.hpp"
 #include "Primitives.hpp"
 #include "TrackedObject.hpp"
+#include "components/RenderComponent.hpp"
 #include "World.hpp"
 #include "ACurve.hpp"
 #include <memory>
@@ -30,10 +31,13 @@ void TrainBuilder::Build(World* world, const std::shared_ptr<SharedMesh>& mesh, 
 		auto movable_object = std::make_shared<TrackedObject>(_path, _velocity);
 		movable_object->setParameter(param);
 
-		auto graphics_object = std::make_shared<GameObject>(mesh);
+		auto graphics_object = std::make_shared<GameObject>();
 		graphics_object->setPosition(glm::vec3(0.0f, 0.25f, 0.0f));
-		graphics_object->setMaterial(material);
 		graphics_object->setScale(glm::vec3(1.0f, 0.5f, _block_length));
+
+		auto renderComp = graphics_object->addComponent<RenderComponent>();
+		renderComp->setMesh(mesh);
+		renderComp->setMaterial(material);
 
 		world->AddGameObject(graphics_object);
 

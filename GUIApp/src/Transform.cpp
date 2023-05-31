@@ -11,6 +11,7 @@ Transform::Transform(const glm::vec3& localPosition,
 	_localPosition(localPosition),
 	_localRotation(localRotation),
 	_localScale(localScale),
+	_parent(nullptr),
 	_parentMatrix(1.0f),
 	_localMatrix(1.0f),
 	_globalMatrix(1.0f),
@@ -76,12 +77,14 @@ glm::vec3 Transform::getGlobalPosition() const
 void Transform::addChild(const std::shared_ptr<Transform>& child)
 {
 	_children.emplace_back(child);
+	child->setParent(this);
 }
 
 void Transform::removeChild(const std::shared_ptr<Transform>& child)
 {
 	auto lastIt = std::remove(_children.begin(), _children.end(), child);
 	_children.erase(lastIt, _children.end());
+	child->setParent(nullptr);
 }
 
 const glm::mat4& Transform::getLocalMatrix() const
@@ -98,7 +101,7 @@ const glm::mat4& Transform::getGlobalMatrix() const
 	assert(!_invalidMatrices);
 #endif // _DEBUG
 
-	if (_dirtyGlobalMatrix) {
+	if (_dirtyGlobalMatrix || _dirtyLocalMatrix) {
 		computeGlobalMatrix();
 	}
 	return _globalMatrix;
@@ -106,6 +109,12 @@ const glm::mat4& Transform::getGlobalMatrix() const
 
 void Transform::compute()
 {
+#ifdef _DEBUG
+	if (!_parent) {
+		_invalidMatrices = false;
+	}
+#endif // _DEBUG
+
 	auto& globalMatrix = getGlobalMatrix();
 	for (auto child : _children)
 	{
@@ -126,6 +135,11 @@ void Transform::computeLocalMatrix() const
 	glm::mat4 rotationMatrix = glm::toMat4(_localRotation);
 	_localMatrix = glm::translate(_localPosition) * rotationMatrix * glm::scale(_localScale);
 	_dirtyLocalMatrix = false;
+}
+
+void Transform::setParent(Transform* parent)
+{
+	_parent = parent;
 }
 
 #ifdef _DEBUG

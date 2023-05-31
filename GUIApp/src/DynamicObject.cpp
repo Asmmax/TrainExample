@@ -6,10 +6,6 @@ DynamicObject::DynamicObject() : GameObject::GameObject()
 {
 }
 
-DynamicObject::DynamicObject(const std::shared_ptr<SharedMesh>& mesh) : GameObject::GameObject(mesh)
-{
-}
-
 void DynamicObject::interpolate(float value)
 {
 	_transform->setPosition(glm::mix(_transform->getLocalPosition(), _next_position, value));
@@ -17,9 +13,9 @@ void DynamicObject::interpolate(float value)
 	_transform->setScale(glm::mix(_transform->getLocalScale(), _next_scale, value));
 }
 
-void DynamicObject::init(const std::shared_ptr<Model>& model)
+void DynamicObject::init()
 {
-	GameObject::init(model);
+	GameObject::init();
 
 	_next_position = _transform->getLocalPosition();
 	_next_rotation = _transform->getLocalRotation();
