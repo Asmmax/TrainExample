@@ -28,5 +28,10 @@ public:
 	void setNextRotation(const glm::quat& rotation);
 	void setNextScale(const glm::vec3& scale);
 
+	void resetPosition(const glm::vec3& position);
+	void resetRotation(const glm::vec3& rotation);
+	void resetRotation(const glm::quat& rotation);
+	void resetScale(const glm::vec3& scale);
+
 	void interpolate(float value);
 };

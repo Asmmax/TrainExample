@@ -29,12 +29,4 @@ void TrackedEntity::fixedUpdate(float fixed_time)
 void TrackedEntity::setParameter(float parameter)
 {
 	_parameter = parameter;
-
-	// set initial position
-	_transform->setPosition(_path->getValue(_parameter));
-
-	// set initial rotation
-	auto initial_tangent = glm::normalize(_path->getDerivative(_parameter));
-	auto rotation = glm::quatLookAt(initial_tangent, glm::vec3(0.0f, 1.0f, 0.0f));
-	_transform->setRotation(rotation);
 }

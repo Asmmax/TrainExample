@@ -4,6 +4,8 @@
 #include "GameObject.hpp"
 #include "physics/PhysicalSystem.hpp"
 #include "physics/TrackedEntity.hpp"
+#include "Transform.hpp"
+#include "ACurve.hpp"
 
 TrackedComponent::TrackedComponent():
 	_velocity(0.0f)
@@ -12,11 +14,23 @@ TrackedComponent::TrackedComponent():
 
 void TrackedComponent::init()
 {
+	auto transform = getOwner()->getTransform();
+
+	// set initial position
+	transform->setPosition(_path->getValue(_parameter));
+
+	// set initial rotation
+	auto initial_tangent = glm::normalize(_path->getDerivative(_parameter));
+	auto rotation = glm::quatLookAt(initial_tangent, glm::vec3(0.0f, 1.0f, 0.0f));
+	transform->setRotation(rotation);
+
 	auto world = WorldContext::getInstance().getWorld();
 	auto physicalSystem = world->getSystem<PhysicalSystem>();
+	if (!physicalSystem) {
+		return;
+	}
 
 	_entity = std::make_shared<TrackedEntity>(_path, _velocity);
-	auto transform = getOwner()->getTransform();
 	_entity->setTransform(transform);
 	_entity->setParameter(_parameter);
 	physicalSystem->addEntity(_entity);

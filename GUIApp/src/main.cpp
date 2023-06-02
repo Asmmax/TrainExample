@@ -50,14 +50,14 @@ void initWorld(World* world, Loader* loader, const Path& directory)
 	//init curve
 	std::vector<glm::vec3> points;
 	points.reserve(8);
-	points.emplace_back(0.0f, 0.f, 7.0f); // 1
-	points.emplace_back(-6.0f, 0.f, 5.0f); // 2
-	points.emplace_back(-8.0f, 0.f, 1.0f); // 3
-	points.emplace_back(-4.0f, 0.f, -6.0f); // 4
-	points.emplace_back(0.0f, 0.f, -7.0f); // 5
-	points.emplace_back(1.0f, 0.f, -4.0f); // 6
-	points.emplace_back(4.0f, 0.f, -3.0f); // 7
-	points.emplace_back(8.0f, 0.f, 7.0f); // 8
+	points.emplace_back(0.0f, 0.5f, 7.0f); // 1
+	points.emplace_back(-6.0f, 0.5f, 5.0f); // 2
+	points.emplace_back(-8.0f, 0.5f, 1.0f); // 3
+	points.emplace_back(-4.0f, 4.5f, -6.0f); // 4
+	points.emplace_back(0.0f, 0.5f, -7.0f); // 5
+	points.emplace_back(1.0f, 0.5f, -4.0f); // 6
+	points.emplace_back(4.0f, 0.5f, -3.0f); // 7
+	points.emplace_back(8.0f, 0.5f, 7.0f); // 8
 	std::shared_ptr<ACurve> path = std::make_shared<Spline>(points, true);
 
 	//load shaders
