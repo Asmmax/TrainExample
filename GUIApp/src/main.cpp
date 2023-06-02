@@ -20,9 +20,13 @@
 #include "GameObject.hpp"
 #include "Transform.hpp"
 #include "components/LightComponent.hpp"
+#include "physics/PhysicalSystem.hpp"
 
 void initWorld(World* world, Loader* loader, const Path& directory)
 {
+	//init systems
+	world->addSystem<PhysicalSystem>(0.02f);
+
 	//init MainLight
 	auto sun_object = std::make_shared<GameObject>();
 	sun_object->setPosition(glm::vec3{ 100.0f, 200.0f, 100.0f });
@@ -151,7 +155,7 @@ int main()
 	controller->setMouseCaptureWhilePressed();
 	controller->bind(window);
 
-	std::shared_ptr<World> world = std::make_shared<World>(0.02f);
+	std::shared_ptr<World> world = std::make_shared<World>();
 	WorldContext::getInstance().init(world, controller);
 
 	initWorld(world.get(), window->getLoader(), path);

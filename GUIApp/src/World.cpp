@@ -5,10 +5,9 @@
 #include "MainCameraView.hpp"
 #include "Transform.hpp"
 #include "Model.hpp"
+#include "ASystem.hpp"
 
-World::World(float fixed_time):
-	_fixed_time(fixed_time),
-	_time_redundant(0.0f),
+World::World():
 	_isInited(false),
 	_window(nullptr),
 	_mainCamera(std::make_shared<MainCameraView>()),
@@ -37,6 +36,10 @@ std::shared_ptr<ICameraView> World::CreateCameraView(int width, int height)
 
 void World::init(Window* window)
 {
+	for (auto& system : _systems) {
+		system->init();
+	}
+
 	for (auto& game_object : _game_objects) {
 		game_object->init();
 	}
@@ -52,14 +55,8 @@ void World::init(Window* window)
 
 void World::update(float delta_time)
 {
-	_time_redundant += delta_time;
-	while (_time_redundant >= _fixed_time) {
-		_time_redundant -= _fixed_time;
-		fixedUpdate();
-	}
-
-	for (auto& game_object : _game_objects) {
-		game_object->interpolate(_time_redundant / _fixed_time);
+	for (auto& system : _systems) {
+		system->update(delta_time);
 	}
 
 	for (auto& game_object : _game_objects) {
@@ -84,11 +81,4 @@ void World::draw()
 		camera->render(*_model);
 	}
 	_mainCamera->render(*_model);
-}
-
-void World::fixedUpdate()
-{
-	for (auto& game_object : _game_objects) {
-		game_object->fixedUpdate(_fixed_time);
-	}
 }

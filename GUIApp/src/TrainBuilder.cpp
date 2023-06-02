@@ -1,6 +1,7 @@
 #include "TrainBuilder.hpp"
 #include "Primitives.hpp"
-#include "TrackedObject.hpp"
+#include "GameObject.hpp"
+#include "components/TrackedComponent.hpp"
 #include "components/RenderComponent.hpp"
 #include "World.hpp"
 #include "ACurve.hpp"
@@ -32,8 +33,11 @@ void TrainBuilder::Build(World* world, const std::shared_ptr<SharedMesh>& mesh, 
 {
 	bool first = true;
 	for (auto param : _initial_params) {
-		auto movable_object = std::make_shared<TrackedObject>(_path, _velocity);
-		movable_object->setParameter(param);
+		auto movable_object = std::make_shared<GameObject>();
+		auto physicsComp = movable_object->addComponent<TrackedComponent>();
+		physicsComp->setPath(_path);
+		physicsComp->setVelocity(_velocity);
+		physicsComp->setParameter(param);
 
 		auto graphics_object = std::make_shared<GameObject>();
 		graphics_object->setPosition(glm::vec3(0.0f, 0.25f, 0.0f));
