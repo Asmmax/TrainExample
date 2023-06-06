@@ -1,10 +1,10 @@
-#include "components/TrackedComponent.hpp"
-#include "components/TransformComponent.hpp"
+#include "physics/components/TrackedComponent.hpp"
+#include "common/components/TransformComponent.hpp"
 #include "World.hpp"
 #include "GameObject.hpp"
 #include "physics/PhysicalSystem.hpp"
 #include "physics/TrackedEntity.hpp"
-#include "Transform.hpp"
+#include "common/Transform.hpp"
 #include "ACurve.hpp"
 
 TrackedComponent::TrackedComponent():

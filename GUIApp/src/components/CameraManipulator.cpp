@@ -1,8 +1,8 @@
 #include "components/CameraManipulator.hpp"
-#include "components/CameraComponent.hpp"
-#include "components/TransformComponent.hpp"
+#include "render/components/CameraComponent.hpp"
+#include "common/components/TransformComponent.hpp"
+#include "common/Transform.hpp"
 #include "input/InputSystem.hpp"
-#include "Transform.hpp"
 #include "World.hpp"
 #include "GameObject.hpp"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "components/AComponent.hpp"
+#include "AComponent.hpp"
 #include <memory>
 
 class TrackedEntity;

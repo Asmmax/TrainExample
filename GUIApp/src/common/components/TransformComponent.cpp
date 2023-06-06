@@ -1,5 +1,5 @@
-#include "components/TransformComponent.hpp"
-#include "Transform.hpp"
+#include "common/components/TransformComponent.hpp"
+#include "common/Transform.hpp"
 #include "common/TransformSystem.hpp"
 #include "GameObject.hpp"
 #include "World.hpp"

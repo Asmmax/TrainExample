@@ -1,12 +1,12 @@
 #include "TrainBuilder.hpp"
 #include "Primitives.hpp"
 #include "GameObject.hpp"
-#include "components/TrackedComponent.hpp"
-#include "components/RenderComponent.hpp"
+#include "common/components/TransformComponent.hpp"
+#include "physics/components/TrackedComponent.hpp"
+#include "render/components/RenderComponent.hpp"
+#include "render/components/LightComponent.hpp"
 #include "World.hpp"
 #include "ACurve.hpp"
-#include "components/LightComponent.hpp"
-#include "components/TransformComponent.hpp"
 
 TrainBuilder::TrainBuilder(const std::shared_ptr<ACurve>& path, unsigned int block_count, float velocity, float block_length, float gap):
 	_path(path),

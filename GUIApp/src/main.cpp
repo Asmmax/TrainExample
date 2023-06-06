@@ -9,11 +9,11 @@
 #include "common/TransformSystem.hpp"
 #include "render/RenderSystem.hpp"
 
-#include "components/CameraComponent.hpp"
+#include "common/components/TransformComponent.hpp"
+#include "render/components/CameraComponent.hpp"
+#include "render/components/RenderComponent.hpp"
+#include "render/components/LightComponent.hpp"
 #include "components/CameraManipulator.hpp"
-#include "components/RenderComponent.hpp"
-#include "components/LightComponent.hpp"
-#include "components/TransformComponent.hpp"
 #include "resources/ShaderData.hpp"
 #include "ACurve.hpp"
 #include "Spline.hpp"
@@ -23,7 +23,7 @@
 #include "Sleepers.hpp"
 #include "Material.hpp"
 #include "GameObject.hpp"
-#include "Transform.hpp"
+#include "common/Transform.hpp"
 
 void initSystems(World* world, Window* window) 
 {

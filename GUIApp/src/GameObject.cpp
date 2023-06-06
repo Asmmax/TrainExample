@@ -1,6 +1,6 @@
 #include "GameObject.hpp"
-#include "Transform.hpp"
-#include "components/AComponent.hpp"
+#include "common/Transform.hpp"
+#include "AComponent.hpp"
 
 GameObject::GameObject(World* world):
 	_world(world),

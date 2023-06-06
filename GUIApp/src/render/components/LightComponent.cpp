@@ -1,5 +1,5 @@
-#include "components/LightComponent.hpp"
-#include "components/TransformComponent.hpp"
+#include "render/components/LightComponent.hpp"
+#include "common/components/TransformComponent.hpp"
 #include "World.hpp"
 #include "GameObject.hpp"
 #include "render/RenderSystem.hpp"

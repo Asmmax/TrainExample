@@ -1,5 +1,5 @@
 #pragma once
-#include "components/AComponent.hpp"
+#include "AComponent.hpp"
 #include <glm/vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <memory>

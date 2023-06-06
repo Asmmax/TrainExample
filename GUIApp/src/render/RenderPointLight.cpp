@@ -1,7 +1,7 @@
 #include "render/RenderPointLight.hpp"
 #include "Model.hpp"
 #include "objects/Light.hpp"
-#include "Transform.hpp"
+#include "common/Transform.hpp"
 
 RenderPointLight::RenderPointLight(const std::shared_ptr<Model>& model, float radius, float fadingArea, float intensity, const glm::vec3& color, const std::shared_ptr<Transform>& transform):
 	_model(model),

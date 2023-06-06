@@ -1,5 +1,5 @@
-#include "components/RenderComponent.hpp"
-#include "components/TransformComponent.hpp"
+#include "render/components/RenderComponent.hpp"
+#include "common/components/TransformComponent.hpp"
 #include "GameObject.hpp"
 #include "World.hpp"
 #include "render/RenderSystem.hpp"

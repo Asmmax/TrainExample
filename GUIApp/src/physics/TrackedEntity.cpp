@@ -1,6 +1,6 @@
 #include "physics/TrackedEntity.hpp"
 #include "ACurve.hpp"
-#include "Transform.hpp"
+#include "common/Transform.hpp"
 
 #include <glm/glm.hpp>
 

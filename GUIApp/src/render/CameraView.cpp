@@ -1,7 +1,7 @@
 #include "render/CameraView.hpp"
 #include "render/CameraViewImpl.hpp"
 #include "render/MainCameraViewImpl.hpp"
-#include "Transform.hpp"
+#include "common/Transform.hpp"
 
 CameraView::CameraView(const std::shared_ptr<Transform>& transform):
 	_slaveImpl(std::make_shared<CameraViewImpl>()),

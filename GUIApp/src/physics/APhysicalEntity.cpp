@@ -1,5 +1,5 @@
 #include "physics/APhysicalEntity.hpp"
-#include "Transform.hpp"
+#include "common/Transform.hpp"
 
 void PhysicalEntity::setTransform(const std::shared_ptr<Transform>& transform)
 {

@@ -1,4 +1,4 @@
-#include "components/AComponent.hpp"
+#include "AComponent.hpp"
 #include <assert.h>
 
 GameObject* Component::getOwner()
