@@ -22,6 +22,10 @@ void CameraManipulator::init()
 void CameraManipulator::update(float delta_time)
 {
 	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
+	if (!inputSystem) {
+		return;
+	}
+
 	auto transformComp = getOwner()->getComponent<TransformComponent>();
 
 	float deltaX = static_cast<float>(inputSystem->GetXDelta());

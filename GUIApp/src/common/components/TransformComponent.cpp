@@ -11,10 +11,15 @@ TransformComponent::TransformComponent():
 
 void TransformComponent::init()
 {
-	if (!_transform->getParent()) {
-		auto transformSystem = getOwner()->getWorld()->getSystem<TransformSystem>();
-		transformSystem->addTransform(_transform);
+	if (_transform->getParent()) {
+		return;
 	}
+	auto transformSystem = getOwner()->getWorld()->getSystem<TransformSystem>();
+	if (!transformSystem) {
+		return;
+	}
+
+	transformSystem->addTransform(_transform);
 }
 
 void TransformComponent::setPosition(const glm::vec3& position)
@@ -41,6 +46,10 @@ void TransformComponent::setScale(const glm::vec3& scale)
 void TransformComponent::attachChild(const std::shared_ptr<TransformComponent>& child)
 {
 	auto transformSystem = getOwner()->getWorld()->getSystem<TransformSystem>();
+	if (!transformSystem) {
+		return;
+	}
+
 	transformSystem->removeTransform(child->getTransform());
 	_transform->addChild(child->getTransform());
 }

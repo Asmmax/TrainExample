@@ -13,8 +13,11 @@ RenderComponent::RenderComponent():
 void RenderComponent::init()
 {
 	auto renderSystem = getOwner()->getWorld()->getSystem<RenderSystem>();
-	auto transformComp = getOwner()->getComponent<TransformComponent>();
+	if (!renderSystem) {
+		return;
+	}
 
+	auto transformComp = getOwner()->getComponent<TransformComponent>();
 	_object = renderSystem->createObject(_mesh, _material, transformComp->getTransform());
 }
 

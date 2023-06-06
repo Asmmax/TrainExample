@@ -17,6 +17,10 @@ LightComponent::LightComponent():
 void LightComponent::init() 
 {
 	auto renderSystem = getOwner()->getWorld()->getSystem<RenderSystem>();
+	if (!renderSystem) {
+		return;
+	}
+
 	auto transformComp = getOwner()->getComponent<TransformComponent>();
 	_light = renderSystem->createPointLight(_radius, _fadingArea, _intensity, _color, transformComp->getTransform());
 }

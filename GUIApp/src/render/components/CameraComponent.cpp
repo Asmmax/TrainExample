@@ -13,8 +13,7 @@ CameraComponent::CameraComponent():
 
 void CameraComponent::init()
 {
-	auto world = getOwner()->getWorld();
-	auto renderSystem = world->getSystem<RenderSystem>();
+	auto renderSystem = getOwner()->getWorld()->getSystem<RenderSystem>();
 	if (!renderSystem) {
 		return;
 	}
@@ -31,8 +30,7 @@ void CameraComponent::setMain()
 {
 	_isMainInited = true;
 
-	auto world = getOwner()->getWorld();
-	auto renderSystem = world->getSystem<RenderSystem>();
+	auto renderSystem = getOwner()->getWorld()->getSystem<RenderSystem>();
 	if (!renderSystem) {
 		return;
 	}
