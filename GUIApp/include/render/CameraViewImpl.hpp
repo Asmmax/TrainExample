@@ -4,7 +4,7 @@
 class Texture;
 class View;
 
-class CameraView : public ICameraView
+class CameraViewImpl : public ICameraView
 {
 private:
 	Texture* _fboTexture;
@@ -14,7 +14,7 @@ private:
 	int _height;
 
 public:
-	CameraView(int width, int height);
+	CameraViewImpl();
 
 	void resize(int width, int height);
 

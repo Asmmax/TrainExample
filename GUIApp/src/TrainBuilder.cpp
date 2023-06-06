@@ -6,7 +6,7 @@
 #include "World.hpp"
 #include "ACurve.hpp"
 #include "components/LightComponent.hpp"
-#include <memory>
+#include "components/TransformComponent.hpp"
 
 TrainBuilder::TrainBuilder(const std::shared_ptr<ACurve>& path, unsigned int block_count, float velocity, float block_length, float gap):
 	_path(path),
@@ -33,38 +33,34 @@ void TrainBuilder::Build(World* world, const std::shared_ptr<SharedMesh>& mesh, 
 {
 	bool first = true;
 	for (auto param : _initial_params) {
-		auto movable_object = std::make_shared<GameObject>();
+		auto movable_object = world->createGameObject();
+		auto movableTransform = movable_object->addComponent<TransformComponent>();
 		auto physicsComp = movable_object->addComponent<TrackedComponent>();
 		physicsComp->setPath(_path);
 		physicsComp->setVelocity(_velocity);
 		physicsComp->setParameter(param);
 
-		auto graphics_object = std::make_shared<GameObject>();
-		graphics_object->setPosition(glm::vec3(0.0f, 0.25f, 0.0f));
-		graphics_object->setScale(glm::vec3(1.0f, 0.5f, _block_length));
+		auto graphics_object = world->createGameObject();
+		auto graphicsTransform = graphics_object->addComponent<TransformComponent>();
+		graphicsTransform->setPosition(glm::vec3(0.0f, 0.25f, 0.0f));
+		graphicsTransform->setScale(glm::vec3(1.0f, 0.5f, _block_length));
+		movableTransform->attachChild(graphicsTransform);
 
 		auto renderComp = graphics_object->addComponent<RenderComponent>();
 		renderComp->setMesh(mesh);
 		renderComp->setMaterial(material);
 
-		world->AddGameObject(graphics_object);
-
-		movable_object->attachChild(graphics_object);
-
 		if (first) {
-			auto projector_object = std::make_shared<GameObject>();
-			projector_object->setPosition(glm::vec3{ 0.0f, 10.0f, -5.0f });
+			auto projector_object = world->createGameObject();
+			auto projectorTransform = projector_object->addComponent<TransformComponent>();
+			projectorTransform->setPosition(glm::vec3{ 0.0f, 10.0f, -5.0f });
+			movableTransform->attachChild(projectorTransform);
 			auto light = projector_object->addComponent<LightComponent>();
 			light->setRadius(10.0f);
 			light->setFadingArea(10.0f);
 			light->setColor(glm::vec3{ 1.0f, 1.0f, 0.0f });
 
-			world->AddGameObject(projector_object);
-
-			movable_object->attachChild(projector_object);
 			first = false;
 		}
-
-		world->AddGameObject(movable_object);
 	}
 }

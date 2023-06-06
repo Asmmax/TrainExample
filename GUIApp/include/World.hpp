@@ -8,25 +8,18 @@
 
 class GameObject;
 class System;
-class Window;
-class ICameraView;
 class Transform;
-class Model;
 
 class World
 {
 	using GameObjectPtr = std::shared_ptr<GameObject>;
 	using SystemPtr = std::shared_ptr<System>;
-	using CameraViewPtr = std::shared_ptr<ICameraView>;
 
 public:
 	World();
 	~World();
 
-	void AddGameObject(const GameObjectPtr& game_object);
-
-	CameraViewPtr getMainCameraView() const;
-	CameraViewPtr CreateCameraView(int width, int height);
+	GameObjectPtr createGameObject();
 
 	template<typename SysType, typename... Args>
 	std::shared_ptr<SysType> addSystem(Args&&... args);
@@ -34,21 +27,10 @@ public:
 	template<typename SysType>
 	std::shared_ptr<SysType> getSystem() const;
 
-	const std::shared_ptr<Model>& getModel() const { return _model; }
-
-	void init(Window* window);
+	void init();
 	void update(float delta_time);
-	void draw();
 
 private:
-	bool _isInited;
-
-	Window* _window;
-	std::shared_ptr<Model> _model;
-
-	CameraViewPtr _mainCamera;
-	std::vector<CameraViewPtr> _cameras;
-
 	std::vector<GameObjectPtr> _game_objects;
 
 	std::vector<SystemPtr> _systems;

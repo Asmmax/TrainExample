@@ -1,5 +1,5 @@
 #include "components/TrackedComponent.hpp"
-#include "WorldContext.hpp"
+#include "components/TransformComponent.hpp"
 #include "World.hpp"
 #include "GameObject.hpp"
 #include "physics/PhysicalSystem.hpp"
@@ -14,7 +14,8 @@ TrackedComponent::TrackedComponent():
 
 void TrackedComponent::init()
 {
-	auto transform = getOwner()->getTransform();
+	auto transformComp = getOwner()->getComponent<TransformComponent>();
+	auto transform = transformComp->getTransform();
 
 	// set initial position
 	transform->setPosition(_path->getValue(_parameter));
@@ -24,7 +25,7 @@ void TrackedComponent::init()
 	auto rotation = glm::quatLookAt(initial_tangent, glm::vec3(0.0f, 1.0f, 0.0f));
 	transform->setRotation(rotation);
 
-	auto world = WorldContext::getInstance().getWorld();
+	auto world = getOwner()->getWorld();
 	auto physicalSystem = world->getSystem<PhysicalSystem>();
 	if (!physicalSystem) {
 		return;

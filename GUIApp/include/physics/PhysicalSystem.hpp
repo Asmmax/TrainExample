@@ -19,6 +19,7 @@ public:
 
 	void init() override;
 	void update(float delta_time) override;
+	void draw() override;
 
 	void addEntity(const EntityPtr& entity);
 

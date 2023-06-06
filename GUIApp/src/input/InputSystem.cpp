@@ -1,9 +1,10 @@
-#include "InputController.hpp"
+#include "input/InputSystem.hpp"
 #include "Window.hpp"
 #include <glm/glm.hpp>
 
-InputController::InputController(double scrollSpeed):
-	_scrollSpeed(scrollSpeed),
+InputSystem::InputSystem(Window* window) :
+	_window(window),
+	_scrollSpeed(1.2),
 	_lastXPos(0),
 	_lastYPos(0),
 	_xPos(0.0),
@@ -15,12 +16,12 @@ InputController::InputController(double scrollSpeed):
 {
 }
 
-void InputController::bind(Window* window)
+void InputSystem::init()
 {
-	window->setPreHandleCallback([this]() {
+	_window->setPreHandleCallback([this]() {
 		clear();
-	});
-	window->setMouseButtonCallback([this, window](InputEvents::MouseKey key, InputEvents::KeyState state) {
+		});
+	_window->setMouseButtonCallback([this](InputEvents::MouseKey key, InputEvents::KeyState state) {
 		if (state == InputEvents::KeyState::KEY_DOWN) {
 			if (key == InputEvents::MouseKey::LEFT_BUTTON) {
 				_isLeftButtonPressed = true;
@@ -30,7 +31,7 @@ void InputController::bind(Window* window)
 			}
 
 			if (_mouseCaptured) {
-				window->captureMouse();
+				_window->captureMouse();
 			}
 		}
 		else if (state == InputEvents::KeyState::KEY_UP) {
@@ -42,43 +43,57 @@ void InputController::bind(Window* window)
 			}
 
 			if (_mouseCaptured) {
-				window->uncaptureMouse();
+				_window->uncaptureMouse();
 			}
 		}
 		});
-	window->setMouseButtonWithMoveCallback([this](double x, double y, InputEvents::MouseKey key, InputEvents::KeyState state) {
+	_window->setMouseButtonWithMoveCallback([this](double x, double y, InputEvents::MouseKey key, InputEvents::KeyState state) {
 		setMousePos(x, y);
 		});
-	window->setMouseMoveCallback([this](double x, double y) {
+	_window->setMouseMoveCallback([this](double x, double y) {
 		setMousePos(x, y);
 		});
-	window->setMouseScrollCallback([this](double step) {
+	_window->setMouseScrollCallback([this](double step) {
 		addMouseScroll(step);
 		});
 }
 
-void InputController::setMouseCaptureWhilePressed(bool flag)
+void InputSystem::update(float delta_time)
+{
+}
+
+void InputSystem::draw()
+{
+}
+
+
+void InputSystem::setScrollSpeed(double scrollSpeed)
+{
+	_scrollSpeed = scrollSpeed;
+}
+
+void InputSystem::setMouseCaptureWhilePressed(bool flag)
 {
 	_mouseCaptured = flag;
 }
 
-double InputController::GetScrollDelta() const
-{ 
+double InputSystem::GetScrollDelta() const
+{
 	return glm::pow(_scrollSpeed, -_scrollPos);
 }
 
-void InputController::setMousePos(double xPos, double yPos)
+void InputSystem::setMousePos(double xPos, double yPos)
 {
 	_xPos = xPos;
 	_yPos = yPos;
 }
 
-void InputController::addMouseScroll(double step)
+void InputSystem::addMouseScroll(double step)
 {
 	_scrollPos += step;
 }
 
-void InputController::clear()
+void InputSystem::clear()
 {
 	_scrollPos = 0;
 	_lastXPos = _xPos;

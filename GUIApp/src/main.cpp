@@ -3,11 +3,18 @@
 #include "Window.hpp"
 #include "Path.hpp"
 #include "World.hpp"
-#include "InputController.hpp"
-#include "WorldContext.hpp"
+
+#include "input/InputSystem.hpp"
+#include "physics/PhysicalSystem.hpp"
+#include "common/TransformSystem.hpp"
+#include "render/RenderSystem.hpp"
 
 #include "components/CameraComponent.hpp"
 #include "components/CameraManipulator.hpp"
+#include "components/RenderComponent.hpp"
+#include "components/LightComponent.hpp"
+#include "components/TransformComponent.hpp"
+#include "resources/ShaderData.hpp"
 #include "ACurve.hpp"
 #include "Spline.hpp"
 #include "Primitives.hpp"
@@ -15,37 +22,43 @@
 #include "Rails.hpp"
 #include "Sleepers.hpp"
 #include "Material.hpp"
-#include "resources/ShaderData.hpp"
-#include "components/RenderComponent.hpp"
 #include "GameObject.hpp"
 #include "Transform.hpp"
-#include "components/LightComponent.hpp"
-#include "physics/PhysicalSystem.hpp"
+
+void initSystems(World* world, Window* window) 
+{
+	auto inputSystem = world->addSystem<InputSystem>(window);
+	inputSystem->setMouseCaptureWhilePressed();
+	world->addSystem<PhysicalSystem>(0.02f);
+	world->addSystem<TransformSystem>();
+	world->addSystem<RenderSystem>(window);
+}
 
 void initWorld(World* world, Loader* loader, const Path& directory)
 {
-	//init systems
-	world->addSystem<PhysicalSystem>(0.02f);
-
 	//init MainLight
-	auto sun_object = std::make_shared<GameObject>();
-	sun_object->setPosition(glm::vec3{ 100.0f, 200.0f, 100.0f });
+	auto sun_object = world->createGameObject();
+	auto sunObjectTransform = sun_object->addComponent<TransformComponent>();
+	sunObjectTransform->setPosition(glm::vec3{ 100.0f, 200.0f, 100.0f });
 	auto mainLight = sun_object->addComponent<LightComponent>();
 	mainLight->setRadius(1000.0f);
 	mainLight->setIntensity(0.5f);
-	world->AddGameObject(sun_object);
 
 	//init camera
-	auto mainCameraObject = std::make_shared<GameObject>();
-	mainCameraObject->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-	mainCameraObject->setRotation(glm::vec3(-45.0f, 90.0f, 0.0f));
-	auto mainCamera = mainCameraObject->addComponent<CameraComponent>();
-	mainCamera->getTransform()->setPosition(glm::vec3{ 0, 0, 25 });
-	mainCameraObject->getTransform()->addChild(mainCamera->getTransform());
-	auto manipulator = mainCameraObject->addComponent<CameraManipulator>();
-	world->AddGameObject(mainCameraObject);
+	auto mainCameraObject = world->createGameObject();
+	auto mainCameraTransform = mainCameraObject->addComponent<TransformComponent>();
+	mainCameraTransform->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	mainCameraTransform->setRotation(glm::vec3(-45.0f, 90.0f, 0.0f));
 
-	mainCamera->addView(world->getMainCameraView());
+	auto eyeCameraObject = world->createGameObject();
+	auto eyeCameraTransform = eyeCameraObject->addComponent<TransformComponent>();
+	eyeCameraTransform->setPosition(glm::vec3{ 0, 0, 25 });
+	mainCameraTransform->attachChild(eyeCameraTransform);
+	auto mainCamera = eyeCameraObject->addComponent<CameraComponent>();
+	mainCamera->setMain();
+
+	auto manipulator = mainCameraObject->addComponent<CameraManipulator>();
+	manipulator->setEye(eyeCameraObject);
 
 	//init curve
 	std::vector<glm::vec3> points;
@@ -74,16 +87,16 @@ void initWorld(World* world, Loader* loader, const Path& directory)
 	auto plane_mesh = std::make_shared<Plane>();
 	plane_mesh->load(*loader);
 
-	auto plane_object = std::make_shared<GameObject>();
-	plane_object->setPosition(glm::vec3(0, -0.01f, 0));
-	plane_object->setRotation(glm::vec3(-90.0f, 0.0f, 0.0f));
-	plane_object->setScale(glm::vec3(20.0f));
+	auto plane_object = world->createGameObject();
+
+	auto planeTransform = plane_object->addComponent<TransformComponent>();
+	planeTransform->setPosition(glm::vec3(0, -0.01f, 0));
+	planeTransform->setRotation(glm::vec3(-90.0f, 0.0f, 0.0f));
+	planeTransform->setScale(glm::vec3(20.0f));
 
 	auto planeGraphics = plane_object->addComponent<RenderComponent>();
 	planeGraphics->setMesh(plane_mesh);
 	planeGraphics->setMaterial(grass);
-
-	world->AddGameObject(plane_object);
 
 	//create movable object
 	auto trainMat = std::make_shared<Material>();
@@ -110,34 +123,31 @@ void initWorld(World* world, Loader* loader, const Path& directory)
 	wood->setColor(0.5f, 0.25f, 0.0f);
 	wood->loadShader(*loader);
 
-	auto rails = std::make_shared<GameObject>();
-	world->AddGameObject(rails);
+	auto rails = world->createGameObject();
+	auto railsTranform = rails->addComponent<TransformComponent>();
 
 	auto rails_mesh = std::make_shared<Rails>(path, 0.1f, 0.5f, 400);
 	rails_mesh->load(*loader);
 
-	auto rails_object = std::make_shared<GameObject>();
-	rails_object->setPosition(glm::vec3(0.0f, 0.01f, 0.0f));
+	auto rails_object = world->createGameObject();
+	auto railsObjTranform = rails_object->addComponent<TransformComponent>();
+	railsObjTranform->setPosition(glm::vec3(0.0f, 0.01f, 0.0f));
+	railsTranform->attachChild(railsObjTranform);
 
 	auto railsGraphics = rails_object->addComponent<RenderComponent>();
 	railsGraphics->setMesh(rails_mesh);
 	railsGraphics->setMaterial(metal);
 
-	world->AddGameObject(rails_object);
-
-	rails->attachChild(rails_object);
-
 	auto sleepers_mesh = std::make_shared<Sleepers>(path, 0.1f, 1.0f, 0.5f);
 	sleepers_mesh->load(*loader);
-	auto sleepers_object = std::make_shared<GameObject>();
+
+	auto sleepers_object = world->createGameObject();
+	auto sleepersTranform = sleepers_object->addComponent<TransformComponent>();
+	railsTranform->attachChild(sleepersTranform);
 
 	auto sleepersGraphics = sleepers_object->addComponent<RenderComponent>();
 	sleepersGraphics->setMesh(sleepers_mesh);
 	sleepersGraphics->setMaterial(wood);
-
-	world->AddGameObject(sleepers_object);
-
-	rails->attachChild(sleepers_object);
 }
 
 int main()
@@ -151,16 +161,12 @@ int main()
 	if (!window)
 		return -1;
 
-	std::shared_ptr<InputController> controller = std::make_shared<InputController>();
-	controller->setMouseCaptureWhilePressed();
-	controller->bind(window);
-
 	std::shared_ptr<World> world = std::make_shared<World>();
-	WorldContext::getInstance().init(world, controller);
 
+	initSystems(world.get(), window);
 	initWorld(world.get(), window->getLoader(), path);
 
-	world->init(window);
+	world->init();
 
 	// main loop
 	float lastFrame = 0.0f;
@@ -173,7 +179,6 @@ int main()
 		lastFrame = currentFrame;
 
 		world->update(deltaTime);
-		world->draw();
 	}
 	return 0;
 }

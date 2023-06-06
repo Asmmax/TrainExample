@@ -3,14 +3,12 @@
 #include <glm/vec3.hpp>
 #include <memory>
 
-class Model;
-class Light;
+class RenderPointLight;
 
 class LightComponent : public Component
 {
 private:
-	std::shared_ptr<Model> _model;
-	Light* _light;
+	std::shared_ptr<RenderPointLight> _light;
 
 	float _radius;
 	float _fadingArea;
@@ -21,7 +19,6 @@ public:
 	LightComponent();
 
 	void init() override;
-	void predraw() override;
 
 	void setRadius(float radius);
 	void setFadingArea(float fadingArea);

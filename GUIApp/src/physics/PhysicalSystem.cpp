@@ -24,6 +24,10 @@ void PhysicalSystem::update(float delta_time)
 	}
 }
 
+void PhysicalSystem::draw()
+{
+}
+
 void PhysicalSystem::addEntity(const EntityPtr& entity)
 {
 	_entities.push_back(entity);

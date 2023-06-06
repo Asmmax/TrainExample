@@ -2,11 +2,10 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include <glm/vec3.hpp>
-#include <glm/gtc/quaternion.hpp>
 #include <typeinfo>
 #include <typeindex>
 
+class World;
 class Transform;
 class Component;
 
@@ -15,31 +14,25 @@ class GameObject
 	using ComponentPtr = std::shared_ptr<Component>;
 
 protected:
+	World* _world;
 	std::shared_ptr<Transform> _transform;
 	std::vector<ComponentPtr> _components;
 	std::unordered_map<std::type_index, ComponentPtr> _componentsMap;
 
 public:
-	GameObject();
+	GameObject(World* world);
 	virtual ~GameObject() = default;
 
 	virtual void init();
 	virtual void update(float delta_time);
-	virtual void predraw();
+
+	World* getWorld() { return _world; }
 
 	template<typename CompType>
 	std::shared_ptr<CompType> addComponent();
 
 	template<typename CompType>
 	std::shared_ptr<CompType> getComponent() const;
-
-	void setPosition(const glm::vec3& position);
-	void setRotation(const glm::vec3& rotation);
-	void setRotation(const glm::quat& rotation);
-	void setScale(const glm::vec3& scale);
-
-	void attachChild(const std::shared_ptr<GameObject>& child);
-	const std::shared_ptr<Transform>& getTransform() { return _transform; }
 };
 
 template<typename CompType>

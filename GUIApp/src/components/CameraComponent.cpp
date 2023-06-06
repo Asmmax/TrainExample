@@ -1,33 +1,43 @@
 #include "components/CameraComponent.hpp"
+#include "components/TransformComponent.hpp"
 #include "GameObject.hpp"
 #include "Transform.hpp"
-#include "ICameraView.hpp"
+#include "World.hpp"
+#include "render/RenderSystem.hpp"
+#include "render/CameraView.hpp"
 
 CameraComponent::CameraComponent():
-	_transform(std::make_shared<Transform>())
+	_isMainInited(false)
 {
 }
 
 void CameraComponent::init()
 {
-}
+	auto world = getOwner()->getWorld();
+	auto renderSystem = world->getSystem<RenderSystem>();
+	if (!renderSystem) {
+		return;
+	}
 
-void CameraComponent::predraw()
-{
-	auto viewMatrix = glm::inverse(_transform->getGlobalMatrix());
-	for (auto& view : _views)
-	{
-		view->setViewMatrix(viewMatrix);
+	auto transformComp = getOwner()->getComponent<TransformComponent>();
+	_view = renderSystem->createCameraView(transformComp->getTransform());
+	
+	if (_isMainInited) {
+		renderSystem->setMainView(_view);
 	}
 }
 
-void CameraComponent::addView(const CameraViewPtr& cameraView)
+void CameraComponent::setMain()
 {
-	_views.push_back(cameraView);
-}
+	_isMainInited = true;
 
-void CameraComponent::removeView(const CameraViewPtr& cameraView)
-{
-	auto foundIt = std::find(_views.begin(), _views.end(), cameraView);
-	_views.erase(foundIt);
+	auto world = getOwner()->getWorld();
+	auto renderSystem = world->getSystem<RenderSystem>();
+	if (!renderSystem) {
+		return;
+	}
+
+	if (_view) {
+		renderSystem->setMainView(_view);
+	}
 }

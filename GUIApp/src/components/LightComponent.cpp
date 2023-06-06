@@ -1,10 +1,9 @@
 #include "components/LightComponent.hpp"
-#include "WorldContext.hpp"
+#include "components/TransformComponent.hpp"
 #include "World.hpp"
-#include "Model.hpp"
-#include "objects/Light.hpp"
 #include "GameObject.hpp"
-#include "Transform.hpp"
+#include "render/RenderSystem.hpp"
+#include "render/RenderPointLight.hpp"
 
 LightComponent::LightComponent():
 	_light(nullptr),
@@ -17,27 +16,9 @@ LightComponent::LightComponent():
 
 void LightComponent::init() 
 {
-	_model = WorldContext::getInstance().getWorld()->getModel();
-	_light = _model->createLight();
-	_light->setRadius(_radius);
-	_light->setFadingArea(_fadingArea);
-	_light->setIntensity(_intensity);
-	_light->setColor(_color);
-}
-
-void LightComponent::predraw() 
-{
-	if (!_light) {
-		return;
-	}
-
-	auto transform = getOwner()->getTransform();
-	if (!transform) {
-		return;
-	}
-
-	auto& position = transform->getGlobalPosition();
-	_light->setPosition(position);
+	auto renderSystem = getOwner()->getWorld()->getSystem<RenderSystem>();
+	auto transformComp = getOwner()->getComponent<TransformComponent>();
+	_light = renderSystem->createPointLight(_radius, _fadingArea, _intensity, _color, transformComp->getTransform());
 }
 
 void LightComponent::setRadius(float radius)

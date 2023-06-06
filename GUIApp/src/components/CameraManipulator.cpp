@@ -1,8 +1,9 @@
 #include "components/CameraManipulator.hpp"
 #include "components/CameraComponent.hpp"
-#include "InputController.hpp"
+#include "components/TransformComponent.hpp"
+#include "input/InputSystem.hpp"
 #include "Transform.hpp"
-#include "WorldContext.hpp"
+#include "World.hpp"
 #include "GameObject.hpp"
 
 CameraManipulator::CameraManipulator() :
@@ -14,28 +15,26 @@ CameraManipulator::CameraManipulator() :
 
 void CameraManipulator::init()
 {
-	_input = WorldContext::getInstance().getInput();
-	_storagedRotation = getOwner()->getTransform()->getLocalRotation();
+	auto transformComp = getOwner()->getComponent<TransformComponent>();
+	_storagedRotation = transformComp->getTransform()->getLocalRotation();
 }
 
 void CameraManipulator::update(float delta_time)
 {
-	auto camera = getOwner()->getComponent<CameraComponent>();
-	if (!camera) {
-		return;
-	}
+	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
+	auto transformComp = getOwner()->getComponent<TransformComponent>();
 
-	float deltaX = static_cast<float>(_input->GetXDelta());
-	float deltaY = static_cast<float>(_input->GetYDelta());
+	float deltaX = static_cast<float>(inputSystem->GetXDelta());
+	float deltaY = static_cast<float>(inputSystem->GetYDelta());
 
-	if (_input->isLeftButtonPressed()) {
+	if (inputSystem->isLeftButtonPressed()) {
 
 		if (deltaX != 0.0f || deltaY != 0.0f) {
 
 			_sumDeltaX += deltaX;
 			_sumDeltaY += deltaY;
 
-			std::shared_ptr<Transform> target = getOwner()->getTransform();
+			std::shared_ptr<Transform> target = transformComp->getTransform();
 
 			auto rotY = glm::angleAxis(-glm::radians(_sumDeltaX), glm::vec3(0.0f, 1.0f, 0.0f));
 			auto rotX = glm::angleAxis(-glm::radians(_sumDeltaY), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -46,14 +45,19 @@ void CameraManipulator::update(float delta_time)
 	else {
 		_sumDeltaX = 0.0f;
 		_sumDeltaY = 0.0f;
-		_storagedRotation = getOwner()->getTransform()->getLocalRotation();
+		_storagedRotation = transformComp->getTransform()->getLocalRotation();
 	}
 
-	double scale = _input->GetScrollDelta();
+	double scale = inputSystem->GetScrollDelta();
 
-	std::shared_ptr<Transform> eye = camera->getTransform();
-
-	auto position = eye->getLocalPosition();
+	auto eyeTransformComp = _eye->getComponent<TransformComponent>();
+	auto eyeTransform = eyeTransformComp->getTransform();
+	auto position = eyeTransform->getLocalPosition();
 	position.z *= static_cast<float>(scale);
-	eye->setPosition(position);
+	eyeTransform->setPosition(position);
+}
+
+void CameraManipulator::setEye(const std::shared_ptr<GameObject>& eye)
+{
+	_eye = eye;
 }

@@ -1,10 +1,13 @@
 #pragma once
+#include "ASystem.hpp"
 
 class Window;
 
-class InputController
+class InputSystem : public System
 {
 private:
+	Window* _window;
+
 	double _scrollSpeed;
 
 	double _lastXPos;
@@ -19,9 +22,13 @@ private:
 	bool _mouseCaptured;
 
 public:
-	explicit InputController(double scrollSpeed = 1.2);
-	void bind(Window* window);
+	explicit InputSystem(Window* window);
 
+	void init() override;
+	void update(float delta_time) override;
+	void draw() override;
+
+	void setScrollSpeed(double scrollSpeed);
 	void setMouseCaptureWhilePressed(bool flag = true);
 
 	bool isRightButtonPressed() const { return _isRightButtonPressed; }
