@@ -13,6 +13,8 @@ private:
 	GameObject* _owner;
 
 public:
+	virtual ~Component() = default;
+
 	virtual void init() = 0;
 	virtual void update(float delta_time) {}
 

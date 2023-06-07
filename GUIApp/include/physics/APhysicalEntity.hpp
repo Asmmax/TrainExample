@@ -20,6 +20,8 @@ protected:
 	std::shared_ptr<Transform> _transform;
 
 public:
+	virtual ~PhysicalEntity() = default;
+
 	virtual void fixedUpdate(float fixed_time) = 0;
 
 	void setTransform(const std::shared_ptr<Transform>& transform);

@@ -3,6 +3,7 @@
 #include "Window.hpp"
 #include "Path.hpp"
 #include "World.hpp"
+#include "assets/AssetManager.hpp"
 
 #include "input/InputSystem.hpp"
 #include "physics/PhysicalSystem.hpp"
@@ -34,7 +35,7 @@ void initSystems(World* world, Window* window)
 	world->addSystem<RenderSystem>(window);
 }
 
-void initWorld(World* world, Loader* loader, const Path& directory)
+void initWorld(World* world, Loader* loader)
 {
 	//init MainLight
 	auto sun_object = world->createGameObject();
@@ -74,15 +75,12 @@ void initWorld(World* world, Loader* loader, const Path& directory)
 	std::shared_ptr<ACurve> path = std::make_shared<Spline>(points, true);
 
 	//load shaders
-	std::string vertexShader = loadShader(directory.find("shaders/simple.vert"));
-	std::string fragmentShader = loadShader(directory.find("shaders/simple.frag"));
+	auto shaderAsset = AssetManager::getInstance().getAsset<ShaderAsset>("shaders/simple");
 
 	// create background objects
 	auto grass = std::make_shared<Material>();
-	grass->setVertexShader(vertexShader);
-	grass->setFragmentShader(fragmentShader);
+	grass->setShader(shaderAsset);
 	grass->setColor(0.2f, 0.37f, 0.2f);
-	grass->loadShader(*loader);
 
 	auto plane_mesh = std::make_shared<Plane>();
 	plane_mesh->load(*loader);
@@ -100,10 +98,8 @@ void initWorld(World* world, Loader* loader, const Path& directory)
 
 	//create movable object
 	auto trainMat = std::make_shared<Material>();
-	trainMat->setVertexShader(vertexShader);
-	trainMat->setFragmentShader(fragmentShader);
+	trainMat->setShader(shaderAsset);
 	trainMat->setColor(0.62f, 0.58f, 0.51f);
-	trainMat->loadShader(*loader);
 
 	auto cube_mesh = std::make_shared<Cube>();
 	cube_mesh->load(*loader);
@@ -112,16 +108,12 @@ void initWorld(World* world, Loader* loader, const Path& directory)
 
 	//create railway
 	auto metal = std::make_shared<Material>();
-	metal->setVertexShader(vertexShader);
-	metal->setFragmentShader(fragmentShader);
+	metal->setShader(shaderAsset);
 	metal->setColor(0.25f, 0.25f, 0.25f);
-	metal->loadShader(*loader);
 
 	auto wood = std::make_shared<Material>();
-	wood->setVertexShader(vertexShader);
-	wood->setFragmentShader(fragmentShader);
+	wood->setShader(shaderAsset);
 	wood->setColor(0.5f, 0.25f, 0.0f);
-	wood->loadShader(*loader);
 
 	auto rails = world->createGameObject();
 	auto railsTranform = rails->addComponent<TransformComponent>();
@@ -152,8 +144,6 @@ void initWorld(World* world, Loader* loader, const Path& directory)
 
 int main()
 {
-	Path path("settings.dat");
-
 	// initialization
 	Application& app = Application::getInstance();
 	app.bindImpl<GLFWApplicationImpl>();
@@ -161,10 +151,12 @@ int main()
 	if (!window)
 		return -1;
 
+	AssetManager::getInstance().init("settings.dat", window->getLoader());
+
 	std::shared_ptr<World> world = std::make_shared<World>();
 
 	initSystems(world.get(), window);
-	initWorld(world.get(), window->getLoader(), path);
+	initWorld(world.get(), window->getLoader());
 
 	world->init();
 

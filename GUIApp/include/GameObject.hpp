@@ -21,10 +21,9 @@ protected:
 
 public:
 	GameObject(World* world);
-	virtual ~GameObject() = default;
 
-	virtual void init();
-	virtual void update(float delta_time);
+	void init();
+	void update(float delta_time);
 
 	World* getWorld() { return _world; }
 

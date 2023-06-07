@@ -1,0 +1,10 @@
+{
+	"shaders":[
+	{
+		"id":"simple",
+		"type":"ShaderAsset",
+		"vertexShaderPath":"shaders/simple.vert",
+		"fragmentShaderPath":"shaders/simple.frag"
+	}
+	]
+}

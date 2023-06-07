@@ -1,13 +1,10 @@
 #include "Material.hpp"
-#include "Loader.hpp"
+#include "assets/ShaderAsset.hpp"
 #include "Model.hpp"
 #include "objects/Batch.hpp"
 
 Material::Material():
-	_shader(nullptr),
 	_batch(nullptr),
-	_vertexShader(""),
-	_fragmentShader(""),
 	_color(1.0f, 1.0f, 1.0f)
 {
 }
@@ -29,7 +26,7 @@ void Material::init(const std::shared_ptr<Model>& model)
 	state.addOrSet(StringId("Material.DiffuseFactor"), 0.8f);
 
 	if (_shader) {
-		_batch->setShader(_shader);
+		_batch->setShader(_shader->getShader());
 	}
 }
 
@@ -53,19 +50,9 @@ void Material::free(Object* object)
 	}
 }
 
-void Material::loadShader(Loader& loader)
+void Material::setShader(const std::shared_ptr<ShaderAsset>& shader)
 {
-	_shader = loader.loadShader(_vertexShader, _fragmentShader);
-}
-
-void Material::setVertexShader(const std::string& shader)
-{
-	_vertexShader = shader;
-}
-
-void Material::setFragmentShader(const std::string& shader)
-{
-	_fragmentShader = shader;
+	_shader = shader;
 }
 
 void Material::setColor(float r, float g, float b)
