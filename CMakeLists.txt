@@ -9,4 +9,5 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR} )
 endif()
 
 add_subdirectory ("deps/dgnix")
+add_subdirectory ("deps/DIAssets")
 add_subdirectory ("GUIApp")

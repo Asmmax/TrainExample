@@ -1,3 +1,6 @@
 [submodule "deps/dgnix"]
 	path = deps/dgnix
 	url = git@github.com:Asmmax/dgnix.git
+[submodule "deps/DIAssets"]
+	path = deps/DIAssets
+	url = git@github.com:Asmmax/DIAssets.git
