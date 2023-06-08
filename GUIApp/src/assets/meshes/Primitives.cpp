@@ -1,4 +1,4 @@
-#include "Primitives.hpp"
+#include "assets/meshes/Primitives.hpp"
 
 Plane::Plane()
 {

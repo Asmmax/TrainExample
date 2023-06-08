@@ -1,0 +1,8 @@
+{
+	"meshes":[
+	{
+		"id":"main",
+		"type":"Plane"
+	}
+	]
+}

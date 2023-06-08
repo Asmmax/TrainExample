@@ -55,9 +55,7 @@ void MaterialAsset::setShader(const std::shared_ptr<ShaderAsset>& shader)
 	_shader = shader;
 }
 
-void MaterialAsset::setColor(const Color& color)
+void MaterialAsset::setColor(const glm::vec3& color)
 {
-	_color.r = color.r;
-	_color.g = color.g;
-	_color.b = color.b;
+	_color = color;
 }

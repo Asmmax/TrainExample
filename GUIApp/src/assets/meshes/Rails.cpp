@@ -1,4 +1,4 @@
-#include "Rails.hpp"
+#include "assets/meshes/Rails.hpp"
 #include "ACurve.hpp"
 #include "MeshGenerator.hpp"
 #include "ParallelCurve.hpp"

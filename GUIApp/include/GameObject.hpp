@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <typeinfo>
 #include <typeindex>
+#include <assert.h>
 
 class World;
 class Transform;

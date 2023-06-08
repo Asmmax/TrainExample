@@ -5,7 +5,7 @@
 class Model;
 class RenderObject;
 class MaterialAsset;
-class SharedMesh;
+class MeshAsset;
 class GameObject;
 
 class RenderComponent : public Component
@@ -14,7 +14,7 @@ private:
 	std::shared_ptr<Model> _model;
 	std::shared_ptr<RenderObject> _object;
 	std::shared_ptr<MaterialAsset> _material;
-	std::shared_ptr<SharedMesh> _mesh;
+	std::shared_ptr<MeshAsset> _mesh;
 
 public:
 	RenderComponent();
@@ -22,5 +22,5 @@ public:
 	void init() override;
 
 	void setMaterial(const std::shared_ptr<MaterialAsset>& material);
-	void setMesh(const std::shared_ptr<SharedMesh>& mesh);
+	void setMesh(const std::shared_ptr<MeshAsset>& mesh);
 };

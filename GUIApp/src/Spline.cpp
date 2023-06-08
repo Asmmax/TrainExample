@@ -6,8 +6,11 @@
 Spline::Spline(const std::vector<glm::vec3>& points, bool loop, unsigned int accuracy):
 	_points(points),
 	_is_loop(loop),
+	_part(0.0f),
+	_seg_count(0),
 	_accuracy(accuracy)
 {
+
 	unsigned int points_count = static_cast<unsigned int>(_points.size());
 	_seg_count = _is_loop ? points_count : points_count - 1;
 

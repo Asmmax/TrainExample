@@ -4,13 +4,7 @@
 		"id":"main",
 		"type":"MaterialAsset",
 		"shader":"shaders/simple/main",
-		"color":
-		{
-			"type":"Color",
-			"r":0.25,
-			"g":0.25,
-			"b":0.25
-		}
+		"color": [ 0.25, 0.25, 0.25 ] 
 	}
 	]
 }

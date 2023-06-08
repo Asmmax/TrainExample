@@ -1,10 +1,10 @@
 #include "render/RenderObject.hpp"
 #include "objects/Object.hpp"
 #include "common/Transform.hpp"
-#include "SharedMesh.hpp"
+#include "assets/MeshAsset.hpp"
 #include "assets/MaterialAsset.hpp"
 
-RenderObject::RenderObject(const std::shared_ptr<Model>& model, const std::shared_ptr<SharedMesh>& mesh, const std::shared_ptr<MaterialAsset>& material, const std::shared_ptr<Transform>& transform):
+RenderObject::RenderObject(const std::shared_ptr<Model>& model, const std::shared_ptr<MeshAsset>& mesh, const std::shared_ptr<MaterialAsset>& material, const std::shared_ptr<Transform>& transform):
 	_model(model),
 	_material(material),
 	_mesh(mesh),
@@ -39,7 +39,7 @@ void RenderObject::setMaterial(const std::shared_ptr<MaterialAsset>& material)
 	applyMaterial();
 }
 
-void RenderObject::setMesh(const std::shared_ptr<SharedMesh>& mesh)
+void RenderObject::setMesh(const std::shared_ptr<MeshAsset>& mesh)
 {
 	_mesh = mesh;
 	if (_mesh && _object) {

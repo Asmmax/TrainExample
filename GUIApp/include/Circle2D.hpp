@@ -1,7 +1,7 @@
 #pragma once
 #include "ACurve.hpp"
-#include <glm/vec3.hpp>
 
+/// @serializable
 class Circle2D : public ACurve
 {
 public:

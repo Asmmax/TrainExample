@@ -1,4 +1,4 @@
-#include "Sleepers.hpp"
+#include "assets/meshes/Sleepers.hpp"
 #include "MeshGenerator.hpp"
 #include "ACurve.hpp"
 #include "ParallelCurve.hpp"

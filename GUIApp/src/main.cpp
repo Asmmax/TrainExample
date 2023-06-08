@@ -1,7 +1,6 @@
 #include "Application.hpp"
 #include "GLFWApplicationImpl.hpp"
 #include "Window.hpp"
-#include "Path.hpp"
 #include "World.hpp"
 #include "assets/AssetManager.hpp"
 
@@ -17,11 +16,8 @@
 #include "components/CameraManipulator.hpp"
 #include "resources/ShaderData.hpp"
 #include "ACurve.hpp"
-#include "Spline.hpp"
-#include "Primitives.hpp"
 #include "TrainBuilder.hpp"
-#include "Rails.hpp"
-#include "Sleepers.hpp"
+#include "assets/MeshAsset.hpp"
 #include "assets/MaterialAsset.hpp"
 #include "GameObject.hpp"
 #include "common/Transform.hpp"
@@ -61,29 +57,22 @@ void initWorld(World* world, Loader* loader)
 	auto manipulator = mainCameraObject->addComponent<CameraManipulator>();
 	manipulator->setEye(eyeCameraObject);
 
-	//init curve
-	std::vector<glm::vec3> points;
-	points.reserve(8);
-	points.emplace_back(0.0f, 0.5f, 7.0f); // 1
-	points.emplace_back(-6.0f, 0.5f, 5.0f); // 2
-	points.emplace_back(-8.0f, 0.5f, 1.0f); // 3
-	points.emplace_back(-4.0f, 4.5f, -6.0f); // 4
-	points.emplace_back(0.0f, 0.5f, -7.0f); // 5
-	points.emplace_back(1.0f, 0.5f, -4.0f); // 6
-	points.emplace_back(4.0f, 0.5f, -3.0f); // 7
-	points.emplace_back(8.0f, 0.5f, 7.0f); // 8
-	std::shared_ptr<ACurve> path = std::make_shared<Spline>(points, true);
+	//load path
+	auto path = AssetManager::getInstance().getAsset<ACurve>("curves/path");
 
-	//load shaders
+	//load materials
 	auto grass = AssetManager::getInstance().getAsset<MaterialAsset>("materials/grass");
 	auto trainMat = AssetManager::getInstance().getAsset<MaterialAsset>("materials/train");
 	auto metal = AssetManager::getInstance().getAsset<MaterialAsset>("materials/metal");
 	auto wood = AssetManager::getInstance().getAsset<MaterialAsset>("materials/wood");
 
-	// create background objects
-	auto plane_mesh = std::make_shared<Plane>();
-	plane_mesh->load(*loader);
+	//load meshes
+	auto plane_mesh = AssetManager::getInstance().getAsset<MeshAsset>("meshes/plane");
+	auto cube_mesh = AssetManager::getInstance().getAsset<MeshAsset>("meshes/cube");
+	auto rails_mesh = AssetManager::getInstance().getAsset<MeshAsset>("meshes/rails");
+	auto sleepers_mesh = AssetManager::getInstance().getAsset<MeshAsset>("meshes/sleepers");
 
+	// create background objects
 	auto plane_object = world->createGameObject();
 
 	auto planeTransform = plane_object->addComponent<TransformComponent>();
@@ -95,17 +84,12 @@ void initWorld(World* world, Loader* loader)
 	planeGraphics->setMesh(plane_mesh);
 	planeGraphics->setMaterial(grass);
 
-	auto cube_mesh = std::make_shared<Cube>();
-	cube_mesh->load(*loader);
 	TrainBuilder train(path, 8, 2.0f);
 	train.Build(world, cube_mesh, trainMat);
 
 	//create railway
 	auto rails = world->createGameObject();
 	auto railsTranform = rails->addComponent<TransformComponent>();
-
-	auto rails_mesh = std::make_shared<Rails>(path, 0.1f, 0.5f, 400);
-	rails_mesh->load(*loader);
 
 	auto rails_object = world->createGameObject();
 	auto railsObjTranform = rails_object->addComponent<TransformComponent>();
@@ -115,9 +99,6 @@ void initWorld(World* world, Loader* loader)
 	auto railsGraphics = rails_object->addComponent<RenderComponent>();
 	railsGraphics->setMesh(rails_mesh);
 	railsGraphics->setMaterial(metal);
-
-	auto sleepers_mesh = std::make_shared<Sleepers>(path, 0.1f, 1.0f, 0.5f);
-	sleepers_mesh->load(*loader);
 
 	auto sleepers_object = world->createGameObject();
 	auto sleepersTranform = sleepers_object->addComponent<TransformComponent>();

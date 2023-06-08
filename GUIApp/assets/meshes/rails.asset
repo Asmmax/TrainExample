@@ -1,0 +1,12 @@
+{
+	"meshes":[
+	{
+		"id":"main",
+		"type":"Rails",
+		"path":"curves/path/main",
+		"width":0.1,
+		"gap":0.5,
+		"seg_count":400
+	}
+	]
+}

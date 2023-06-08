@@ -72,7 +72,7 @@ void RenderSystem::setMainView(const CameraViewPtr& view)
 	_mainCamera->setMain();
 }
 
-std::shared_ptr<RenderObject> RenderSystem::createObject(const std::shared_ptr<SharedMesh>& mesh, const std::shared_ptr<MaterialAsset>& material, const std::shared_ptr<Transform>& transform)
+std::shared_ptr<RenderObject> RenderSystem::createObject(const std::shared_ptr<MeshAsset>& mesh, const std::shared_ptr<MaterialAsset>& material, const std::shared_ptr<Transform>& transform)
 {
 	auto object = std::make_shared<RenderObject>(_model, mesh, material, transform);
 	_objects.push_back(object);

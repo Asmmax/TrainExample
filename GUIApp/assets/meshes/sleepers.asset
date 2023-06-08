@@ -1,0 +1,12 @@
+{
+	"meshes":[
+	{
+		"id":"main",
+		"type":"Sleepers",
+		"path":"curves/path/main",
+		"thickness":0.1,
+		"width":1.0,
+		"step":0.5
+	}
+	]
+}

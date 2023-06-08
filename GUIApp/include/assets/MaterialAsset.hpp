@@ -1,5 +1,6 @@
 #pragma once
 #include "DrawState.hpp"
+#include "Vec3Reader.hpp"
 #include <memory>
 #include <glm/vec3.hpp>
 
@@ -7,14 +8,6 @@ class Batch;
 class Object;
 class Model;
 class ShaderAsset;
-
-/// @serializable
-struct Color
-{
-	float r;
-	float g;
-	float b;
-};
 
 /// @serializable @shared materials
 class MaterialAsset
@@ -35,5 +28,5 @@ public:
 	/// @inject
 	void setShader(const std::shared_ptr<ShaderAsset>& shader);
 	/// @inject
-	void setColor(const Color& color);
+	void setColor(const glm::vec3& color);
 };

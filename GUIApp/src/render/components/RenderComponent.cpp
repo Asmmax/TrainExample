@@ -29,7 +29,7 @@ void RenderComponent::setMaterial(const std::shared_ptr<MaterialAsset>& material
 	}
 }
 
-void RenderComponent::setMesh(const std::shared_ptr<SharedMesh>& mesh)
+void RenderComponent::setMesh(const std::shared_ptr<MeshAsset>& mesh)
 {
 	_mesh = mesh;
 	if (_object) {

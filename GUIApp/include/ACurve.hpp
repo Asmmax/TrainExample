@@ -1,10 +1,9 @@
 #pragma once
-
-#include <glm/vec3.hpp>
+#include "Vec3Reader.hpp"
 #include <vector>
+#include <glm/vec3.hpp>
 
-class Sphere;
-
+/// @serializable @abstract @shared curves
 class ACurve
 {
 public:

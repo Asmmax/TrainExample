@@ -9,7 +9,7 @@ class CameraView;
 class RenderObject;
 class RenderPointLight;
 class Model;
-class SharedMesh;
+class MeshAsset;
 class MaterialAsset;
 class Transform;
 
@@ -38,6 +38,6 @@ public:
 	CameraViewPtr createCameraView(const std::shared_ptr<Transform>& transform);
 	void setMainView(const CameraViewPtr& view);
 
-	RenderObjectPtr createObject(const std::shared_ptr<SharedMesh>& mesh, const std::shared_ptr<MaterialAsset>& material, const std::shared_ptr<Transform>& transform);
+	RenderObjectPtr createObject(const std::shared_ptr<MeshAsset>& mesh, const std::shared_ptr<MaterialAsset>& material, const std::shared_ptr<Transform>& transform);
 	RenderPointLightPtr createPointLight(float radius, float fadingArea, float intensity, const glm::vec3& color, const std::shared_ptr<Transform>& transform);
 };
