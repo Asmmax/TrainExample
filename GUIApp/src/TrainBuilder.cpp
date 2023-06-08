@@ -29,7 +29,7 @@ TrainBuilder::TrainBuilder(const std::shared_ptr<ACurve>& path, unsigned int blo
 	std::reverse(_initial_params.begin(), _initial_params.end());
 }
 
-void TrainBuilder::Build(World* world, const std::shared_ptr<SharedMesh>& mesh, const std::shared_ptr<Material>& material)
+void TrainBuilder::Build(World* world, const std::shared_ptr<SharedMesh>& mesh, const std::shared_ptr<MaterialAsset>& material)
 {
 	bool first = true;
 	for (auto param : _initial_params) {

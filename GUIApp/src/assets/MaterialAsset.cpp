@@ -1,15 +1,15 @@
-#include "Material.hpp"
+#include "assets/MaterialAsset.hpp"
 #include "assets/ShaderAsset.hpp"
 #include "Model.hpp"
 #include "objects/Batch.hpp"
 
-Material::Material():
+MaterialAsset::MaterialAsset():
 	_batch(nullptr),
 	_color(1.0f, 1.0f, 1.0f)
 {
 }
 
-void Material::init(const std::shared_ptr<Model>& model)
+void MaterialAsset::init(const std::shared_ptr<Model>& model)
 {
 	_model = model;
 	if (_model) {
@@ -30,7 +30,7 @@ void Material::init(const std::shared_ptr<Model>& model)
 	}
 }
 
-Object* Material::apply(const std::shared_ptr<Model>& model)
+Object* MaterialAsset::apply(const std::shared_ptr<Model>& model)
 {
 	if (!_model) {
 		init(model);
@@ -43,21 +43,21 @@ Object* Material::apply(const std::shared_ptr<Model>& model)
 	return nullptr;
 }
 
-void Material::free(Object* object)
+void MaterialAsset::free(Object* object)
 {
 	if (_batch) {
 		_batch->removeObject(object);
 	}
 }
 
-void Material::setShader(const std::shared_ptr<ShaderAsset>& shader)
+void MaterialAsset::setShader(const std::shared_ptr<ShaderAsset>& shader)
 {
 	_shader = shader;
 }
 
-void Material::setColor(float r, float g, float b)
+void MaterialAsset::setColor(const Color& color)
 {
-	_color.r = r;
-	_color.g = g;
-	_color.b = b;
+	_color.r = color.r;
+	_color.g = color.g;
+	_color.b = color.b;
 }

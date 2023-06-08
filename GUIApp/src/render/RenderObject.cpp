@@ -2,9 +2,9 @@
 #include "objects/Object.hpp"
 #include "common/Transform.hpp"
 #include "SharedMesh.hpp"
-#include "Material.hpp"
+#include "assets/MaterialAsset.hpp"
 
-RenderObject::RenderObject(const std::shared_ptr<Model>& model, const std::shared_ptr<SharedMesh>& mesh, const std::shared_ptr<Material>& material, const std::shared_ptr<Transform>& transform):
+RenderObject::RenderObject(const std::shared_ptr<Model>& model, const std::shared_ptr<SharedMesh>& mesh, const std::shared_ptr<MaterialAsset>& material, const std::shared_ptr<Transform>& transform):
 	_model(model),
 	_material(material),
 	_mesh(mesh),
@@ -28,7 +28,7 @@ void RenderObject::update()
 	_object->setMatrix(matrix);
 }
 
-void RenderObject::setMaterial(const std::shared_ptr<Material>& material)
+void RenderObject::setMaterial(const std::shared_ptr<MaterialAsset>& material)
 {
 	if (_material) {
 		_material->free(_object);

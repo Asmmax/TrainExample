@@ -1,11 +1,10 @@
 #pragma once
-#include "assets/GraphicalAsset.hpp"
 #include <string>
 
 class Shader;
 
 /// @serializable @shared shaders
-class ShaderAsset : public GraphicalAsset
+class ShaderAsset
 {
 private:
 	Shader* _shader;
@@ -18,5 +17,5 @@ public:
 
 	Shader* getShader();
 
-	void loadToGPU() override;
+	void loadToGPU();
 };

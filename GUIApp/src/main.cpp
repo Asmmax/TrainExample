@@ -22,7 +22,7 @@
 #include "TrainBuilder.hpp"
 #include "Rails.hpp"
 #include "Sleepers.hpp"
-#include "Material.hpp"
+#include "assets/MaterialAsset.hpp"
 #include "GameObject.hpp"
 #include "common/Transform.hpp"
 
@@ -75,13 +75,12 @@ void initWorld(World* world, Loader* loader)
 	std::shared_ptr<ACurve> path = std::make_shared<Spline>(points, true);
 
 	//load shaders
-	auto shaderAsset = AssetManager::getInstance().getAsset<ShaderAsset>("shaders/simple");
+	auto grass = AssetManager::getInstance().getAsset<MaterialAsset>("materials/grass");
+	auto trainMat = AssetManager::getInstance().getAsset<MaterialAsset>("materials/train");
+	auto metal = AssetManager::getInstance().getAsset<MaterialAsset>("materials/metal");
+	auto wood = AssetManager::getInstance().getAsset<MaterialAsset>("materials/wood");
 
 	// create background objects
-	auto grass = std::make_shared<Material>();
-	grass->setShader(shaderAsset);
-	grass->setColor(0.2f, 0.37f, 0.2f);
-
 	auto plane_mesh = std::make_shared<Plane>();
 	plane_mesh->load(*loader);
 
@@ -96,25 +95,12 @@ void initWorld(World* world, Loader* loader)
 	planeGraphics->setMesh(plane_mesh);
 	planeGraphics->setMaterial(grass);
 
-	//create movable object
-	auto trainMat = std::make_shared<Material>();
-	trainMat->setShader(shaderAsset);
-	trainMat->setColor(0.62f, 0.58f, 0.51f);
-
 	auto cube_mesh = std::make_shared<Cube>();
 	cube_mesh->load(*loader);
 	TrainBuilder train(path, 8, 2.0f);
 	train.Build(world, cube_mesh, trainMat);
 
 	//create railway
-	auto metal = std::make_shared<Material>();
-	metal->setShader(shaderAsset);
-	metal->setColor(0.25f, 0.25f, 0.25f);
-
-	auto wood = std::make_shared<Material>();
-	wood->setShader(shaderAsset);
-	wood->setColor(0.5f, 0.25f, 0.0f);
-
 	auto rails = world->createGameObject();
 	auto railsTranform = rails->addComponent<TransformComponent>();
 

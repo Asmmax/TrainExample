@@ -1,7 +1,7 @@
 {
 	"shaders":[
 	{
-		"id":"simple",
+		"id":"main",
 		"type":"ShaderAsset",
 		"vertexShaderPath":"shaders/simple.vert",
 		"fragmentShaderPath":"shaders/simple.frag"

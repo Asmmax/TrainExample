@@ -21,7 +21,7 @@ void RenderComponent::init()
 	_object = renderSystem->createObject(_mesh, _material, transformComp->getTransform());
 }
 
-void RenderComponent::setMaterial(const std::shared_ptr<Material>& material)
+void RenderComponent::setMaterial(const std::shared_ptr<MaterialAsset>& material)
 {
 	_material = material;
 	if (_object) {
