@@ -4,8 +4,8 @@
 #include "render/RenderPointLight.hpp"
 #include "Model.hpp"
 
-RenderSystem::RenderSystem(Window* window):
-	_window(window),
+RenderSystem::RenderSystem():
+	_window(nullptr),
 	_mainCamera(nullptr),
 	_model(std::make_shared<Model>())
 {
@@ -42,9 +42,9 @@ void RenderSystem::update(float delta_time)
 	_mainCamera->render(*_model);
 }
 
-void RenderSystem::draw()
+void RenderSystem::setWindow(Window* window)
 {
-
+	_window = window;
 }
 
 std::shared_ptr<CameraView> RenderSystem::createCameraView(const std::shared_ptr<Transform>& transform)

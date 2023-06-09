@@ -13,7 +13,8 @@ class MeshAsset;
 class MaterialAsset;
 class Transform;
 
-class RenderSystem : public System
+/// @serializable
+class RenderSystem : public SystemCommon<RenderSystem>
 {
 	using CameraViewPtr = std::shared_ptr<CameraView>;
 	using RenderObjectPtr = std::shared_ptr<RenderObject>;
@@ -29,11 +30,12 @@ private:
 	std::vector<RenderPointLightPtr> _pointLights;
 
 public:
-	RenderSystem(Window* window);
+	RenderSystem();
 
 	void init() override;
 	void update(float delta_time) override;
-	void draw() override;
+
+	void setWindow(Window* window) override;
 
 	CameraViewPtr createCameraView(const std::shared_ptr<Transform>& transform);
 	void setMainView(const CameraViewPtr& view);

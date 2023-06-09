@@ -16,10 +16,6 @@ void TransformSystem::update(float delta_time)
 	}
 }
 
-void TransformSystem::draw()
-{
-}
-
 void TransformSystem::addTransform(const TransformPtr& tranform)
 {
 	_transforms.push_back(tranform);

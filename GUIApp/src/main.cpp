@@ -3,11 +3,7 @@
 #include "Window.hpp"
 #include "World.hpp"
 #include "assets/AssetManager.hpp"
-
-#include "input/InputSystem.hpp"
-#include "physics/PhysicalSystem.hpp"
-#include "common/TransformSystem.hpp"
-#include "render/RenderSystem.hpp"
+#include "assets/SystemGroupAsset.hpp"
 
 #include "common/components/TransformComponent.hpp"
 #include "render/components/CameraComponent.hpp"
@@ -21,15 +17,6 @@
 #include "assets/MaterialAsset.hpp"
 #include "GameObject.hpp"
 #include "common/Transform.hpp"
-
-void initSystems(World* world, Window* window) 
-{
-	auto inputSystem = world->addSystem<InputSystem>(window);
-	inputSystem->setMouseCaptureWhilePressed();
-	world->addSystem<PhysicalSystem>(0.02f);
-	world->addSystem<TransformSystem>();
-	world->addSystem<RenderSystem>(window);
-}
 
 void initWorld(World* world, Loader* loader)
 {
@@ -122,7 +109,10 @@ int main()
 
 	std::shared_ptr<World> world = std::make_shared<World>();
 
-	initSystems(world.get(), window);
+	auto systemsConfig = AssetManager::getInstance().getAsset<SystemGroupAsset>("config");
+	systemsConfig->init(window);
+	systemsConfig->attachTo(*world);
+
 	initWorld(world.get(), window->getLoader());
 
 	world->init();

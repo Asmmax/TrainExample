@@ -11,11 +11,17 @@ set(scripts_dir "${PROJECT_SOURCE_DIR}/scripts")
 if (WIN32)
 	message (STATUS "Generating containers for Current")
 	get_target_property(add_includes glm_interface INTERFACE_INCLUDE_DIRECTORIES)
-	list(GET add_includes 0 add_include)
+	list(GET add_includes 0 add_include_glm)
+	get_target_property(add_includes dgnix INTERFACE_INCLUDE_DIRECTORIES)
+	list(GET add_includes 0 add_include_dgnix)
+	get_target_property(add_includes DIAssets INTERFACE_INCLUDE_DIRECTORIES)
+	list(GET add_includes 0 add_include_diassets)
+	get_target_property(add_includes json INTERFACE_INCLUDE_DIRECTORIES)
+	list(GET add_includes 0 add_include_json)
 	set(in_path "${CMAKE_CURRENT_SOURCE_DIR}/${guiapp_include_dir}")
 	set(gen_dir "GUIApp")
 	execute_process(
-		COMMAND cmd /C set out_include_dir=${gen_dir} && set out_source_dir=${gen_dir} && set add_includes=${add_include} && set cache_path=${cache_path} && call "${scripts_dir}/win/generate_containers.bat" ${in_path} ${out_include_path} ${out_source_path}
+		COMMAND cmd /C set out_include_dir=${gen_dir} && set out_source_dir=${gen_dir} && set add_includes=${add_include_glm},${add_include_dgnix},${add_include_diassets},${add_include_json} && set cache_path=${cache_path} && call "${scripts_dir}/win/generate_containers.bat" ${in_path} ${out_include_path} ${out_source_path}
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 		)
 endif()

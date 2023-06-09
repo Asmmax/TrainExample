@@ -2,8 +2,8 @@
 #include "Window.hpp"
 #include <glm/glm.hpp>
 
-InputSystem::InputSystem(Window* window) :
-	_window(window),
+InputSystem::InputSystem() :
+	_window(nullptr),
 	_scrollSpeed(1.2),
 	_lastXPos(0),
 	_lastYPos(0),
@@ -62,8 +62,9 @@ void InputSystem::update(float delta_time)
 {
 }
 
-void InputSystem::draw()
+void InputSystem::setWindow(Window* window)
 {
+	_window = window;
 }
 
 

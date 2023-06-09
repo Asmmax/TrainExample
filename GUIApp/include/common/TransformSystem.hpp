@@ -5,7 +5,8 @@
 
 class Transform;
 
-class TransformSystem : public System
+/// @serializable
+class TransformSystem : public SystemCommon<TransformSystem>
 {
 	using TransformPtr = std::shared_ptr<Transform>;
 
@@ -17,7 +18,6 @@ public:
 
 	void init() override;
 	void update(float delta_time) override;
-	void draw() override;
 
 	void addTransform(const TransformPtr& tranform);
 	void removeTransform(const TransformPtr& tranform);

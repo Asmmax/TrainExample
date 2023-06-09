@@ -5,7 +5,8 @@
 
 class PhysicalEntity;
 
-class PhysicalSystem : public System
+/// @serializable
+class PhysicalSystem : public SystemCommon<PhysicalSystem>
 {
 	using EntityPtr = std::shared_ptr<PhysicalEntity>;
 
@@ -15,11 +16,10 @@ private:
 	std::vector<EntityPtr> _entities;
 
 public:
-	PhysicalSystem(float fixed_time);
+	PhysicalSystem(float fixedTime);
 
 	void init() override;
 	void update(float delta_time) override;
-	void draw() override;
 
 	void addEntity(const EntityPtr& entity);
 

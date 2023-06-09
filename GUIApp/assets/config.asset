@@ -1,0 +1,23 @@
+{
+	"systemGroups":[
+	{
+		"id":"main",
+		"type":"SystemGroupAsset",
+		"systems":[
+		{
+			"type":"InputSystem"
+		},
+		{
+			"type":"PhysicalSystem",
+			"fixedTime":0.02
+		},
+		{
+			"type":"TransformSystem"
+		},
+		{
+			"type":"RenderSystem"
+		}
+		]
+	}
+	]
+}

@@ -3,7 +3,8 @@
 
 class Window;
 
-class InputSystem : public System
+/// @serializable
+class InputSystem : public SystemCommon<InputSystem>
 {
 private:
 	Window* _window;
@@ -22,11 +23,12 @@ private:
 	bool _mouseCaptured;
 
 public:
-	explicit InputSystem(Window* window);
+	explicit InputSystem();
 
 	void init() override;
 	void update(float delta_time) override;
-	void draw() override;
+
+	void setWindow(Window* window) override;
 
 	void setScrollSpeed(double scrollSpeed);
 	void setMouseCaptureWhilePressed(bool flag = true);

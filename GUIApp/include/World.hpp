@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <typeindex>
 #include <typeinfo>
+#include <assert.h>
 
 class GameObject;
 class System;
@@ -21,8 +22,8 @@ public:
 
 	GameObjectPtr createGameObject();
 
-	template<typename SysType, typename... Args>
-	std::shared_ptr<SysType> addSystem(Args&&... args);
+	template<typename SysType>
+	void addSystem(const std::shared_ptr<SysType>& sys);
 
 	template<typename SysType>
 	std::shared_ptr<SysType> getSystem() const;
@@ -37,16 +38,14 @@ private:
 	std::unordered_map<std::type_index, SystemPtr> _systemsMap;
 };
 
-template<typename SysType, typename... Args>
-std::shared_ptr<SysType> World::addSystem(Args&&... args)
+template<typename SysType>
+void World::addSystem(const std::shared_ptr<SysType>& sys)
 {
 	std::type_index index = std::type_index(typeid(SysType));
 	assert(_systemsMap.count(index) == 0);
 
-	auto sysTypePtr = std::shared_ptr<SysType>(new SysType(std::forward<Args>(args)...));
-	_systems.emplace_back(sysTypePtr);
-	_systemsMap.emplace(index, sysTypePtr);
-	return sysTypePtr;
+	_systems.emplace_back(sys);
+	_systemsMap.emplace(index, sys);
 }
 
 template<typename SysType>
