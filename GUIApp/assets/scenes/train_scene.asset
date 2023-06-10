@@ -1,0 +1,111 @@
+{
+	"components":[
+	{
+		"id":"sun_transform",
+		"type":"TransformComponent",
+		"position":[100.0, 200.0, 100.0],
+		"rotation":[0.0, 0.0, 0.0],
+		"scale":[1.0, 1.0, 1.0],
+		"children":[]
+	},
+	{
+		"id":"sun_light",
+		"type":"LightComponent",
+		"radius":1000.0,
+		"intensity":0.5,
+		"fadingArea":0.0,
+		"color":[1.0, 1.0, 1.0]
+	},
+	{
+		"id":"camera_target_transform",
+		"type":"TransformComponent",
+		"position":[0.0, 0.0, 0.0],
+		"rotation":[-45.0, 90.0, 0.0],
+		"scale":[1.0, 1.0, 1.0],
+		"children":["camera_eye_transform"]
+	},
+	{
+		"id":"camera_eye_transform",
+		"type":"TransformComponent",
+		"position":[0.0, 0.0, 25.0],
+		"rotation":[0.0, 0.0, 0.0],
+		"scale":[1.0, 1.0, 1.0],
+		"children":[]
+	},
+	{
+		"id":"main_camera",
+		"type":"CameraComponent",
+		"isMain":true
+	},
+	{
+		"id":"player",
+		"type":"CameraManipulator",
+		"eye":"camera_eye_transform"
+	},
+	{
+		"id":"plane_transform",
+		"type":"TransformComponent",
+		"position":[0.0, -0.01, 0.0],
+		"rotation":[-90.0, 0.0, 0.0],
+		"scale":[20.0, 20.0, 20.0],
+		"children":[]
+	},
+	{
+		"id":"plane_graphics",
+		"type":"RenderComponent",
+		"mesh":"meshes/plane/main",
+		"material":"materials/grass/main"
+	},
+	{
+		"id":"rails_group_transform",
+		"type":"TransformComponent",
+		"position":[0.0, 0.0, 0.0],
+		"rotation":[0.0, 0.0, 0.0],
+		"scale":[1.0, 1.0, 1.0],
+		"children":["rails_transform", "sleepers_transform"]
+	},
+	{
+		"id":"rails_transform",
+		"type":"TransformComponent",
+		"position":[0.0, 0.01, 0.0],
+		"rotation":[0.0, 0.0, 0.0],
+		"scale":[1.0, 1.0, 1.0],
+		"children":[]
+	},
+	{
+		"id":"rails_graphics",
+		"type":"RenderComponent",
+		"mesh":"meshes/rails/main",
+		"material":"materials/metal/main"
+	},
+	{
+		"id":"sleepers_transform",
+		"type":"TransformComponent",
+		"position":[0.0, 0.0, 0.0],
+		"rotation":[0.0, 0.0, 0.0],
+		"scale":[1.0, 1.0, 1.0],
+		"children":[]
+	},
+	{
+		"id":"sleepers_graphics",
+		"type":"RenderComponent",
+		"mesh":"meshes/sleepers/main",
+		"material":"materials/wood/main"
+	}
+	],
+	"scenes":[
+	{
+		"id":"main",
+		"type":"SceneAsset",
+		"objects":[
+		["sun_transform", "sun_light"],
+		["camera_target_transform", "player"],
+		["camera_eye_transform", "main_camera"],
+		["plane_transform", "plane_graphics"],
+		["rails_group_transform"],
+		["rails_transform", "rails_graphics"],
+		["sleepers_transform","sleepers_graphics"]
+		]
+	}
+	]
+}

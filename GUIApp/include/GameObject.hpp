@@ -29,32 +29,29 @@ public:
 	World* getWorld() { return _world; }
 
 	template<typename CompType>
-	std::shared_ptr<CompType> addComponent();
+	void addComponent(const std::shared_ptr<CompType>& comp);
 
 	template<typename CompType>
 	std::shared_ptr<CompType> getComponent() const;
 };
 
 template<typename CompType>
-std::shared_ptr<CompType> GameObject::addComponent()
+void GameObject::addComponent(const std::shared_ptr<CompType>& comp)
 {
 	std::type_index index = std::type_index(typeid(CompType));
 	assert(_componentsMap.count(index) == 0);
 
-	auto behTypePtr = std::shared_ptr<CompType>(new CompType());
-	behTypePtr->setOwner(this);
-	_components.emplace_back(behTypePtr);
-	_componentsMap.emplace(index, behTypePtr);
+	comp->setOwner(this);
+	_components.emplace_back(comp);
+	_componentsMap.emplace(index, comp);
 
 	if (!std::is_same_v<Component, CompType::OriginType> &&
 		!std::is_same_v<CompType, CompType::OriginType>) {
 		std::type_index parentIndex = std::type_index(typeid(CompType::OriginType));
 		assert(_componentsMap.count(parentIndex) == 0);
 
-		_componentsMap.emplace(parentIndex, behTypePtr);
+		_componentsMap.emplace(parentIndex, comp);
 	}
-
-	return behTypePtr;
 }
 
 template<typename CompType>

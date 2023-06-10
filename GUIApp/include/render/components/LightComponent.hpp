@@ -5,7 +5,8 @@
 
 class RenderPointLight;
 
-class LightComponent : public Component
+/// @serializable
+class LightComponent : public ComponentCommon<LightComponent>
 {
 private:
 	std::shared_ptr<RenderPointLight> _light;
@@ -20,8 +21,12 @@ public:
 
 	void init() override;
 
+	/// @inject
 	void setRadius(float radius);
+	/// @inject
 	void setFadingArea(float fadingArea);
+	/// @inject
 	void setIntensity(float intensity);
+	/// @inject
 	void setColor(const glm::vec3& color);
 };

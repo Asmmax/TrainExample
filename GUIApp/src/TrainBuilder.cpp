@@ -33,28 +33,34 @@ void TrainBuilder::Build(World* world, const std::shared_ptr<MeshAsset>& mesh, c
 	bool first = true;
 	for (auto param : _initial_params) {
 		auto movable_object = world->createGameObject();
-		auto movableTransform = movable_object->addComponent<TransformComponent>();
-		auto physicsComp = movable_object->addComponent<TrackedComponent>();
+		auto movableTransform = std::make_shared<TransformComponent>();
+		movable_object->addComponent<TransformComponent>(movableTransform);
+		auto physicsComp = std::make_shared<TrackedComponent>();
+		movable_object->addComponent<TrackedComponent>(physicsComp);
 		physicsComp->setPath(_path);
 		physicsComp->setVelocity(_velocity);
 		physicsComp->setParameter(param);
 
 		auto graphics_object = world->createGameObject();
-		auto graphicsTransform = graphics_object->addComponent<TransformComponent>();
+		auto graphicsTransform = std::make_shared<TransformComponent>();
+		graphics_object->addComponent<TransformComponent>(graphicsTransform);
 		graphicsTransform->setPosition(glm::vec3(0.0f, 0.25f, 0.0f));
 		graphicsTransform->setScale(glm::vec3(1.0f, 0.5f, _block_length));
 		movableTransform->attachChild(graphicsTransform);
 
-		auto renderComp = graphics_object->addComponent<RenderComponent>();
+		auto renderComp = std::make_shared<RenderComponent>();
+		graphics_object->addComponent<RenderComponent>(renderComp);
 		renderComp->setMesh(mesh);
 		renderComp->setMaterial(material);
 
 		if (first) {
 			auto projector_object = world->createGameObject();
-			auto projectorTransform = projector_object->addComponent<TransformComponent>();
+			auto projectorTransform = std::make_shared<TransformComponent>();
+			projector_object->addComponent<TransformComponent>(projectorTransform);
 			projectorTransform->setPosition(glm::vec3{ 0.0f, 10.0f, -5.0f });
 			movableTransform->attachChild(projectorTransform);
-			auto light = projector_object->addComponent<LightComponent>();
+			auto light = std::make_shared<LightComponent>();
+			projector_object->addComponent<LightComponent>(light);
 			light->setRadius(10.0f);
 			light->setFadingArea(10.0f);
 			light->setColor(glm::vec3{ 1.0f, 1.0f, 0.0f });

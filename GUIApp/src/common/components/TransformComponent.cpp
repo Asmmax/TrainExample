@@ -4,22 +4,24 @@
 #include "GameObject.hpp"
 #include "World.hpp"
 
-TransformComponent::TransformComponent():
-	_transform(std::make_shared<Transform>())
+TransformComponent::TransformComponent(const std::vector<Ptr>& children /*= std::vector<Ptr>()*/):
+	_transform(std::make_shared<Transform>()),
+	_pendingChildren(children),
+	_isInited(false)
 {
 }
 
 void TransformComponent::init()
 {
-	if (_transform->getParent()) {
-		return;
-	}
 	auto transformSystem = getOwner()->getWorld()->getSystem<TransformSystem>();
 	if (!transformSystem) {
 		return;
 	}
 
 	transformSystem->addTransform(_transform);
+	applyAttachChild();
+
+	_isInited = true;
 }
 
 void TransformComponent::setPosition(const glm::vec3& position)
@@ -45,11 +47,22 @@ void TransformComponent::setScale(const glm::vec3& scale)
 
 void TransformComponent::attachChild(const std::shared_ptr<TransformComponent>& child)
 {
+	_pendingChildren.push_back(child);
+	if (_isInited) {
+		applyAttachChild();
+	}
+}
+
+void TransformComponent::applyAttachChild()
+{
 	auto transformSystem = getOwner()->getWorld()->getSystem<TransformSystem>();
 	if (!transformSystem) {
 		return;
 	}
 
-	transformSystem->removeTransform(child->getTransform());
-	_transform->addChild(child->getTransform());
+	for (auto& child : _pendingChildren) {
+		transformSystem->removeTransform(child->getTransform());
+		_transform->addChild(child->getTransform());
+	}
+	_pendingChildren.clear();
 }

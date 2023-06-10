@@ -6,8 +6,8 @@
 #include "render/RenderSystem.hpp"
 #include "render/CameraView.hpp"
 
-CameraComponent::CameraComponent():
-	_isMainInited(false)
+CameraComponent::CameraComponent(bool isMain):
+	_isMainInited(isMain)
 {
 }
 

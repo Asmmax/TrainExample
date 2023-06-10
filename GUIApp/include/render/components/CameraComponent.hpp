@@ -7,14 +7,15 @@ class Transform;
 class GameObject;
 class CameraView;
 
-class CameraComponent : public Component
+/// @serializable
+class CameraComponent : public ComponentCommon<CameraComponent>
 {
 private:
 	std::shared_ptr<CameraView> _view;
 	bool _isMainInited;
 
 public:
-	CameraComponent();
+	CameraComponent(bool isMain = false);
 
 	void init() override;
 

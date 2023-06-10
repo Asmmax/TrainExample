@@ -6,21 +6,31 @@
 
 class Transform;
 
-class TransformComponent : public Component
+/// @serializable
+class TransformComponent : public ComponentCommon<TransformComponent>
 {
+	using Ptr = std::shared_ptr<TransformComponent>;
 private:
 	std::shared_ptr<Transform> _transform;
+	std::vector<Ptr> _pendingChildren;
+	bool _isInited;
 
 public:
-	TransformComponent();
+	TransformComponent(const std::vector<Ptr>& children = std::vector<Ptr>());
 
 	void init() override;
 
+	/// @inject
 	void setPosition(const glm::vec3& position);
+	/// @inject
 	void setRotation(const glm::vec3& rotation);
 	void setRotation(const glm::quat& rotation);
+	/// @inject
 	void setScale(const glm::vec3& scale);
 
 	void attachChild(const std::shared_ptr<TransformComponent>& child);
 	const std::shared_ptr<Transform>& getTransform() { return _transform; }
+
+private:
+	void applyAttachChild();
 };

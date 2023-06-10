@@ -5,7 +5,8 @@
 class TrackedEntity;
 class ACurve;
 
-class TrackedComponent : public Component
+/// @serializable
+class TrackedComponent : public ComponentCommon<TrackedComponent>
 {
 private:
 	std::shared_ptr<TrackedEntity> _entity;
@@ -18,7 +19,10 @@ public:
 
 	void init() override;
 
+	/// @inject
 	void setPath(const std::shared_ptr<ACurve>& path);
+	/// @inject
 	void setVelocity(float velocity);
+	/// @inject
 	void setParameter(float param);
 };

@@ -4,7 +4,6 @@
 #include "common/Transform.hpp"
 #include "input/InputSystem.hpp"
 #include "World.hpp"
-#include "GameObject.hpp"
 
 CameraManipulator::CameraManipulator() :
 	_storagedRotation(1.0f, 0.0f, 0.0f ,0.0f),
@@ -54,14 +53,13 @@ void CameraManipulator::update(float delta_time)
 
 	double scale = inputSystem->GetScrollDelta();
 
-	auto eyeTransformComp = _eye->getComponent<TransformComponent>();
-	auto eyeTransform = eyeTransformComp->getTransform();
+	auto eyeTransform = _eye->getTransform();
 	auto position = eyeTransform->getLocalPosition();
 	position.z *= static_cast<float>(scale);
 	eyeTransform->setPosition(position);
 }
 
-void CameraManipulator::setEye(const std::shared_ptr<GameObject>& eye)
+void CameraManipulator::setEye(const std::shared_ptr<TransformComponent>& eye)
 {
 	_eye = eye;
 }

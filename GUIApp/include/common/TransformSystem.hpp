@@ -12,6 +12,9 @@ class TransformSystem : public SystemCommon<TransformSystem>
 
 private:
 	std::vector<TransformPtr> _transforms;
+	std::vector<TransformPtr> _pendingAdd;
+	std::vector<TransformPtr> _pendingRemove;
+	bool _isInited;
 
 public:
 	TransformSystem();
@@ -21,4 +24,7 @@ public:
 
 	void addTransform(const TransformPtr& tranform);
 	void removeTransform(const TransformPtr& tranform);
+
+private:
+	void applyChanges();
 };
