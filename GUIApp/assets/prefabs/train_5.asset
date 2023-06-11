@@ -1,0 +1,43 @@
+{
+	"components":[
+	{
+		"id":"root_transform",
+		"type":"TransformComponent",
+		"position":[0.0, 0.0, 0.0],
+		"rotation":[0.0, 0.0, 0.0],
+		"scale":[1.0, 1.0, 1.0],
+		"children":["block_transform"]
+	},
+	{
+		"id":"phys",
+		"type":"TrackedComponent",
+		"path":"curves/path/main",
+		"velocity":2.0,
+		"param":0.0
+	},
+	{
+		"id":"block_transform",
+		"type":"TransformComponent",
+		"position":[0.0, 0.25, 0.0],
+		"rotation":[0.0, 0.0, 0.0],
+		"scale":[1.0, 0.5, 1.0],
+		"children":[]
+	},
+	{
+		"id":"block_graphics",
+		"type":"RenderComponent",
+		"mesh":"meshes/cube/main",
+		"material":"materials/train/main"
+	}
+	],
+	"units":[
+	{
+		"id":"main",
+		"type":"SceneUnit",
+		"objects":[
+			["root_transform", "phys"],
+			["block_transform", "block_graphics"]
+		]
+	}
+	]
+}

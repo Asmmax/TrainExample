@@ -9,6 +9,9 @@ class World;
 class System
 {
 public:
+	using OrigiType = System;
+
+public:
 	virtual ~System() = default;
 
 	virtual void init() = 0;
@@ -21,6 +24,9 @@ public:
 template<typename SystemType>
 class SystemCommon : public System, public std::enable_shared_from_this<SystemType>
 {
+public:
+	using OriginType = SystemType;
+
 public:
 	void attachTo(World& world) override;
 };

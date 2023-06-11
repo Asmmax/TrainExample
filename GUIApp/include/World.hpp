@@ -41,7 +41,10 @@ private:
 template<typename SysType>
 void World::addSystem(const std::shared_ptr<SysType>& sys)
 {
-	std::type_index index = std::type_index(typeid(SysType));
+	static_assert(!std::is_same_v<System, SysType>);
+	static_assert(!std::is_same_v<SystemCommon<SysType::OriginType>, SysType>);
+
+	std::type_index index = std::type_index(typeid(SysType::OriginType));
 	assert(_systemsMap.count(index) == 0);
 
 	_systems.emplace_back(sys);
@@ -51,7 +54,10 @@ void World::addSystem(const std::shared_ptr<SysType>& sys)
 template<typename SysType>
 std::shared_ptr<SysType> World::getSystem() const
 {
-	std::type_index index = std::type_index(typeid(SysType));
+	static_assert(!std::is_same_v<System, SysType>);
+	static_assert(!std::is_same_v<SystemCommon<SysType::OriginType>, SysType>);
+
+	std::type_index index = std::type_index(typeid(SysType::OriginType));
 
 	auto foundIt = _systemsMap.find(index);
 	if (foundIt != _systemsMap.end()) {

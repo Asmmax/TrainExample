@@ -8,7 +8,8 @@
 #include "ACurve.hpp"
 
 TrackedComponent::TrackedComponent():
-	_velocity(0.0f)
+	_velocity(0.0f),
+	_parameter(0.0f)
 {
 }
 

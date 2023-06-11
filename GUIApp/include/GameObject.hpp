@@ -38,26 +38,24 @@ public:
 template<typename CompType>
 void GameObject::addComponent(const std::shared_ptr<CompType>& comp)
 {
-	std::type_index index = std::type_index(typeid(CompType));
+	static_assert(!std::is_same_v<Component, CompType>);
+	static_assert(!std::is_same_v<ComponentCommon<CompType::OriginType>, CompType>);
+
+	std::type_index index = std::type_index(typeid(CompType::OriginType));
 	assert(_componentsMap.count(index) == 0);
 
 	comp->setOwner(this);
 	_components.emplace_back(comp);
 	_componentsMap.emplace(index, comp);
-
-	if (!std::is_same_v<Component, CompType::OriginType> &&
-		!std::is_same_v<CompType, CompType::OriginType>) {
-		std::type_index parentIndex = std::type_index(typeid(CompType::OriginType));
-		assert(_componentsMap.count(parentIndex) == 0);
-
-		_componentsMap.emplace(parentIndex, comp);
-	}
 }
 
 template<typename CompType>
 std::shared_ptr<CompType> GameObject::getComponent() const
 {
-	std::type_index index = std::type_index(typeid(CompType));
+	static_assert(!std::is_same_v<Component, CompType>);
+	static_assert(!std::is_same_v<ComponentCommon<CompType::OriginType>, CompType>);
+
+	std::type_index index = std::type_index(typeid(CompType::OriginType));
 
 	auto foundIt = _componentsMap.find(index);
 	if (foundIt != _componentsMap.end()) {

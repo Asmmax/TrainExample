@@ -6,25 +6,6 @@
 #include "assets/SystemGroupAsset.hpp"
 #include "assets/SceneAsset.hpp"
 
-#include "TrainBuilder.hpp"
-
-
-void initWorld(World* world)
-{
-	//load path
-	auto path = AssetManager::getInstance().getAsset<ACurve>("curves/path");
-
-	//load materials
-	auto trainMat = AssetManager::getInstance().getAsset<MaterialAsset>("materials/train");
-
-	//load meshes
-	auto cube_mesh = AssetManager::getInstance().getAsset<MeshAsset>("meshes/cube");
-
-	// create background objects
-	TrainBuilder train(path, 8, 2.0f);
-	train.Build(world, cube_mesh, trainMat);
-}
-
 int main()
 {
 	// initialization
@@ -44,8 +25,6 @@ int main()
 
 	auto scene = AssetManager::getInstance().getAsset<SceneAsset>("scenes/train_scene");
 	scene->attachTo(*world);
-
-	initWorld(world.get());
 
 	world->init();;
 

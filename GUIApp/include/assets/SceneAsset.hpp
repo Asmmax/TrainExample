@@ -1,28 +1,20 @@
 #pragma once
-#include "Containers/Context.hpp"
-#include <vector>
 #include <memory>
+#include <vector>
 
-class Component;
 class World;
+class SceneUnit;
 
 /// @serializable @shared scenes
 class SceneAsset
 {
-	using ComponentPtr = std::shared_ptr<Component>;
-public:
-	using SceneUnit = std::vector<ComponentPtr>;
+	using UnitPtr = std::shared_ptr<SceneUnit>;
 
 private:
-	std::vector<SceneUnit> _units;
+	std::vector<UnitPtr> _units;
 
 public:
-	SceneAsset();
+	SceneAsset(const std::vector<UnitPtr>& units);
 
-	/// @inject
-	void setUnits(const std::vector<SceneUnit>& objects);
-
-	void attachTo(World& world);
+	virtual void attachTo(World& world);
 };
-
-DECLARE_READER(SceneAsset::SceneUnit)
