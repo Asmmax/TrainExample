@@ -48,6 +48,38 @@ public:
 			_compReader->Init(child);
 		}
 	}
+
+	void PrepareCache(const nlohmann::json& node) override
+	{
+		for (auto& child : node) {
+			_compReader->PrepareCache(child);
+		}
+	}
+
+	void CleanupCache(const nlohmann::json& node) override
+	{
+		for (auto& child : node) {
+			_compReader->CleanupCache(child);
+		}
+	}
+
+	SceneObject CreateViaCache(const nlohmann::json& node) override
+	{
+		SceneObject object;
+		object.reserve(node.size());
+		for (auto& child : node) {
+			auto comp = _compReader->CreateViaCache(child);
+			object.push_back(comp);
+		}
+		return object;
+	}
+
+	void InitViaCache(const nlohmann::json& node) override
+	{
+		for (auto& child : node) {
+			_compReader->InitViaCache(child);
+		}
+	}
 };
 
 template<>

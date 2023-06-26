@@ -12,6 +12,23 @@ public:
 	void Init(const nlohmann::json& /*node*/) override
 	{
 	}
+
+	void PrepareCache(const nlohmann::json& /*node*/) override
+	{
+	}
+
+	void CleanupCache(const nlohmann::json& /*node*/) override
+	{
+	}
+
+	glm::vec3 CreateViaCache(const nlohmann::json& node) override
+	{
+		return Create(node);
+	}
+
+	void InitViaCache(const nlohmann::json& /*node*/) override
+	{
+	}
 };
 
 template<>
