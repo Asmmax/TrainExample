@@ -21,6 +21,7 @@ private:
 	Ptr _original;
 
 public:
+	/// @inject @prototyping original
 	OverriddenSceneUnit(const Ptr& original, const std::vector<SceneObjectChange>& changes, const std::vector<SceneObject>& objects);
 
 private:

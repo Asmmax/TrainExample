@@ -192,7 +192,7 @@
 	{
 		"id":"train_1_prefab",
 		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_1/main",
+		"original":"prefabs/train_block/main",
 		"changes":[
 		{
 			"type":"SceneObjectChange",
@@ -205,7 +205,7 @@
 	{
 		"id":"train_2_prefab",
 		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_2/main",
+		"original":"prefabs/train_block/main",
 		"changes":[
 		{
 			"type":"SceneObjectChange",
@@ -218,7 +218,7 @@
 	{
 		"id":"train_3_prefab",
 		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_3/main",
+		"original":"prefabs/train_block/main",
 		"changes":[
 		{
 			"type":"SceneObjectChange",
@@ -231,7 +231,7 @@
 	{
 		"id":"train_4_prefab",
 		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_4/main",
+		"original":"prefabs/train_block/main",
 		"changes":[
 		{
 			"type":"SceneObjectChange",
@@ -244,7 +244,7 @@
 	{
 		"id":"train_5_prefab",
 		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_5/main",
+		"original":"prefabs/train_block/main",
 		"changes":[
 		{
 			"type":"SceneObjectChange",
@@ -257,7 +257,7 @@
 	{
 		"id":"train_6_prefab",
 		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_6/main",
+		"original":"prefabs/train_block/main",
 		"changes":[
 		{
 			"type":"SceneObjectChange",
@@ -270,7 +270,7 @@
 	{
 		"id":"train_7_prefab",
 		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_7/main",
+		"original":"prefabs/train_block/main",
 		"changes":[
 		{
 			"type":"SceneObjectChange",
