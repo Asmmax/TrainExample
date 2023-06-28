@@ -1,4 +1,38 @@
 {
+	"contextCopies":[
+	{
+		"id":"prefabs/train_head",
+		"original":"prefabs/train_block"
+	},
+	{
+		"id":"prefabs/train_1",
+		"original":"prefabs/train_block"
+	},
+	{
+		"id":"prefabs/train_2",
+		"original":"prefabs/train_block"
+	},
+	{
+		"id":"prefabs/train_3",
+		"original":"prefabs/train_block"
+	},
+	{
+		"id":"prefabs/train_4",
+		"original":"prefabs/train_block"
+	},
+	{
+		"id":"prefabs/train_5",
+		"original":"prefabs/train_block"
+	},
+	{
+		"id":"prefabs/train_6",
+		"original":"prefabs/train_block"
+	},
+	{
+		"id":"prefabs/train_7",
+		"original":"prefabs/train_block"
+	}
+	],
 	"components":[
 	{
 		"id":"sun_transform",
@@ -98,7 +132,7 @@
 		"position":[0.0, 0.0, 0.0],
 		"rotation":[0.0, 0.0, 0.0],
 		"scale":[1.0, 1.0, 1.0],
-		"children":["projector_transform", "prefabs/train_block/block_transform"]
+		"children":["projector_transform", "prefabs/train_head/block_transform"]
 	},
 	{
 		"id":"projector_transform",
@@ -177,7 +211,7 @@
 	{
 		"id":"train_head_prefab",
 		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_block/main",
+		"original":"prefabs/train_head/main",
 		"changes":[
 		{
 			"type":"SceneObjectChange",

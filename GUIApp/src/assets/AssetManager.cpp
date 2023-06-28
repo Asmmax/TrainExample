@@ -1,4 +1,5 @@
 #include "assets/AssetManager.hpp"
+#include "Containers/ContextManagerImpl.hpp"
 
 AssetManager& AssetManager::getInstance()
 {
@@ -13,6 +14,8 @@ AssetManager::AssetManager():
 
 void AssetManager::init(const std::string& config, Loader* loader)
 {
+	ContextManager::Instance().BindImpl(std::make_shared<ContextManagerImpl>());
+
 	_path = std::make_unique<Path>(config);
 	_loader = loader;
 

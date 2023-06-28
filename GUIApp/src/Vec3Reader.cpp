@@ -4,12 +4,12 @@
 class Vec3Reader : public IReaderStrategy<glm::vec3>
 {
 public:
-	glm::vec3 Create(const nlohmann::json& node) override
+	glm::vec3 Create(Context* /*context*/, const nlohmann::json& node) override
 	{
 		return glm::vec3{ node[0].get<float>(), node[1].get<float>(), node[2].get<float>() };
 	}
 
-	void Init(const nlohmann::json& /*node*/) override
+	void Init(Context* /*context*/, const nlohmann::json& /*node*/) override
 	{
 	}
 };

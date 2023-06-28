@@ -19,33 +19,24 @@ void SceneUnit::attachTo(World& world)
 
 class SceneObjectReader : public IReaderStrategy<SceneObject>
 {
-	using CompPtr = std::shared_ptr<Component>;
-	using ComopReaderPtr = std::shared_ptr<IReaderStrategy<CompPtr>>;
-
-private:
-	ComopReaderPtr _compReader;
-
 public:
-	SceneObjectReader(const ComopReaderPtr& compReader):
-		_compReader(compReader)
+	SceneObject Create(Context* context, const nlohmann::json& node) override
 	{
-	}
-
-	SceneObject Create(const nlohmann::json& node) override
-	{
+		auto compReader = context->GetReader<std::shared_ptr<Component>>();
 		SceneObject object;
 		object.reserve(node.size());
 		for (auto& child : node) {
-			auto comp = _compReader->Create(child);
+			auto comp = compReader->Create(context, child);
 			object.push_back(comp);
 		}
 		return object;
 	}
 
-	void Init(const nlohmann::json& node) override
+	void Init(Context* context, const nlohmann::json& node) override
 	{
+		auto compReader = context->GetReader<std::shared_ptr<Component>>();
 		for (auto& child : node) {
-			_compReader->Init(child);
+			compReader->Init(context, child);
 		}
 	}
 };
@@ -53,6 +44,5 @@ public:
 template<>
 std::shared_ptr<IReaderStrategy<SceneObject>> Context::GetReader()
 {
-	auto compReader = GetReader<std::shared_ptr<Component>>();
-	return std::make_shared<SceneObjectReader>(compReader);
+	return std::make_shared<SceneObjectReader>();
 }
