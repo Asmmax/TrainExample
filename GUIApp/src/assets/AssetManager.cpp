@@ -24,4 +24,5 @@ void AssetManager::init(const std::string& config, Loader* loader)
 		ContextManager::Instance().AddRoot(jsonAsset, contextId);
 	}
 	ContextManager::Instance().Read();
+	ContextManager::Instance().Resolve();
 }
