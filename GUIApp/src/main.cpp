@@ -23,7 +23,7 @@ int main()
 	systemsConfig->init(window);
 	systemsConfig->attachTo(*world);
 
-	auto scene = AssetManager::getInstance().getAsset<SceneAsset>("scenes/train_scene");
+	auto scene = AssetManager::getInstance().cloneAsset<SceneAsset>("scenes/train_scene");
 	scene->attachTo(*world);
 
 	world->init();;
