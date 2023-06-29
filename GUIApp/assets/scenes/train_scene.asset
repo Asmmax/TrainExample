@@ -1,36 +1,8 @@
 {
 	"contextCopies":[
 	{
-		"id":"prefabs/train_head",
-		"original":"prefabs/train_block"
-	},
-	{
-		"id":"prefabs/train_1",
-		"original":"prefabs/train_block"
-	},
-	{
-		"id":"prefabs/train_2",
-		"original":"prefabs/train_block"
-	},
-	{
-		"id":"prefabs/train_3",
-		"original":"prefabs/train_block"
-	},
-	{
-		"id":"prefabs/train_4",
-		"original":"prefabs/train_block"
-	},
-	{
-		"id":"prefabs/train_5",
-		"original":"prefabs/train_block"
-	},
-	{
-		"id":"prefabs/train_6",
-		"original":"prefabs/train_block"
-	},
-	{
-		"id":"prefabs/train_7",
-		"original":"prefabs/train_block"
+		"id":"prefabs/train_prefab",
+		"original":"prefabs/train"
 	}
 	],
 	"components":[
@@ -125,194 +97,20 @@
 		"type":"RenderComponent",
 		"mesh":"meshes/sleepers/main",
 		"material":"materials/wood/main"
-	},
-	{
-		"id":"head_transform",
-		"type":"TransformComponent",
-		"position":[0.0, 0.0, 0.0],
-		"rotation":[0.0, 0.0, 0.0],
-		"scale":[1.0, 1.0, 1.0],
-		"children":["projector_transform", "prefabs/train_head/block_transform"]
-	},
-	{
-		"id":"projector_transform",
-		"type":"TransformComponent",
-		"position":[0.0, 10.0, -5.0],
-		"rotation":[0.0, 0.0, 0.0],
-		"scale":[1.0, 1.0, 1.0],
-		"children":[]
-	},
-	{
-		"id":"projector_light",
-		"type":"LightComponent",
-		"radius":10.0,
-		"intensity":1.0,
-		"fadingArea":10.0,
-		"color":[1.0, 1.0, 0.0]
-	},
-	{
-		"id":"phys_0",
-		"type":"TrackedComponent",
-		"path":"curves/path/main",
-		"velocity":2.0,
-		"param":0.173462182
-	},
-	{
-		"id":"phys_1",
-		"type":"TrackedComponent",
-		"path":"curves/path/main",
-		"velocity":2.0,
-		"param":0.142955571
-	},
-	{
-		"id":"phys_2",
-		"type":"TrackedComponent",
-		"path":"curves/path/main",
-		"velocity":2.0,
-		"param":0.113323458
-	},
-	{
-		"id":"phys_3",
-		"type":"TrackedComponent",
-		"path":"curves/path/main",
-		"velocity":2.0,
-		"param":0.0873330012
-	},
-	{
-		"id":"phys_4",
-		"type":"TrackedComponent",
-		"path":"curves/path/main",
-		"velocity":2.0,
-		"param":0.0639656335
-	},
-	{
-		"id":"phys_5",
-		"type":"TrackedComponent",
-		"path":"curves/path/main",
-		"velocity":2.0,
-		"param":0.0420847312
-	},
-	{
-		"id":"phys_6",
-		"type":"TrackedComponent",
-		"path":"curves/path/main",
-		"velocity":2.0,
-		"param":0.0209480505
-	},
-	{
-		"id":"phys_7",
-		"type":"TrackedComponent",
-		"path":"curves/path/main",
-		"velocity":2.0,
-		"param":0.0
 	}
 	],
 	"units":[
 	{
-		"id":"train_head_prefab",
+		"id":"train_prefab",
 		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_head/main",
-		"changes":[
+		"objects":[],
+		"units":[
 		{
-			"type":"SceneObjectChange",
-			"objectId":0,
-			"overrides":["head_transform", "phys_0"]
+			"type":"SceneUnitChange",
+			"original":"prefabs/train_prefab/main",
+			"changes":[]
 		}
-		],
-		"objects":[
-			["projector_transform", "projector_light"]
 		]
-	},
-	{
-		"id":"train_1_prefab",
-		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_1/main",
-		"changes":[
-		{
-			"type":"SceneObjectChange",
-			"objectId":0,
-			"overrides":["phys_1"]
-		}
-		],
-		"objects":[]
-	},
-	{
-		"id":"train_2_prefab",
-		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_2/main",
-		"changes":[
-		{
-			"type":"SceneObjectChange",
-			"objectId":0,
-			"overrides":["phys_2"]
-		}
-		],
-		"objects":[]
-	},
-	{
-		"id":"train_3_prefab",
-		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_3/main",
-		"changes":[
-		{
-			"type":"SceneObjectChange",
-			"objectId":0,
-			"overrides":["phys_3"]
-		}
-		],
-		"objects":[]
-	},
-	{
-		"id":"train_4_prefab",
-		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_4/main",
-		"changes":[
-		{
-			"type":"SceneObjectChange",
-			"objectId":0,
-			"overrides":["phys_4"]
-		}
-		],
-		"objects":[]
-	},
-	{
-		"id":"train_5_prefab",
-		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_5/main",
-		"changes":[
-		{
-			"type":"SceneObjectChange",
-			"objectId":0,
-			"overrides":["phys_5"]
-		}
-		],
-		"objects":[]
-	},
-	{
-		"id":"train_6_prefab",
-		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_6/main",
-		"changes":[
-		{
-			"type":"SceneObjectChange",
-			"objectId":0,
-			"overrides":["phys_6"]
-		}
-		],
-		"objects":[]
-	},
-	{
-		"id":"train_7_prefab",
-		"type":"OverriddenSceneUnit",
-		"original":"prefabs/train_7/main",
-		"changes":[
-		{
-			"type":"SceneObjectChange",
-			"objectId":0,
-			"overrides":["phys_7"]
-		}
-		],
-		"objects":[]
 	},
 	{
 		"id":"main",
@@ -334,14 +132,7 @@
 		"type":"SceneAsset",
 		"units":[
 			"main",
-			"train_head_prefab",
-			"train_1_prefab",
-			"train_2_prefab",
-			"train_3_prefab",
-			"train_4_prefab",
-			"train_5_prefab",
-			"train_6_prefab",
-			"train_7_prefab"
+			"train_prefab"
 		]
 	}
 	]

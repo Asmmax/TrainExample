@@ -3,11 +3,17 @@
 #include "World.hpp"
 #include <algorithm>
 
-OverriddenSceneUnit::OverriddenSceneUnit(const Ptr& original, const std::vector<SceneObjectChange>& changes, const std::vector<SceneObject>& objects):
-	SceneUnit(objects),
-	_original(original)
+OverriddenSceneUnit::OverriddenSceneUnit(const std::vector<SceneObject>& objects, const std::vector<SceneUnitChange>& units):
+	SceneUnit(objects)
 {
-	auto& origObjects = _original->getObjects();
+	for (auto& unitChanges : units) {
+		addOverridenUnit(unitChanges.original, unitChanges.changes);
+	}
+}
+
+void OverriddenSceneUnit::addOverridenUnit(const Ptr& original, const std::vector<SceneObjectChange>& changes)
+{
+	auto& origObjects = original->getObjects();
 	for (size_t objectId = 0; objectId < origObjects.size(); objectId++) {
 		auto foundChange = std::find_if(changes.begin(), changes.end(), [objectId](const SceneObjectChange& change) {
 			return change.objectId == objectId;

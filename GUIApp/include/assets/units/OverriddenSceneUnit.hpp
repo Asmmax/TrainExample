@@ -13,16 +13,21 @@ struct SceneObjectChange
 };
 
 /// @serializable
+struct SceneUnitChange
+{
+	std::shared_ptr<SceneUnit> original;
+	std::vector<SceneObjectChange> changes;
+};
+
+/// @serializable
 class OverriddenSceneUnit : public SceneUnit
 {
 	using CompPtr = std::shared_ptr<Component>;
 
-private:
-	Ptr _original;
-
 public:
-	OverriddenSceneUnit(const Ptr& original, const std::vector<SceneObjectChange>& changes, const std::vector<SceneObject>& objects);
+	OverriddenSceneUnit(const std::vector<SceneObject>& objects, const std::vector<SceneUnitChange>& units);
 
 private:
+	void addOverridenUnit(const Ptr& original, const std::vector<SceneObjectChange>& changes);
 	static SceneObject overrideObject(const SceneObject& original, const std::vector<CompPtr>& overrides);
 };
