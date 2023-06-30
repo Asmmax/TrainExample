@@ -2,9 +2,10 @@
 
 #include <memory>
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include <typeindex>
 #include <typeinfo>
+#include <string>
 #include <assert.h>
 
 class GameObject;
@@ -21,6 +22,7 @@ public:
 	~World();
 
 	GameObjectPtr createGameObject();
+	std::vector<GameObjectPtr> spawn(const std::string& assetId);
 
 	template<typename SysType>
 	void addSystem(const std::shared_ptr<SysType>& sys);
@@ -30,12 +32,13 @@ public:
 
 	void init();
 	void update(float delta_time);
+	void deinit();
 
 private:
 	std::vector<GameObjectPtr> _game_objects;
 
 	std::vector<SystemPtr> _systems;
-	std::unordered_map<std::type_index, SystemPtr> _systemsMap;
+	std::map<std::type_index, SystemPtr> _systemsMap;
 };
 
 template<typename SysType>

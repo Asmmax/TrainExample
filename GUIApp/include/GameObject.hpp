@@ -25,6 +25,7 @@ public:
 
 	void init();
 	void update(float delta_time);
+	void deinit();
 
 	World* getWorld() { return _world; }
 

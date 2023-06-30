@@ -21,3 +21,10 @@ void GameObject::update(float delta_time)
 		component->update(delta_time);
 	}
 }
+
+void GameObject::deinit()
+{
+	for (auto component : _components) {
+		component->deinit();
+	}
+}

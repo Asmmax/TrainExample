@@ -26,7 +26,7 @@ int main()
 	auto scene = AssetManager::getInstance().cloneAsset<SceneAsset>("scenes/train_scene");
 	scene->attachTo(*world);
 
-	world->init();;
+	world->init();
 
 	// main loop
 	float lastFrame = 0.0f;
@@ -40,5 +40,8 @@ int main()
 
 		world->update(deltaTime);
 	}
+
+	world->deinit();
+
 	return 0;
 }

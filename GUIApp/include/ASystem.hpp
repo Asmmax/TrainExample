@@ -16,6 +16,7 @@ public:
 
 	virtual void init() = 0;
 	virtual void update(float delta_time) = 0;
+	virtual void deinit() {}
 
 	virtual void setWindow(Window* /*window*/) {}
 	virtual void attachTo(World& world) = 0;

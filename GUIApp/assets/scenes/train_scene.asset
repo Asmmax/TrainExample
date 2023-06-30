@@ -1,10 +1,4 @@
 {
-	"contextCopies":[
-	{
-		"id":"prefabs/train_prefab",
-		"original":"prefabs/train"
-	}
-	],
 	"components":[
 	{
 		"id":"sun_transform",
@@ -47,6 +41,11 @@
 		"id":"player",
 		"type":"CameraManipulator",
 		"eye":"camera_eye_transform"
+	},
+	{
+		"id":"spawner",
+		"type":"SpawnerComponent",
+		"trainId":"prefabs/train"
 	},
 	{
 		"id":"plane_transform",
@@ -101,23 +100,11 @@
 	],
 	"units":[
 	{
-		"id":"train_prefab",
-		"type":"OverriddenSceneUnit",
-		"objects":[],
-		"units":[
-		{
-			"type":"SceneUnitChange",
-			"original":"prefabs/train_prefab/main",
-			"changes":[]
-		}
-		]
-	},
-	{
 		"id":"main",
 		"type":"SceneUnit",
 		"objects":[
 			["sun_transform", "sun_light"],
-			["camera_target_transform", "player"],
+			["camera_target_transform", "player", "spawner"],
 			["camera_eye_transform", "main_camera"],
 			["plane_transform", "plane_graphics"],
 			["rails_group_transform"],
@@ -131,8 +118,7 @@
 		"id":"main",
 		"type":"SceneAsset",
 		"units":[
-			"main",
-			"train_prefab"
+			"main"
 		]
 	}
 	]

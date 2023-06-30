@@ -4,6 +4,7 @@
 #include <memory>
 
 class Component;
+class GameObject;
 class World;
 
 using SceneObject = std::vector<std::shared_ptr<Component>>;
@@ -21,6 +22,6 @@ protected:
 public:
 	SceneUnit(const std::vector<SceneObject>& objects);
 
-	void attachTo(World& world);
+	std::vector<std::shared_ptr<GameObject>> attachTo(World& world);
 	const std::vector<SceneObject>& getObjects() const { return _objects; }
 };

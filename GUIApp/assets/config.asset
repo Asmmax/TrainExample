@@ -5,7 +5,14 @@
 		"type":"SystemGroupAsset",
 		"systems":[
 		{
-			"type":"InputSystem"
+			"type": "InputSystem",
+			"actions": [
+				{
+					"type": "Action",
+					"name": "Spawn",
+					"keys": [ "KEY_SPACE" ]
+				}
+			]
 		},
 		{
 			"type":"PhysicalSystem",

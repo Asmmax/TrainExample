@@ -18,6 +18,7 @@ public:
 
 	virtual void init() = 0;
 	virtual void update(float delta_time) {}
+	virtual void deinit() {}
 
 	virtual void attachTo(GameObject& object) = 0;
 	virtual bool isSameType(const Component* component) const = 0;
