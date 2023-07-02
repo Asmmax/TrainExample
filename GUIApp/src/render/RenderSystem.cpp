@@ -14,14 +14,9 @@ RenderSystem::RenderSystem():
 
 void RenderSystem::init()
 {
-	_mainCamera->init(_window);
-
-	for (auto& camera : _cameras) {
-		camera->init(_window);
-	}
 }
 
-void RenderSystem::update(float delta_time)
+void RenderSystem::postUpdate(float delta_time)
 {
 	for (auto& light : _pointLights) {
 		light->update();
@@ -50,6 +45,7 @@ void RenderSystem::setWindow(Window* window)
 std::shared_ptr<CameraView> RenderSystem::createCameraView(const std::shared_ptr<Transform>& transform)
 {
 	auto newCamera = std::make_shared<CameraView>(transform);
+	newCamera->init(_window);
 	_cameras.push_back(newCamera);
 	return newCamera;
 }

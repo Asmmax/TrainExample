@@ -4,6 +4,7 @@
 #include "common/Transform.hpp"
 #include "input/InputSystem.hpp"
 #include "World.hpp"
+#include <glm/glm.hpp>
 
 CameraManipulator::CameraManipulator() :
 	_storagedRotation(1.0f, 0.0f, 0.0f ,0.0f),
@@ -16,6 +17,11 @@ void CameraManipulator::init()
 {
 	auto transformComp = getOwner()->getComponent<TransformComponent>();
 	_storagedRotation = transformComp->getTransform()->getLocalRotation();
+
+	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
+	if (inputSystem) {
+		inputSystem->setMouseCaptureMode(MouseCaptureMode::WHILE_MOUSE_PRESSED);
+	}
 }
 
 void CameraManipulator::update(float delta_time)
@@ -27,10 +33,10 @@ void CameraManipulator::update(float delta_time)
 
 	auto transformComp = getOwner()->getComponent<TransformComponent>();
 
-	float deltaX = static_cast<float>(inputSystem->GetXDelta());
-	float deltaY = static_cast<float>(inputSystem->GetYDelta());
+	float deltaX = inputSystem->getAxisValue("Horizontal") * 100.0f;
+	float deltaY = inputSystem->getAxisValue("Vertical") * 100.0f;
 
-	if (inputSystem->isLeftButtonPressed()) {
+	if (inputSystem->isActionPressed("MouseSupport")) {
 
 		if (deltaX != 0.0f || deltaY != 0.0f) {
 
@@ -51,11 +57,11 @@ void CameraManipulator::update(float delta_time)
 		_storagedRotation = transformComp->getTransform()->getLocalRotation();
 	}
 
-	double scale = inputSystem->GetScrollDelta();
+	float scale = glm::pow(1.2f, 20.0f*inputSystem->getAxisValue("Zoom"));
 
 	auto eyeTransform = _eye->getTransform();
 	auto position = eyeTransform->getLocalPosition();
-	position.z *= static_cast<float>(scale);
+	position.z *= scale;
 	eyeTransform->setPosition(position);
 }
 

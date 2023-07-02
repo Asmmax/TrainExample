@@ -8,6 +8,7 @@ class CameraView
 {
 private:
 	std::shared_ptr<ICameraView> _slaveImpl;
+	std::shared_ptr<ICameraView> _mainImpl;
 	std::shared_ptr<ICameraView> _impl;
 	std::shared_ptr<Transform> _transform;
 

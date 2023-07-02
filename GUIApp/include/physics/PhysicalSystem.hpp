@@ -19,7 +19,7 @@ public:
 	PhysicalSystem(float fixedTime);
 
 	void init() override;
-	void update(float delta_time) override;
+	void postUpdate(float delta_time) override;
 
 	void addEntity(const EntityPtr& entity);
 

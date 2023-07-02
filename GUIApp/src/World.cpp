@@ -31,33 +31,37 @@ std::vector<std::shared_ptr<GameObject>> World::spawn(const std::string& assetId
 
 void World::init()
 {
-	for (auto& game_object : _game_objects) {
-		game_object->init();
-	}
-
 	for (auto& system : _systems) {
 		system->init();
+	}
+
+	for (auto& game_object : _game_objects) {
+		game_object->init();
 	}
 }
 
 void World::update(float delta_time)
 {
+	for (auto& system : _systems) {
+		system->update(delta_time);
+	}
+
 	for (auto& game_object : _game_objects) {
 		game_object->update(delta_time);
 	}
 
 	for (auto& system : _systems) {
-		system->update(delta_time);
+		system->postUpdate(delta_time);
 	}
 }
 
 void World::deinit()
 {
-	for (auto& system : _systems) {
-		system->deinit();
-	}
-
 	for (auto& game_object : _game_objects) {
 		game_object->deinit();
+	}
+
+	for (auto& system : _systems) {
+		system->deinit();
 	}
 }

@@ -11,16 +11,13 @@ class TransformSystem : public SystemCommon<TransformSystem>
 	using TransformPtr = std::shared_ptr<Transform>;
 
 private:
-	std::vector<TransformPtr> _transforms;
-	std::vector<TransformPtr> _pendingAdd;
-	std::vector<TransformPtr> _pendingRemove;
-	bool _isInited;
+	std::vector<TransformPtr> _roots;
 
 public:
 	TransformSystem();
 
 	void init() override;
-	void update(float delta_time) override;
+	void postUpdate(float delta_time) override;
 
 	void addTransform(const TransformPtr& tranform);
 	void removeTransform(const TransformPtr& tranform);

@@ -11,7 +11,7 @@ void PhysicalSystem::init()
 {
 }
 
-void PhysicalSystem::update(float delta_time)
+void PhysicalSystem::postUpdate(float delta_time)
 {
 	_time_redundant += delta_time;
 	while (_time_redundant >= _fixed_time) {

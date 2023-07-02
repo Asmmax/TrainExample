@@ -5,6 +5,7 @@
 
 CameraView::CameraView(const std::shared_ptr<Transform>& transform):
 	_slaveImpl(std::make_shared<CameraViewImpl>()),
+	_mainImpl(std::make_shared<MainCameraViewImpl>()),
 	_impl(_slaveImpl),
 	_transform(transform)
 {
@@ -12,7 +13,7 @@ CameraView::CameraView(const std::shared_ptr<Transform>& transform):
 
 void CameraView::init(Window* window)
 {
-	_impl->init(window);
+	_mainImpl->init(window);
 	_slaveImpl->init(window);
 }
 
@@ -38,6 +39,5 @@ void CameraView::setSlave()
 
 void CameraView::setMain()
 {
-	static std::shared_ptr<MainCameraViewImpl> mainImpl = std::make_shared<MainCameraViewImpl>();
-	_impl = mainImpl;
+	_impl = _mainImpl;
 }
