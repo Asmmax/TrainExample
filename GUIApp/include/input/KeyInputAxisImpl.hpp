@@ -12,11 +12,12 @@ private:
 
 	float _value;
 	float _smooth;
+	float _minSpeed;
 	InputActionPtr _positiveAction;
 	InputActionPtr _negativeAction;
 
 public:
-	KeyInputAxisImpl(const InputActionPtr& negativeAction, const InputActionPtr& positiveAction, float smooth);
+	KeyInputAxisImpl(const InputActionPtr& negativeAction, const InputActionPtr& positiveAction, float smooth, float minSpeed);
 
 	void init(InputDistributor* distributor) override;
 	void update(float deltaTime) override;

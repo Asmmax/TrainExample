@@ -45,7 +45,8 @@
 								"type": "MouseInputAxisImpl",
 								"axis": "HORIZONTAL",
 								"sensitivity": 1.0,
-								"smooth": 0.02
+								"smooth": 0.02,
+								"minSpeed": 0.01
 							},
 							{
 								"type": "KeyInputAxisImpl",
@@ -67,7 +68,8 @@
 										}
 									]
 								},
-								"smooth": 0.1
+								"smooth": 0.1,
+								"minSpeed": 0.2
 							}
 						]
 					}
@@ -82,7 +84,8 @@
 								"type": "MouseInputAxisImpl",
 								"axis": "VERTICAL",
 								"sensitivity": 1.0,
-								"smooth": 0.02
+								"smooth": 0.02,
+								"minSpeed": 0.01
 							},
 							{
 								"type": "KeyInputAxisImpl",
@@ -104,7 +107,8 @@
 										}
 									]
 								},
-								"smooth": 0.1
+								"smooth": 0.1,
+								"minSpeed": 0.2
 							}
 						]
 					}
@@ -119,7 +123,8 @@
 								"type": "MouseInputAxisImpl",
 								"axis": "SCROLL",
 								"sensitivity": 3.0,
-								"smooth": 0.1
+								"smooth": 0.1,
+								"minSpeed": 0.05
 							},
 							{
 								"type": "KeyInputAxisImpl",
@@ -149,7 +154,8 @@
 										}
 									]
 								},
-								"smooth": 0.1
+								"smooth": 0.1,
+								"minSpeed": 0.1
 							}
 						]
 					}
