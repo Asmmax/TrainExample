@@ -17,5 +17,6 @@ public:
 
 	void init(InputDistributor* distributor);
 	void update(float deltaTime);
+	void fixedUpdate(float deltaTime);
 	float getValue() const;
 };

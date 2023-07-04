@@ -48,6 +48,10 @@ void KeyInputAxisImpl::update(float deltaTime)
 	_value = glm::mix(targetValue, _value, factor);
 }
 
+void KeyInputAxisImpl::fixedUpdate(float deltaTime)
+{
+}
+
 float KeyInputAxisImpl::getValue() const
 {
 	return _value;

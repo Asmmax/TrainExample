@@ -18,6 +18,7 @@ private:
 	float _smooth;
 	float _minSpeed;
 	float _value;
+	float _rawValue;
 
 	double _lastXPos;
 	double _lastYPos;
@@ -30,6 +31,7 @@ public:
 
 	void init(InputDistributor* distributor) override;
 	void update(float deltaTime) override;
+	void fixedUpdate(float deltaTime) override;
 	float getValue() const override;
 
 private:

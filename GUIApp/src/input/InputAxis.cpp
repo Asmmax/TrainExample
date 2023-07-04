@@ -20,6 +20,13 @@ void InputAxis::update(float deltaTime)
 	}
 }
 
+void InputAxis::fixedUpdate(float deltaTime)
+{
+	for (auto& axisImpl : _impls) {
+		axisImpl->fixedUpdate(deltaTime);
+	}
+}
+
 float InputAxis::getValue() const
 {
 	float avgValue = 0.f;

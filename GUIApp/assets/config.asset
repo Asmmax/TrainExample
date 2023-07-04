@@ -6,6 +6,7 @@
 		"systems":[
 		{
 			"type": "InputSystem",
+			"fixedTime": 0.02,
 			"actions": [
 				{
 					"type": "InputActionEntry",

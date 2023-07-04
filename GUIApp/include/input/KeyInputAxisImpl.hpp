@@ -21,5 +21,6 @@ public:
 
 	void init(InputDistributor* distributor) override;
 	void update(float deltaTime) override;
+	void fixedUpdate(float deltaTime) override;
 	float getValue() const override;
 };

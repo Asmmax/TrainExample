@@ -41,13 +41,15 @@ private:
 
 	bool _needMouseCaptureWhileMousePressed;
 	bool _mousePressed;
+	float _fixedTime;
+	float _timeRedutant;
 
 	std::shared_ptr<InputDistributor> _distributor;
 	std::unordered_map<std::string, InputActionPtr> _actions;
 	std::unordered_map<std::string, InputAxisPtr> _axes;
 
 public:
-	explicit InputSystem(const std::vector<InputActionEntry>& actions, const std::vector<InputAxisEntry>& axes);
+	explicit InputSystem(const std::vector<InputActionEntry>& actions, const std::vector<InputAxisEntry>& axes, float fixedTime);
 
 	void init() override;
 	void update(float delta_time) override;
@@ -63,4 +65,7 @@ public:
 	void bindToActionReleased(const std::string& name, void* owner, const std::function<void()>& callback);
 	void unbindAllActionPressed(const std::string& name, void* owner);
 	void unbindAllActionReleased(const std::string& name, void* owner);
+
+protected:
+	void fixedUpdate();
 };

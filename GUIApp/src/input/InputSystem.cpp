@@ -5,10 +5,12 @@
 #include "input/InputDistributor.hpp"
 #include <glm/glm.hpp>
 
-InputSystem::InputSystem(const std::vector<InputActionEntry>& actions, const std::vector<InputAxisEntry>& axes) :
+InputSystem::InputSystem(const std::vector<InputActionEntry>& actions, const std::vector<InputAxisEntry>& axes, float fixedTime) :
 	_window(nullptr),
 	_needMouseCaptureWhileMousePressed(false),
 	_mousePressed(false),
+	_fixedTime(fixedTime),
+	_timeRedutant(0.f),
 	_distributor(std::make_shared<InputDistributor>())
 {
 	for (auto& actionEntry : actions) {
@@ -49,6 +51,12 @@ void InputSystem::init()
 
 void InputSystem::update(float delta_time)
 {
+	_timeRedutant += delta_time;
+	while (_timeRedutant >= _fixedTime) {
+		_timeRedutant -= _fixedTime;
+		fixedUpdate();
+	}
+
 	for (auto& axis : _axes) {
 		axis.second->update(delta_time);
 	}
@@ -119,4 +127,11 @@ void InputSystem::unbindAllActionReleased(const std::string& name, void* owner)
 {
 	assert(_actions.find(name) != _actions.end());
 	_actions.at(name)->unbindAllReleased(owner);
+}
+
+void InputSystem::fixedUpdate()
+{
+	for (auto& axis : _axes) {
+		axis.second->fixedUpdate(_fixedTime);
+	}
 }

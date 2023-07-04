@@ -8,6 +8,7 @@ MouseInputAxisImpl::MouseInputAxisImpl(MouseAxis axis, float sensitivity, float 
 	_smooth(smooth),
 	_minSpeed(minSpeed),
 	_value(0.0f),
+	_rawValue(0.0f),
 	_lastXPos(0),
 	_lastYPos(0),
 	_xPos(0.0),
@@ -45,7 +46,13 @@ void MouseInputAxisImpl::init(InputDistributor* distributor)
 
 void MouseInputAxisImpl::update(float deltaTime)
 {
-	const float targetValue = getDelta() * _sensitivity;
+	_rawValue += getDelta() * _sensitivity;
+}
+
+void MouseInputAxisImpl::fixedUpdate(float deltaTime)
+{
+	const float targetValue = _rawValue;
+	_rawValue = 0.f;
 
 	if (_smooth < 1e-6) {
 		_value = targetValue;
