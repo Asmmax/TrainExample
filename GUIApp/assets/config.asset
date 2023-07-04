@@ -45,9 +45,9 @@
 							{
 								"type": "MouseInputAxisImpl",
 								"axis": "HORIZONTAL",
-								"sensitivity": 1.0,
-								"smooth": 0.02,
-								"minSpeed": 0.01
+								"sensitivity": 0.1,
+								"smooth": 0.01,
+								"minSpeed": 0.005
 							},
 							{
 								"type": "KeyInputAxisImpl",
@@ -84,9 +84,9 @@
 							{
 								"type": "MouseInputAxisImpl",
 								"axis": "VERTICAL",
-								"sensitivity": 1.0,
-								"smooth": 0.02,
-								"minSpeed": 0.01
+								"sensitivity": 0.1,
+								"smooth": 0.01,
+								"minSpeed": 0.005
 							},
 							{
 								"type": "KeyInputAxisImpl",

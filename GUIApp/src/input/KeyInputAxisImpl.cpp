@@ -19,6 +19,10 @@ void KeyInputAxisImpl::init(InputDistributor* distributor)
 
 void KeyInputAxisImpl::update(float deltaTime)
 {
+}
+
+void KeyInputAxisImpl::fixedUpdate(float deltaTime)
+{
 	float targetValue = 0.f;
 	if (_negativeAction->isPressed()) {
 		targetValue -= 1.0f;
@@ -46,10 +50,6 @@ void KeyInputAxisImpl::update(float deltaTime)
 	}
 
 	_value = glm::mix(targetValue, _value, factor);
-}
-
-void KeyInputAxisImpl::fixedUpdate(float deltaTime)
-{
 }
 
 float KeyInputAxisImpl::getValue() const

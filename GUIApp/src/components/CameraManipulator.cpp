@@ -33,8 +33,8 @@ void CameraManipulator::update(float delta_time)
 
 	auto transformComp = getOwner()->getComponent<TransformComponent>();
 
-	float deltaX = inputSystem->getAxisValue("MouseX") * 100.0f * delta_time;
-	float deltaY = inputSystem->getAxisValue("MouseY") * 100.0f * delta_time;
+	float deltaX = inputSystem->getAxisValue("MouseX") * 200.0f * delta_time;
+	float deltaY = inputSystem->getAxisValue("MouseY") * 200.0f * delta_time;
 
 	if (inputSystem->isActionPressed("MouseSupport")) {
 
