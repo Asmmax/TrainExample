@@ -33,8 +33,8 @@ void CameraManipulator::update(float delta_time)
 
 	auto transformComp = getOwner()->getComponent<TransformComponent>();
 
-	float deltaX = inputSystem->getAxisValue("Horizontal") * 100.0f;
-	float deltaY = inputSystem->getAxisValue("Vertical") * 100.0f;
+	float deltaX = inputSystem->getAxisValue("MouseX") * 100.0f * delta_time;
+	float deltaY = inputSystem->getAxisValue("MouseY") * 100.0f * delta_time;
 
 	if (inputSystem->isActionPressed("MouseSupport")) {
 
@@ -57,7 +57,7 @@ void CameraManipulator::update(float delta_time)
 		_storagedRotation = transformComp->getTransform()->getLocalRotation();
 	}
 
-	float scale = glm::pow(1.2f, 20.0f*inputSystem->getAxisValue("Zoom"));
+	float scale = glm::pow(1.2f, -20.0f*inputSystem->getAxisValue("Zoom") * delta_time);
 
 	auto eyeTransform = _eye->getTransform();
 	auto position = eyeTransform->getLocalPosition();

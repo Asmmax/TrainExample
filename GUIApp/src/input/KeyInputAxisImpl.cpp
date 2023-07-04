@@ -2,12 +2,11 @@
 #include "input/InputAction.hpp"
 #include <glm/glm.hpp>
 
-KeyInputAxisImpl::KeyInputAxisImpl(const InputActionPtr& negativeAction, const InputActionPtr& positiveAction, float speed, float recoverySpeed):
+KeyInputAxisImpl::KeyInputAxisImpl(const InputActionPtr& negativeAction, const InputActionPtr& positiveAction, float smooth):
 	_value(0.0f),
 	_negativeAction(negativeAction),
 	_positiveAction(positiveAction),
-	_speed(speed),
-	_recoverySpeed(recoverySpeed)
+	_smooth(smooth)
 {
 }
 
@@ -19,20 +18,21 @@ void KeyInputAxisImpl::init(InputDistributor* distributor)
 
 void KeyInputAxisImpl::update(float deltaTime)
 {
-	float direction = 0.f;
+	float targetValue = 0.f;
 	if (_negativeAction->isPressed()) {
-		direction -= 1.0f;
+		targetValue -= 1.0f;
 	}
 	if (_positiveAction->isPressed()) {
-		direction += 1.0f;
+		targetValue += 1.0f;
 	}
 
-	_value += direction * _speed * deltaTime;
+	if (_smooth < 1e-6) {
+		_value = targetValue;
+		return;
+	}
 
-	float recoveryDirection = glm::sign(-_value);
-	float recoveryStep = recoveryDirection * _recoverySpeed * deltaTime;
-	recoveryStep = glm::sign(recoveryStep) * glm::min(glm::abs(recoveryStep), glm::abs(_value));
-	_value += recoveryStep;
+	const float factor = 1.f / (1 + deltaTime / _smooth);
+	_value = glm::mix(targetValue, _value, factor);
 }
 
 float KeyInputAxisImpl::getValue() const

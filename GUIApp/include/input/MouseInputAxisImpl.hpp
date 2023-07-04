@@ -15,6 +15,8 @@ class MouseInputAxisImpl : public AInputAxisImpl
 private:
 	MouseAxis _axis;
 	float _sensitivity;
+	float _smooth;
+	float _value;
 
 	double _lastXPos;
 	double _lastYPos;
@@ -23,7 +25,7 @@ private:
 	double _scrollPos;
 
 public:
-	MouseInputAxisImpl(MouseAxis axis, float sensitivity);
+	MouseInputAxisImpl(MouseAxis axis, float sensitivity, float smooth);
 
 	void init(InputDistributor* distributor) override;
 	void update(float deltaTime) override;
@@ -33,4 +35,5 @@ private:
 	void setMousePos(double xPos, double yPos);
 	void addMouseScroll(double step);
 	void clear();
+	float getDelta() const;
 };

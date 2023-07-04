@@ -37,28 +37,74 @@
 			"axes": [
 				{
 					"type": "InputAxisEntry",
-					"name": "Horizontal",
+					"name": "MouseX",
 					"axis": {
 						"type": "InputAxis",
 						"impls": [
 							{
 								"type": "MouseInputAxisImpl",
 								"axis": "HORIZONTAL",
-								"sensitivity": 0.01
+								"sensitivity": 1.0,
+								"smooth": 0.02
+							},
+							{
+								"type": "KeyInputAxisImpl",
+								"negativeAction": {
+									"type": "InputAction",
+									"impls": [
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_LEFT"
+										}
+									]
+								},
+								"positiveAction": {
+									"type": "InputAction",
+									"impls": [
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_RIGHT"
+										}
+									]
+								},
+								"smooth": 0.1
 							}
 						]
 					}
 				},
 				{
 					"type": "InputAxisEntry",
-					"name": "Vertical",
+					"name": "MouseY",
 					"axis": {
 						"type": "InputAxis",
 						"impls": [
 							{
 								"type": "MouseInputAxisImpl",
 								"axis": "VERTICAL",
-								"sensitivity": 0.01
+								"sensitivity": 1.0,
+								"smooth": 0.02
+							},
+							{
+								"type": "KeyInputAxisImpl",
+								"negativeAction": {
+									"type": "InputAction",
+									"impls": [
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_UP"
+										}
+									]
+								},
+								"positiveAction": {
+									"type": "InputAction",
+									"impls": [
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_DOWN"
+										}
+									]
+								},
+								"smooth": 0.1
 							}
 						]
 					}
@@ -72,7 +118,8 @@
 							{
 								"type": "MouseInputAxisImpl",
 								"axis": "SCROLL",
-								"sensitivity": -0.1
+								"sensitivity": 3.0,
+								"smooth": 0.1
 							},
 							{
 								"type": "KeyInputAxisImpl",
@@ -102,8 +149,7 @@
 										}
 									]
 								},
-								"speed": -0.5,
-								"recoverySpeed" : 0.3
+								"smooth": 0.1
 							}
 						]
 					}
