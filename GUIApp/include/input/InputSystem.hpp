@@ -8,6 +8,7 @@ class InputAction;
 class InputAxis;
 class InputDistributor;
 class Window;
+class EventListener;
 
 enum class MouseCaptureMode
 {
@@ -59,14 +60,14 @@ public:
 	void setMouseCaptureMode(MouseCaptureMode mode);
 
 	float getAxisValue(const std::string& name) const;
-	void bindToAxisChanged(const std::string& name, void* owner, const std::function<void(float)>& callback);
-	void unbindAllAxisChanged(const std::string& name, void* owner);
+	void bindToAxisChanged(const std::string& name, EventListener* owner, const std::function<void(float)>& callback);
+	void unbindAllAxisChanged(const std::string& name, EventListener* owner);
 
 	bool isActionPressed(const std::string& name) const;
-	void bindToActionPressed(const std::string& name, void* owner, const std::function<void()>& callback);
-	void bindToActionReleased(const std::string& name, void* owner, const std::function<void()>& callback);
-	void unbindAllActionPressed(const std::string& name, void* owner);
-	void unbindAllActionReleased(const std::string& name, void* owner);
+	void bindToActionPressed(const std::string& name, EventListener* owner, const std::function<void()>& callback);
+	void bindToActionReleased(const std::string& name, EventListener* owner, const std::function<void()>& callback);
+	void unbindAllActionPressed(const std::string& name, EventListener* owner);
+	void unbindAllActionReleased(const std::string& name, EventListener* owner);
 
 protected:
 	void fixedUpdate();

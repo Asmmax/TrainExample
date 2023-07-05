@@ -105,13 +105,13 @@ float InputSystem::getAxisValue(const std::string& name) const
 	return _axes.at(name)->getValue();
 }
 
-void InputSystem::bindToAxisChanged(const std::string& name, void* owner, const std::function<void(float)>& callback)
+void InputSystem::bindToAxisChanged(const std::string& name, EventListener* owner, const std::function<void(float)>& callback)
 {
 	assert(_axes.find(name) != _axes.end());
 	_axes.at(name)->bindToChanged(owner, callback);
 }
 
-void InputSystem::unbindAllAxisChanged(const std::string& name, void* owner)
+void InputSystem::unbindAllAxisChanged(const std::string& name, EventListener* owner)
 {
 	assert(_axes.find(name) != _axes.end());
 	_axes.at(name)->unbindAllChanged(owner);
@@ -123,25 +123,25 @@ bool InputSystem::isActionPressed(const std::string& name) const
 	return _actions.at(name)->isPressed();
 }
 
-void InputSystem::bindToActionPressed(const std::string& name, void* owner, const std::function<void()>& callback)
+void InputSystem::bindToActionPressed(const std::string& name, EventListener* owner, const std::function<void()>& callback)
 {
 	assert(_actions.find(name) != _actions.end());
 	_actions.at(name)->bindToPressed(owner, callback);
 }
 
-void InputSystem::bindToActionReleased(const std::string& name, void* owner, const std::function<void()>& callback)
+void InputSystem::bindToActionReleased(const std::string& name, EventListener* owner, const std::function<void()>& callback)
 {
 	assert(_actions.find(name) != _actions.end());
 	_actions.at(name)->bindToReleased(owner, callback);
 }
 
-void InputSystem::unbindAllActionPressed(const std::string& name, void* owner)
+void InputSystem::unbindAllActionPressed(const std::string& name, EventListener* owner)
 {
 	assert(_actions.find(name) != _actions.end());
 	_actions.at(name)->unbindAllPressed(owner);
 }
 
-void InputSystem::unbindAllActionReleased(const std::string& name, void* owner)
+void InputSystem::unbindAllActionReleased(const std::string& name, EventListener* owner)
 {
 	assert(_actions.find(name) != _actions.end());
 	_actions.at(name)->unbindAllReleased(owner);

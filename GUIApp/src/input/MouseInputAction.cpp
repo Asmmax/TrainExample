@@ -16,11 +16,11 @@ void MouseInputActionImpl::init(InputDistributor* distributor)
 
 		if (state == InputEvents::KeyState::KEY_DOWN) {
 			_state = true;
-			broadcastPressed();
+			_actionPressed.broadcast();
 		}
 		else if (state == InputEvents::KeyState::KEY_UP) {
 			_state = false;
-			broadcastReleased();
+			_actionReleased.broadcast();
 		}
 		});
 }

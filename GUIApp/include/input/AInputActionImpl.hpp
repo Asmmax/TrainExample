@@ -1,4 +1,5 @@
 #pragma once
+#include "events/AEvent.hpp"
 #include <functional>
 #include <unordered_map>
 #include <vector>
@@ -8,21 +9,18 @@ class InputDistributor;
 /// @serializable @polymorphic @abstract
 class AInputActionImpl
 {
-private:
-	using ActionEvent = std::unordered_map<void*, std::vector<std::function<void()>>>;
-	ActionEvent _actionPressed;
-	ActionEvent _actionReleased;
+protected:
+	Event<> _actionPressed;
+	Event<> _actionReleased;
 
 public:
+	virtual ~AInputActionImpl() = default;
+
 	virtual void init(InputDistributor* distributor) = 0;
 	virtual bool isPressed() const = 0;
 
-	void bindToPressed(void* owner, const std::function<void()>& callback);
-	void bindToReleased(void* owner, const std::function<void()>& callback);
-	void unbindAllPressed(void* owner);
-	void unbindAllReleased(void* owner);
-
-protected:
-	void broadcastPressed();
-	void broadcastReleased();
+	void bindToPressed(EventListener* owner, const Event<>::Callback& callback);
+	void bindToReleased(EventListener* owner, const Event<>::Callback& callback);
+	void unbindAllPressed(EventListener* owner);
+	void unbindAllReleased(EventListener* owner);
 };

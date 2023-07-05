@@ -5,6 +5,7 @@
 
 class InputDistributor;
 class AInputActionImpl;
+class EventListener;
 
 /// @serializable @polymorphic
 class InputAction
@@ -19,8 +20,8 @@ public:
 	void init(InputDistributor* distributor);
 	bool isPressed() const;
 
-	void bindToPressed(void* owner, const std::function<void()>& callback);
-	void bindToReleased(void* owner, const std::function<void()>& callback);
-	void unbindAllPressed(void* owner);
-	void unbindAllReleased(void* owner);
+	void bindToPressed(EventListener* owner, const std::function<void()>& callback);
+	void bindToReleased(EventListener* owner, const std::function<void()>& callback);
+	void unbindAllPressed(EventListener* owner);
+	void unbindAllReleased(EventListener* owner);
 };

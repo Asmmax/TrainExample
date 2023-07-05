@@ -1,14 +1,16 @@
 #pragma once
 #include "GameObject.hpp"
+#include "events/EventListener.hpp"
 #include <memory>
 
 /// @serializable @shared components @abstract
-class Component
+class Component : public EventListener
 {
 	friend class GameObject;
 
 public:
 	using OriginType = Component;
+	using Super = Component;
 
 private:
 	GameObject* _owner;
@@ -18,7 +20,7 @@ public:
 
 	virtual void init() = 0;
 	virtual void update(float delta_time) {}
-	virtual void deinit() {}
+	virtual void deinit();
 
 	virtual void attachTo(GameObject& object) = 0;
 	virtual bool isSameType(const Component* component) const = 0;
@@ -35,6 +37,7 @@ class ComponentCommon : public Component, public std::enable_shared_from_this<Co
 {
 public:
 	using OriginType = CompType;
+	using Super = ComponentCommon<CompType>;
 
 public:
 	void attachTo(GameObject& object) override;

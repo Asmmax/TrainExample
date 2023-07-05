@@ -11,7 +11,6 @@ public:
 	SpawnerComponent(const std::string& trainId);
 
 	void init() override;
-	void deinit() override;
 
 protected:
 	void spawn();

@@ -37,14 +37,14 @@ float InputAxis::getValue() const
 	return avgValue;
 }
 
-void InputAxis::bindToChanged(void* owner, const std::function<void(float)>& callback)
+void InputAxis::bindToChanged(EventListener* owner, const std::function<void(float)>& callback)
 {
 	for (auto& axisImpl : _impls) {
 		axisImpl->bindToChanged(owner, callback);
 	}
 }
 
-void InputAxis::unbindAllChanged(void* owner)
+void InputAxis::unbindAllChanged(EventListener* owner)
 {
 	for (auto& axisImpl : _impls) {
 		axisImpl->unbindAllChanged(owner);

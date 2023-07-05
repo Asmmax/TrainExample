@@ -1,6 +1,11 @@
 #include "AComponent.hpp"
 #include <assert.h>
 
+void Component::deinit()
+{
+	clearSubscriptions();
+}
+
 GameObject* Component::getOwner()
 { 
 	assert(_owner);

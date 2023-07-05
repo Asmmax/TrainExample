@@ -1,51 +1,21 @@
 #include "input/AInputActionImpl.hpp"
 
-void AInputActionImpl::bindToPressed(void* owner, const std::function<void()>& callback)
+void AInputActionImpl::bindToPressed(EventListener* owner, const Event<>::Callback& callback)
 {
-	auto result = _actionPressed.emplace(owner, std::vector<std::function<void()>>{ callback });
-	if (!result.second) {
-		result.first->second.push_back(callback);
-	}
+	_actionPressed.bind(owner, callback);
 }
 
-void AInputActionImpl::bindToReleased(void* owner, const std::function<void()>& callback)
+void AInputActionImpl::bindToReleased(EventListener* owner, const Event<>::Callback& callback)
 {
-	auto result = _actionReleased.emplace(owner, std::vector<std::function<void()>>{ callback });
-	if (!result.second) {
-		result.first->second.push_back(callback);
-	}
+	_actionReleased.bind(owner, callback);
 }
 
-void AInputActionImpl::unbindAllPressed(void* owner)
+void AInputActionImpl::unbindAllPressed(EventListener* owner)
 {
-	auto foundIt = _actionPressed.find(owner);
-	if (foundIt != _actionPressed.end()) {
-		_actionPressed.erase(foundIt);
-	}
+	_actionPressed.unbindAll(owner);
 }
 
-void AInputActionImpl::unbindAllReleased(void* owner)
+void AInputActionImpl::unbindAllReleased(EventListener* owner)
 {
-	auto foundIt = _actionReleased.find(owner);
-	if (foundIt != _actionReleased.end()) {
-		_actionReleased.erase(foundIt);
-	}
-}
-
-void AInputActionImpl::broadcastPressed()
-{
-	for (auto& callbackGroup : _actionPressed) {
-		for (auto& callback : callbackGroup.second) {
-			callback();
-		}
-	}
-}
-
-void AInputActionImpl::broadcastReleased()
-{
-	for (auto& callbackGroup : _actionReleased) {
-		for (auto& callback : callbackGroup.second) {
-			callback();
-		}
-	}
+	_actionReleased.unbindAll(owner);
 }

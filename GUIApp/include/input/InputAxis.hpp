@@ -5,6 +5,7 @@
 
 class InputDistributor;
 class AInputAxisImpl;
+class EventListener;
 
 /// @serializable @polymorphic
 class InputAxis
@@ -21,6 +22,6 @@ public:
 	void fixedUpdate(float deltaTime);
 	float getValue() const;
 
-	void bindToChanged(void* owner, const std::function<void(float)>& callback);
-	void unbindAllChanged(void* owner);
+	void bindToChanged(EventListener* owner, const std::function<void(float)>& callback);
+	void unbindAllChanged(EventListener* owner);
 };

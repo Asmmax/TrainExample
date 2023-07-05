@@ -33,34 +33,19 @@ void AInputAxisImpl::fixedUpdate(float deltaTime)
 	setValue(glm::mix(targetValue, _value, factor));
 }
 
-void AInputAxisImpl::bindToChanged(void* owner, const std::function<void(float)>& callback)
+void AInputAxisImpl::bindToChanged(EventListener* owner, const Event<float>::Callback& callback)
 {
-	auto result = _actionChanged.emplace(owner, std::vector<std::function<void(float)>>{ callback });
-	if (!result.second) {
-		result.first->second.push_back(callback);
-	}
+	_actionChanged.bind(owner, callback);
 }
 
-void AInputAxisImpl::unbindAllChanged(void* owner)
+void AInputAxisImpl::unbindAllChanged(EventListener* owner)
 {
-	auto foundIt = _actionChanged.find(owner);
-	if (foundIt != _actionChanged.end()) {
-		_actionChanged.erase(foundIt);
-	}
+	_actionChanged.unbindAll(owner);
 }
 
 float AInputAxisImpl::getValue() const
 {
 	return _value;
-}
-
-void AInputAxisImpl::broadcastChanged()
-{
-	for (auto& callbackGroup : _actionChanged) {
-		for (auto& callback : callbackGroup.second) {
-			callback(_value);
-		}
-	}
 }
 
 void AInputAxisImpl::setValue(float value)
@@ -70,5 +55,5 @@ void AInputAxisImpl::setValue(float value)
 	}
 
 	_value = value;
-	broadcastChanged();
+	_actionChanged.broadcast(_value);
 }

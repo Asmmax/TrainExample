@@ -19,16 +19,6 @@ void SpawnerComponent::init()
 	inputSystem->bindToActionPressed("Spawn", this, [this]() {spawn(); });
 }
 
-void SpawnerComponent::deinit()
-{
-	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
-	if (!inputSystem) {
-		return;
-	}
-
-	inputSystem->unbindAllActionPressed("Spawn", this);
-}
-
 void SpawnerComponent::spawn()
 {
 	getOwner()->getWorld()->spawn(_trainId);
