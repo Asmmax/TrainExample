@@ -40,13 +40,13 @@ private:
 	Window* _window;
 
 	bool _needMouseCaptureWhileMousePressed;
-	bool _mousePressed;
 	float _fixedTime;
 	float _timeRedutant;
 
 	std::shared_ptr<InputDistributor> _distributor;
 	std::unordered_map<std::string, InputActionPtr> _actions;
 	std::unordered_map<std::string, InputAxisPtr> _axes;
+	std::vector<bool> _mousePressed;
 
 public:
 	explicit InputSystem(const std::vector<InputActionEntry>& actions, const std::vector<InputAxisEntry>& axes, float fixedTime);
@@ -59,6 +59,8 @@ public:
 	void setMouseCaptureMode(MouseCaptureMode mode);
 
 	float getAxisValue(const std::string& name) const;
+	void bindToAxisChanged(const std::string& name, void* owner, const std::function<void(float)>& callback);
+	void unbindAllAxisChanged(const std::string& name, void* owner);
 
 	bool isActionPressed(const std::string& name) const;
 	void bindToActionPressed(const std::string& name, void* owner, const std::function<void()>& callback);
@@ -68,4 +70,6 @@ public:
 
 protected:
 	void fixedUpdate();
+	void markMousePressed(size_t keyId, bool isPressed);
+	bool anyMousePressed();
 };

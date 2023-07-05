@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include <functional>
 
 class InputDistributor;
 class AInputAxisImpl;
@@ -19,4 +20,7 @@ public:
 	void update(float deltaTime);
 	void fixedUpdate(float deltaTime);
 	float getValue() const;
+
+	void bindToChanged(void* owner, const std::function<void(float)>& callback);
+	void unbindAllChanged(void* owner);
 };

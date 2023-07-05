@@ -1,13 +1,10 @@
 #include "input/KeyInputAxisImpl.hpp"
 #include "input/InputAction.hpp"
-#include <glm/glm.hpp>
 
 KeyInputAxisImpl::KeyInputAxisImpl(const InputActionPtr& negativeAction, const InputActionPtr& positiveAction, float smooth, float minSpeed):
-	_value(0.0f),
+	AInputAxisImpl(smooth, minSpeed),
 	_negativeAction(negativeAction),
-	_positiveAction(positiveAction),
-	_smooth(smooth),
-	_minSpeed(minSpeed)
+	_positiveAction(positiveAction)
 {
 }
 
@@ -21,38 +18,14 @@ void KeyInputAxisImpl::update(float deltaTime)
 {
 }
 
-void KeyInputAxisImpl::fixedUpdate(float deltaTime)
+float KeyInputAxisImpl::getRawValue() const
 {
-	float targetValue = 0.f;
+	float rawValue = 0.f;
 	if (_negativeAction->isPressed()) {
-		targetValue -= 1.0f;
+		rawValue -= 1.0f;
 	}
 	if (_positiveAction->isPressed()) {
-		targetValue += 1.0f;
+		rawValue += 1.0f;
 	}
-
-	if (_smooth < 1e-6) {
-		_value = targetValue;
-		return;
-	}
-
-	const float factor = 1.f / (1 + deltaTime / _smooth);
-	const float dif = targetValue - _value;
-	if (dif == 0.f) {
-		_value = targetValue;
-		return;
-	}
-
-	if (glm::abs(dif) < _minSpeed) {
-		const float dir = glm::sign(dif);
-		_value = dir * glm::min(dir * _value + _minSpeed * (1 - factor), dir * targetValue);
-		return;
-	}
-
-	_value = glm::mix(targetValue, _value, factor);
-}
-
-float KeyInputAxisImpl::getValue() const
-{
-	return _value;
+	return rawValue;
 }
