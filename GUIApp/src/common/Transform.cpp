@@ -69,6 +69,33 @@ void Transform::setScale(const glm::vec3& localScale)
 #endif // _DEBUG
 }
 
+glm::vec3 Transform::getLocalEulerAngles() const
+{
+	glm::quat tempRotation = _localRotation;
+	std::swap(tempRotation.x, tempRotation.y);
+	auto eulerAngles = glm::eulerAngles(tempRotation);
+	std::swap(eulerAngles.x, eulerAngles.y);
+	return eulerAngles;
+}
+
+glm::vec3 Transform::getLocalRight() const
+{
+	auto rotMatr = glm::toMat3(_localRotation);
+	return rotMatr * glm::vec3(1, 0, 0);
+}
+
+glm::vec3 Transform::getLocalUp() const
+{
+	auto rotMatr = glm::toMat3(_localRotation);
+	return rotMatr * glm::vec3(0, 1, 0);
+}
+
+glm::vec3 Transform::getLocalForward() const
+{
+	auto rotMatr = glm::toMat3(_localRotation);
+	return rotMatr * glm::vec3(0, 0, 1);
+}
+
 glm::vec3 Transform::getGlobalPosition() const
 {
 	return getGlobalMatrix() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);

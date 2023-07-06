@@ -23,6 +23,8 @@ private:
 	double _yPos;
 	double _scrollPos;
 
+	bool _firstMousePos;
+
 public:
 	MouseInputAxisImpl(MouseAxis axis, float sensitivity, float smooth, float minSpeed);
 

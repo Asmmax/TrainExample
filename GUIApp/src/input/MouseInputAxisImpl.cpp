@@ -10,7 +10,8 @@ MouseInputAxisImpl::MouseInputAxisImpl(MouseAxis axis, float sensitivity, float 
 	_lastYPos(0),
 	_xPos(0.0),
 	_yPos(0.0),
-	_scrollPos(0.0)
+	_scrollPos(0.0),
+	_firstMousePos(true)
 {
 }
 
@@ -60,6 +61,11 @@ float MouseInputAxisImpl::getRawValue() const
 
 void MouseInputAxisImpl::setMousePos(double xPos, double yPos)
 {
+	if (_firstMousePos) {
+		_lastXPos = xPos;
+		_lastYPos = yPos;
+		_firstMousePos = false;
+	}
 	_xPos = xPos;
 	_yPos = yPos;
 }

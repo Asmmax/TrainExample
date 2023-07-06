@@ -42,6 +42,10 @@ public:
 	const glm::vec3& getLocalPosition() const { return _localPosition; }
 	const glm::quat& getLocalRotation() const { return _localRotation; }
 	const glm::vec3& getLocalScale() const { return _localScale; }
+	glm::vec3 getLocalEulerAngles() const;
+	glm::vec3 getLocalRight() const;
+	glm::vec3 getLocalUp() const;
+	glm::vec3 getLocalForward() const;
 
 	glm::vec3 getGlobalPosition() const;
 

@@ -23,6 +23,19 @@
 				},
 				{
 					"type": "InputActionEntry",
+					"name": "SpeedUp",
+					"action": {
+						"type": "InputAction",
+						"impls": [
+							{
+								"type": "KeyboardInputActionImpl",
+								"key": "KEY_LEFT_SHIFT"
+							}
+						]
+					}
+				},
+				{
+					"type": "InputActionEntry",
 					"name": "MouseSupport",
 					"action": {
 						"type": "InputAction",
@@ -48,29 +61,6 @@
 								"sensitivity": 0.1,
 								"smooth": 0.01,
 								"minSpeed": 0.005
-							},
-							{
-								"type": "KeyInputAxisImpl",
-								"negativeAction": {
-									"type": "InputAction",
-									"impls": [
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_LEFT"
-										}
-									]
-								},
-								"positiveAction": {
-									"type": "InputAction",
-									"impls": [
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_RIGHT"
-										}
-									]
-								},
-								"smooth": 0.1,
-								"minSpeed": 0.2
 							}
 						]
 					}
@@ -87,7 +77,56 @@
 								"sensitivity": 0.1,
 								"smooth": 0.01,
 								"minSpeed": 0.005
-							},
+							}
+						]
+					}
+				},
+				{
+					"type": "InputAxisEntry",
+					"name": "Horizontal",
+					"axis": {
+						"type": "InputAxis",
+						"impls": [
+							{
+								"type": "KeyInputAxisImpl",
+								"negativeAction": {
+									"type": "InputAction",
+									"impls": [
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_LEFT"
+										},
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_A"
+										}
+									]
+								},
+								"positiveAction": {
+									"type": "InputAction",
+									"impls": [
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_RIGHT"
+										},
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_D"
+										}
+									]
+								},
+								"smooth": 0.1,
+								"minSpeed": 0.2
+							}
+						]
+					}
+				},
+				{
+					"type": "InputAxisEntry",
+					"name": "Vertical",
+					"axis": {
+						"type": "InputAxis",
+						"impls": [
 							{
 								"type": "KeyInputAxisImpl",
 								"negativeAction": {
@@ -96,6 +135,10 @@
 										{
 											"type": "KeyboardInputActionImpl",
 											"key": "KEY_UP"
+										},
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_W"
 										}
 									]
 								},
@@ -105,6 +148,10 @@
 										{
 											"type": "KeyboardInputActionImpl",
 											"key": "KEY_DOWN"
+										},
+										{
+											"type": "KeyboardInputActionImpl",
+											"key": "KEY_S"
 										}
 									]
 								},
