@@ -3,6 +3,7 @@
 #include "common/components/TransformComponent.hpp"
 #include "common/Transform.hpp"
 #include "input/InputSystem.hpp"
+#include "render/components/CameraComponent.hpp"
 #include "World.hpp"
 #include <glm/glm.hpp>
 
@@ -11,8 +12,14 @@ OrbitCameraManipulator::OrbitCameraManipulator(float rotSpeed, float zoomSpeed) 
 	_sumDeltaX(0.0f),
 	_sumDeltaY(0.0f),
     _rotSpeed(rotSpeed),
-    _zoomSpeed(zoomSpeed)
+    _zoomSpeed(zoomSpeed),
+    _supportActive(false)
 {
+}
+
+void OrbitCameraManipulator::setEye(const std::shared_ptr<TransformComponent>& eye)
+{
+    _eye = eye;
 }
 
 void OrbitCameraManipulator::init()
@@ -20,48 +27,43 @@ void OrbitCameraManipulator::init()
 	auto transformComp = getOwner()->getComponent<TransformComponent>();
 	_storagedRotation = transformComp->getTransform()->getLocalRotation();
 
-	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
-	if (inputSystem) {
-		inputSystem->setMouseCaptureMode(MouseCaptureMode::WHILE_MOUSE_PRESSED);
-	}
-}
-
-void OrbitCameraManipulator::update(float deltaTime)
-{
     auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
     if (!inputSystem) {
         return;
     }
+    inputSystem->bindToActionPressed("MouseSupport", this, [this]() {startSupport(); });
+    inputSystem->bindToActionReleased("MouseSupport", this, [this]() {stopSupport(); });
+}
+
+void OrbitCameraManipulator::update(float deltaTime)
+{
+}
+
+void OrbitCameraManipulator::rotate(float stepX, float stepY)
+{
+    if (!_supportActive) {
+        return;
+    }
+
+    _sumDeltaX += stepX * _rotSpeed;
+    _sumDeltaY += stepY * _rotSpeed;
 
     auto transformComp = getOwner()->getComponent<TransformComponent>();
+    std::shared_ptr<Transform> target = transformComp->getTransform();
 
-    if (inputSystem->isActionPressed("MouseSupport")) {
+    auto rotY = glm::angleAxis(-glm::radians(_sumDeltaX), glm::vec3(0.0f, 1.0f, 0.0f));
+    auto rotX = glm::angleAxis(-glm::radians(_sumDeltaY), glm::vec3(1.0f, 0.0f, 0.0f));
 
-        const float deltaX = inputSystem->getAxisValue("MouseX");
-        const float deltaY = inputSystem->getAxisValue("MouseY");
+    target->setRotation(_storagedRotation * rotY * rotX);
+}
 
-        if (deltaX != 0.0f || deltaY != 0.0f) {
-            const float rotStep = _rotSpeed * deltaTime;
-            _sumDeltaX += deltaX * rotStep;
-            _sumDeltaY += deltaY * rotStep;
+void OrbitCameraManipulator::move(const glm::vec3& direction)
+{
+}
 
-            std::shared_ptr<Transform> target = transformComp->getTransform();
-
-            auto rotY = glm::angleAxis(-glm::radians(_sumDeltaX), glm::vec3(0.0f, 1.0f, 0.0f));
-            auto rotX = glm::angleAxis(-glm::radians(_sumDeltaY), glm::vec3(1.0f, 0.0f, 0.0f));
-
-            target->setRotation(_storagedRotation * rotY * rotX);
-        }
-    }
-    else {
-        _sumDeltaX = 0.0f;
-        _sumDeltaY = 0.0f;
-        _storagedRotation = transformComp->getTransform()->getLocalRotation();
-    }
-
-    const float deltaZoom = inputSystem->getAxisValue("Zoom");
-    const float zoomStep = _zoomSpeed * deltaTime;
-    const float scale = glm::pow(1.2f, -deltaZoom * zoomStep);
+void OrbitCameraManipulator::zoom(float step)
+{
+    const float scale = glm::pow(1.2f, -step * _zoomSpeed);
 
     auto eyeTransform = _eye->getTransform();
     auto position = eyeTransform->getLocalPosition();
@@ -69,7 +71,38 @@ void OrbitCameraManipulator::update(float deltaTime)
     eyeTransform->setPosition(position);
 }
 
-void OrbitCameraManipulator::setEye(const std::shared_ptr<TransformComponent>& eye)
+std::shared_ptr<Transform> OrbitCameraManipulator::getTransform()
 {
-	_eye = eye;
+    auto transformComp = getOwner()->getComponent<TransformComponent>();
+    if (!transformComp) {
+        return nullptr;
+    }
+    return transformComp->getTransform();
+}
+
+void OrbitCameraManipulator::apply()
+{
+    auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
+    if (inputSystem) {
+        inputSystem->setMouseCaptureMode(MouseCaptureMode::WHILE_MOUSE_PRESSED);
+    }
+
+    auto camera = _eye->getOwner()->getComponent<CameraComponent>();
+    if (camera) {
+        camera->setMain();
+    }
+}
+
+void OrbitCameraManipulator::startSupport()
+{
+    _supportActive = true;
+}
+
+void OrbitCameraManipulator::stopSupport()
+{
+    _supportActive = false;
+    _sumDeltaX = 0.0f;
+    _sumDeltaY = 0.0f;
+    auto transformComp = getOwner()->getComponent<TransformComponent>();
+    _storagedRotation = transformComp->getTransform()->getLocalRotation();
 }

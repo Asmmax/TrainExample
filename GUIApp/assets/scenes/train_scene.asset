@@ -65,6 +65,11 @@
       "speedUpCoef": 2.0
     },
     {
+      "id": "player",
+      "type": "PlayerController",
+      "manipulators": [ "fly_manipulator", "orbit_manipulator" ]
+    },
+    {
       "id": "spawner",
       "type": "SpawnerComponent",
       "trainId": "prefabs/train"
@@ -129,7 +134,7 @@
         [ "camera_target_transform", "orbit_manipulator" ],
         [ "camera_eye_transform", "orbit_camera" ],
         [ "fly_camera_transform", "fly_camera", "fly_manipulator" ],
-        [ "spawner" ],
+        [ "player", "spawner" ],
         [ "plane_transform", "plane_graphics" ],
         [ "rails_group_transform" ],
         [ "rails_transform", "rails_graphics" ],

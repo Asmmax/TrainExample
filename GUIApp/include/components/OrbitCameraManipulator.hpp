@@ -1,12 +1,13 @@
 #pragma once
 #include "AComponent.hpp"
+#include "components/ICameraManipulator.hpp"
 #include <glm/gtx/quaternion.hpp>
 #include <memory>
 
 class TransformComponent;
 
 /// @serializable
-class OrbitCameraManipulator : public ComponentCommon<OrbitCameraManipulator>
+class OrbitCameraManipulator : public ComponentCommon<OrbitCameraManipulator>, public ICameraManipulator
 {
 private:
 	std::shared_ptr<TransformComponent> _eye;
@@ -16,13 +17,25 @@ private:
 
 	float _rotSpeed;
 	float _zoomSpeed;
+	bool _supportActive;
 
 public:
 	OrbitCameraManipulator(float rotSpeed, float zoomSpeed);
 
+	/// @inject
+	void setEye(const std::shared_ptr<TransformComponent>& eye);
+
 	void init() override;
 	void update(float deltaTime) override;
 
-	/// @inject
-	void setEye(const std::shared_ptr<TransformComponent>& eye);
+	void rotate(float stepX, float stepY) override;
+	void move(const glm::vec3& direction) override;
+	void zoom(float step) override;
+	std::shared_ptr<Transform> getTransform() override;
+
+	void apply() override;
+
+protected:
+	void startSupport();
+	void stopSupport();
 };

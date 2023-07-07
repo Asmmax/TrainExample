@@ -23,6 +23,19 @@
 				},
 				{
 					"type": "InputActionEntry",
+					"name": "SwitchManipulator",
+					"action": {
+						"type": "InputAction",
+						"impls": [
+							{
+								"type": "KeyboardInputActionImpl",
+								"key": "KEY_TAB"
+							}
+						]
+					}
+				},
+				{
+					"type": "InputActionEntry",
 					"name": "SpeedUp",
 					"action": {
 						"type": "InputAction",

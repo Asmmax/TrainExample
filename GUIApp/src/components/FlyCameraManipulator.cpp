@@ -3,8 +3,8 @@
 #include "common/components/TransformComponent.hpp"
 #include "common/Transform.hpp"
 #include "input/InputSystem.hpp"
+#include "render/components/CameraComponent.hpp"
 #include "World.hpp"
-#include <glm/glm.hpp>
 
 FlyCameraManipulator::FlyCameraManipulator(float rotSpeed, float speed, float speedUpCoef):
 	_eulerAngles(),
@@ -19,49 +19,60 @@ void FlyCameraManipulator::init()
 	auto transformComp = getOwner()->getComponent<TransformComponent>();
 	std::shared_ptr<Transform> target = transformComp->getTransform();
 	_eulerAngles = target->getLocalEulerAngles();
-
-	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
-	if (inputSystem) {
-		inputSystem->setMouseCaptureMode(MouseCaptureMode::ENABLE);
-	}
 }
 
 void FlyCameraManipulator::update(float deltaTime)
 {
-	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
-	if (!inputSystem) {
-		return;
-	}
+}
 
+void FlyCameraManipulator::rotate(float stepX, float stepY)
+{
 	auto transformComp = getOwner()->getComponent<TransformComponent>();
 
-	const float deltaX = inputSystem->getAxisValue("MouseX");
-	const float deltaY = inputSystem->getAxisValue("MouseY");
+	std::shared_ptr<Transform> target = transformComp->getTransform();
+	_eulerAngles.y = glm::mod(_eulerAngles.y - glm::radians(stepX * _rotSpeed), 2 * glm::pi<float>());
+	_eulerAngles.x = glm::clamp(_eulerAngles.x - glm::radians(stepY * _rotSpeed), -0.5f * glm::pi<float>(), 0.5f * glm::pi<float>());
 
-	if (deltaX != 0.0f || deltaY != 0.0f) {
-		const float rotStep = _rotSpeed * deltaTime;
-		std::shared_ptr<Transform> target = transformComp->getTransform();
-		_eulerAngles.y = glm::mod(_eulerAngles.y - glm::radians(deltaX * rotStep), 2 * glm::pi<float>());
-		_eulerAngles.x = glm::clamp(_eulerAngles.x - glm::radians(deltaY * rotStep), -0.5f * glm::pi<float>(), 0.5f * glm::pi<float>());
+	target->setRotation(_eulerAngles);
+}
 
-		target->setRotation(_eulerAngles);
+void FlyCameraManipulator::move(const glm::vec3& direction)
+{
+	auto transformComp = getOwner()->getComponent<TransformComponent>();
+
+	float speed = _speed;
+	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
+	if (inputSystem && inputSystem->isActionPressed("SpeedUp")) {
+		speed *= _speedUpCoef;
 	}
 
-	const float horizontal = inputSystem->getAxisValue("Horizontal");
-	const float vertical = inputSystem->getAxisValue("Vertical");
+	std::shared_ptr<Transform> target = transformComp->getTransform();
+	auto position = target->getLocalPosition();
+	transformComp->setPosition(position + speed *direction);
+}
 
-	if (horizontal != 0.0f || vertical != 0.0f) {
-		float step = _speed * deltaTime;
-		if (inputSystem->isActionPressed("SpeedUp")) {
-			step *= _speedUpCoef;
-		}
+void FlyCameraManipulator::zoom(float step)
+{
+}
 
-		std::shared_ptr<Transform> target = transformComp->getTransform();
-		auto position = target->getLocalPosition();
-		auto forward = target->getLocalForward();
-		auto right = target->getLocalRight();
+std::shared_ptr<Transform> FlyCameraManipulator::getTransform()
+{
+	auto transformComp = getOwner()->getComponent<TransformComponent>();
+	if (!transformComp) {
+		return nullptr;
+	}
+	return transformComp->getTransform();
+}
 
-		auto direction = forward * vertical + right * horizontal;
-		transformComp->setPosition(position + direction * step);
+void FlyCameraManipulator::apply()
+{
+	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
+	if (inputSystem) {
+		inputSystem->setMouseCaptureMode(MouseCaptureMode::ENABLE);
+	}
+
+	auto camera = getOwner()->getComponent<CameraComponent>();
+	if (camera) {
+		camera->setMain();
 	}
 }
