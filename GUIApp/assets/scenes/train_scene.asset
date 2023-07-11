@@ -65,9 +65,14 @@
       "speedUpCoef": 2.0
     },
     {
+      "id": "manipulator_switcher",
+      "type": "ManipulatorSwitcher",
+      "manipulators": [ "fly_manipulator", "orbit_manipulator" ]
+    },
+    {
       "id": "player",
       "type": "PlayerController",
-      "manipulators": [ "fly_manipulator", "orbit_manipulator" ]
+      "target": "orbit_manipulator"
     },
     {
       "id": "spawner",
@@ -134,7 +139,7 @@
         [ "camera_target_transform", "orbit_manipulator" ],
         [ "camera_eye_transform", "orbit_camera" ],
         [ "fly_camera_transform", "fly_camera", "fly_manipulator" ],
-        [ "player", "spawner" ],
+        [ "player", "manipulator_switcher", "spawner" ],
         [ "plane_transform", "plane_graphics" ],
         [ "rails_group_transform" ],
         [ "rails_transform", "rails_graphics" ],

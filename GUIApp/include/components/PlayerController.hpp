@@ -10,15 +10,17 @@ class PlayerController : public ComponentCommon<PlayerController>
 {
 private:
 	using ManipulatorPtr = std::shared_ptr<ICameraManipulator>;
-	std::vector<ManipulatorPtr> _manipulators;
 	ManipulatorPtr _target;
+	bool _isInited;
 
 public:
-	PlayerController(const std::vector<ManipulatorPtr>& manipulators);
+	PlayerController();
+
+	/// @inject
+	void setManipulator(ManipulatorPtr target);
+
+	ManipulatorPtr getManipulator() const { return _target; }
 
 	void init() override;
 	void update(float deltaTime) override;
-
-protected:
-	void switchManipulator();
 };

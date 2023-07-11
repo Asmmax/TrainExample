@@ -1,239 +1,242 @@
 {
-	"systemGroups":[
-	{
-		"id":"main",
-		"type":"SystemGroupAsset",
-		"systems":[
-		{
-			"type": "InputSystem",
-			"fixedTime": 0.02,
-			"actions": [
-				{
-					"type": "InputActionEntry",
-					"name": "Spawn",
-					"action": {
-						"type": "InputAction",
-						"impls": [
-							{
-								"type": "KeyboardInputActionImpl",
-								"key": "KEY_SPACE"
-							}
-						]
-					}
-				},
-				{
-					"type": "InputActionEntry",
-					"name": "SwitchManipulator",
-					"action": {
-						"type": "InputAction",
-						"impls": [
-							{
-								"type": "KeyboardInputActionImpl",
-								"key": "KEY_TAB"
-							}
-						]
-					}
-				},
-				{
-					"type": "InputActionEntry",
-					"name": "SpeedUp",
-					"action": {
-						"type": "InputAction",
-						"impls": [
-							{
-								"type": "KeyboardInputActionImpl",
-								"key": "KEY_LEFT_SHIFT"
-							}
-						]
-					}
-				},
-				{
-					"type": "InputActionEntry",
-					"name": "MouseSupport",
-					"action": {
-						"type": "InputAction",
-						"impls": [
-							{
-								"type": "MouseInputActionImpl",
-								"key": "LEFT_BUTTON"
-							}
-						]
-					}
-				}
-			],
-			"axes": [
-				{
-					"type": "InputAxisEntry",
-					"name": "MouseX",
-					"axis": {
-						"type": "InputAxis",
-						"impls": [
-							{
-								"type": "MouseInputAxisImpl",
-								"axis": "HORIZONTAL",
-								"sensitivity": 0.1,
-								"smooth": 0.01,
-								"minSpeed": 0.005
-							}
-						]
-					}
-				},
-				{
-					"type": "InputAxisEntry",
-					"name": "MouseY",
-					"axis": {
-						"type": "InputAxis",
-						"impls": [
-							{
-								"type": "MouseInputAxisImpl",
-								"axis": "VERTICAL",
-								"sensitivity": 0.1,
-								"smooth": 0.01,
-								"minSpeed": 0.005
-							}
-						]
-					}
-				},
-				{
-					"type": "InputAxisEntry",
-					"name": "Horizontal",
-					"axis": {
-						"type": "InputAxis",
-						"impls": [
-							{
-								"type": "KeyInputAxisImpl",
-								"negativeAction": {
-									"type": "InputAction",
-									"impls": [
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_LEFT"
-										},
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_A"
-										}
-									]
-								},
-								"positiveAction": {
-									"type": "InputAction",
-									"impls": [
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_RIGHT"
-										},
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_D"
-										}
-									]
-								},
-								"smooth": 0.1,
-								"minSpeed": 0.2
-							}
-						]
-					}
-				},
-				{
-					"type": "InputAxisEntry",
-					"name": "Vertical",
-					"axis": {
-						"type": "InputAxis",
-						"impls": [
-							{
-								"type": "KeyInputAxisImpl",
-								"negativeAction": {
-									"type": "InputAction",
-									"impls": [
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_UP"
-										},
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_W"
-										}
-									]
-								},
-								"positiveAction": {
-									"type": "InputAction",
-									"impls": [
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_DOWN"
-										},
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_S"
-										}
-									]
-								},
-								"smooth": 0.1,
-								"minSpeed": 0.2
-							}
-						]
-					}
-				},
-				{
-					"type": "InputAxisEntry",
-					"name": "Zoom",
-					"axis": {
-						"type": "InputAxis",
-						"impls": [
-							{
-								"type": "MouseInputAxisImpl",
-								"axis": "SCROLL",
-								"sensitivity": 3.0,
-								"smooth": 0.1,
-								"minSpeed": 0.05
-							},
-							{
-								"type": "KeyInputAxisImpl",
-								"negativeAction": {
-									"type": "InputAction",
-									"impls": [
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_MINUS"
-										},
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_KP_SUBTRACT"
-										}
-									]
-								},
-								"positiveAction": {
-									"type": "InputAction",
-									"impls": [
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_EQUAL"
-										},
-										{
-											"type": "KeyboardInputActionImpl",
-											"key": "KEY_KP_ADD"
-										}
-									]
-								},
-								"smooth": 0.1,
-								"minSpeed": 0.1
-							}
-						]
-					}
-				}
-			]
-		},
-		{
-			"type":"PhysicalSystem",
-			"fixedTime":0.02
-		},
-		{
-			"type":"TransformSystem"
-		},
-		{
-			"type":"RenderSystem"
-		}
-		]
-	}
-	]
+  "systemGroups": [
+    {
+      "id": "main",
+      "type": "SystemGroupAsset",
+      "systems": [
+        {
+          "type": "InputSystem",
+          "fixedTime": 0.02,
+          "actions": [
+            {
+              "type": "InputActionEntry",
+              "name": "Spawn",
+              "action": {
+                "type": "InputAction",
+                "impls": [
+                  {
+                    "type": "KeyboardInputActionImpl",
+                    "key": "KEY_SPACE"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputActionEntry",
+              "name": "SwitchManipulator",
+              "action": {
+                "type": "InputAction",
+                "impls": [
+                  {
+                    "type": "KeyboardInputActionImpl",
+                    "key": "KEY_TAB"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputActionEntry",
+              "name": "SpeedUp",
+              "action": {
+                "type": "InputAction",
+                "impls": [
+                  {
+                    "type": "KeyboardInputActionImpl",
+                    "key": "KEY_LEFT_SHIFT"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputActionEntry",
+              "name": "MouseSupport",
+              "action": {
+                "type": "InputAction",
+                "impls": [
+                  {
+                    "type": "MouseInputActionImpl",
+                    "key": "LEFT_BUTTON"
+                  }
+                ]
+              }
+            }
+          ],
+          "axes": [
+            {
+              "type": "InputAxisEntry",
+              "name": "MouseX",
+              "axis": {
+                "type": "InputAxis",
+                "impls": [
+                  {
+                    "type": "MouseInputAxisImpl",
+                    "axis": "HORIZONTAL",
+                    "sensitivity": 0.1,
+                    "smooth": 0.01,
+                    "minSpeed": 0.005
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputAxisEntry",
+              "name": "MouseY",
+              "axis": {
+                "type": "InputAxis",
+                "impls": [
+                  {
+                    "type": "MouseInputAxisImpl",
+                    "axis": "VERTICAL",
+                    "sensitivity": 0.1,
+                    "smooth": 0.01,
+                    "minSpeed": 0.005
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputAxisEntry",
+              "name": "Horizontal",
+              "axis": {
+                "type": "InputAxis",
+                "impls": [
+                  {
+                    "type": "KeyInputAxisImpl",
+                    "negativeAction": {
+                      "type": "InputAction",
+                      "impls": [
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_LEFT"
+                        },
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_A"
+                        }
+                      ]
+                    },
+                    "positiveAction": {
+                      "type": "InputAction",
+                      "impls": [
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_RIGHT"
+                        },
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_D"
+                        }
+                      ]
+                    },
+                    "smooth": 0.1,
+                    "minSpeed": 0.2
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputAxisEntry",
+              "name": "Vertical",
+              "axis": {
+                "type": "InputAxis",
+                "impls": [
+                  {
+                    "type": "KeyInputAxisImpl",
+                    "negativeAction": {
+                      "type": "InputAction",
+                      "impls": [
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_UP"
+                        },
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_W"
+                        }
+                      ]
+                    },
+                    "positiveAction": {
+                      "type": "InputAction",
+                      "impls": [
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_DOWN"
+                        },
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_S"
+                        }
+                      ]
+                    },
+                    "smooth": 0.1,
+                    "minSpeed": 0.2
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputAxisEntry",
+              "name": "Zoom",
+              "axis": {
+                "type": "InputAxis",
+                "impls": [
+                  {
+                    "type": "MouseInputAxisImpl",
+                    "axis": "SCROLL",
+                    "sensitivity": 3.0,
+                    "smooth": 0.1,
+                    "minSpeed": 0.05
+                  },
+                  {
+                    "type": "KeyInputAxisImpl",
+                    "negativeAction": {
+                      "type": "InputAction",
+                      "impls": [
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_MINUS"
+                        },
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_KP_SUBTRACT"
+                        }
+                      ]
+                    },
+                    "positiveAction": {
+                      "type": "InputAction",
+                      "impls": [
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_EQUAL"
+                        },
+                        {
+                          "type": "KeyboardInputActionImpl",
+                          "key": "KEY_KP_ADD"
+                        }
+                      ]
+                    },
+                    "smooth": 0.1,
+                    "minSpeed": 0.1
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "PhysicalSystem",
+          "fixedTime": 0.02
+        },
+        {
+          "type": "TransformSystem"
+        },
+        {
+          "type": "RenderSystem"
+        },
+        {
+          "type": "PlayerManager"
+        }
+      ]
+    }
+  ]
 }

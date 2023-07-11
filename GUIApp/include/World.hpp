@@ -1,5 +1,5 @@
 #pragma once
-
+#include "GameObject.hpp"
 #include <memory>
 #include <vector>
 #include <map>
@@ -8,7 +8,6 @@
 #include <string>
 #include <assert.h>
 
-class GameObject;
 class System;
 class Transform;
 
@@ -29,6 +28,9 @@ public:
 
 	template<typename SysType>
 	std::shared_ptr<SysType> getSystem() const;
+
+	template<typename CompType>
+	std::shared_ptr<CompType> findComponent() const;
 
 	void init();
 	void update(float delta_time);
@@ -65,6 +67,18 @@ std::shared_ptr<SysType> World::getSystem() const
 	auto foundIt = _systemsMap.find(index);
 	if (foundIt != _systemsMap.end()) {
 		return std::static_pointer_cast<SysType>(foundIt->second);
+	}
+	return nullptr;
+}
+
+template<typename CompType>
+std::shared_ptr<CompType> World::findComponent() const
+{
+	for (const auto& gameObject : _game_objects) {
+		auto result = gameObject->getComponent<CompType>();
+		if (result) {
+			return result;
+		}
 	}
 	return nullptr;
 }

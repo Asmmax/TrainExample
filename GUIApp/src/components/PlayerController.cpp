@@ -1,25 +1,34 @@
 #include "components/PlayerController.hpp"
 #include "components/ICameraManipulator.hpp"
+#include "systems/PlayerManager.hpp"
 #include "input/InputSystem.hpp"
 #include "common/Transform.hpp"
 #include "World.hpp"
 
-PlayerController::PlayerController(const std::vector<ManipulatorPtr>& manipulators) :
-	_manipulators(manipulators)
+PlayerController::PlayerController():
+	_target(nullptr),
+	_isInited(false)
 {
-	assert(!_manipulators.empty());
-	_target = _manipulators.front();
+}
+
+void PlayerController::setManipulator(ManipulatorPtr target)
+{
+	_target = target;
+	if (_isInited) {
+		_target->apply();
+	}
 }
 
 void PlayerController::init()
 {
-	_target->apply();
-
-	auto inputSystem = getOwner()->getWorld()->getSystem<InputSystem>();
-	if (!inputSystem) {
-		return;
+	auto playerManager = getOwner()->getWorld()->getSystem<PlayerManager>();
+	if (playerManager) {
+		playerManager->setCurrentController(getOwner()->getComponent<PlayerController>());
 	}
-	inputSystem->bindToActionPressed("SwitchManipulator", this, [this]() {switchManipulator(); });
+	if (_target) {
+		_target->apply();
+	}
+	_isInited = true;
 }
 
 void PlayerController::update(float deltaTime)
@@ -53,18 +62,4 @@ void PlayerController::update(float deltaTime)
 	if (deltaZoom != 0.0f) {
 		_target->zoom(deltaZoom * deltaTime);
 	}
-}
-
-void PlayerController::switchManipulator()
-{
-	auto foundIt = std::find(_manipulators.begin(), _manipulators.end(), _target);
-	foundIt++;
-	if (foundIt == _manipulators.end()) {
-		_target = _manipulators.front();
-	}
-	else {
-		_target = *foundIt;
-	}
-
-	_target->apply();
 }
