@@ -16,4 +16,5 @@ public:
 	ManipulatorSwitcherAdder(const ManipulatorPtr& manipulator);
 
 	void init() override;
+	void deinit() override;
 };

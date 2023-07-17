@@ -18,6 +18,7 @@ public:
 	TrackedComponent();
 
 	void init() override;
+	void deinit() override;
 
 	/// @inject
 	void setPath(const std::shared_ptr<ACurve>& path);

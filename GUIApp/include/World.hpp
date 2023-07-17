@@ -3,10 +3,15 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <unordered_map>
+#include <array>
 #include <typeindex>
 #include <typeinfo>
 #include <string>
+#include <functional>
 #include <assert.h>
+
+#define MAX_COUNT_TIMED_CALLBACKS 1000
 
 class System;
 class Transform;
@@ -15,12 +20,20 @@ class World
 {
 	using GameObjectPtr = std::shared_ptr<GameObject>;
 	using SystemPtr = std::shared_ptr<System>;
+	
+	struct TimedCallback
+	{
+		std::function<void(World*)> callback;
+		float redundantTime = 0.f;
+		float periodTime = 0.f;
+	};
 
 public:
 	World();
 	~World();
 
 	GameObjectPtr createGameObject();
+	void removeGameObject(const GameObjectPtr& gameObject);
 	std::vector<GameObjectPtr> spawn(const std::string& assetId);
 
 	template<typename SysType>
@@ -32,15 +45,26 @@ public:
 	template<typename CompType>
 	std::shared_ptr<CompType> findComponent() const;
 
+	size_t delay(float delayTime, const std::function<void(World*)>& callback);
+	size_t repeat(float periodTime, const std::function<void(World*)>& callback);
+	void stop(size_t id);
+
 	void init();
 	void update(float delta_time);
 	void deinit();
+
+private:
+	size_t getNextCallbackId();
+	void freeCallbackId(size_t id);
 
 private:
 	std::vector<GameObjectPtr> _game_objects;
 
 	std::vector<SystemPtr> _systems;
 	std::map<std::type_index, SystemPtr> _systemsMap;
+
+	std::unordered_map<size_t, TimedCallback> _timedCallbacks;
+	std::array<bool, MAX_COUNT_TIMED_CALLBACKS> _busiedCallbackIds;
 };
 
 template<typename SysType>

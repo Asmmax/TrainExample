@@ -21,6 +21,7 @@ public:
 	RenderComponent();
 
 	void init() override;
+	void deinit() override;
 
 	/// @inject
 	void setMaterial(const std::shared_ptr<MaterialAsset>& material);

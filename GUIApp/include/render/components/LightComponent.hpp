@@ -20,6 +20,7 @@ public:
 	LightComponent();
 
 	void init() override;
+	void deinit() override;
 
 	/// @inject
 	void setRadius(float radius);

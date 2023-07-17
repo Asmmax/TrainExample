@@ -26,6 +26,14 @@ void CameraComponent::init()
 	}
 }
 
+void CameraComponent::deinit()
+{
+	auto renderSystem = getOwner()->getWorld()->getSystem<RenderSystem>();
+	if (renderSystem) {
+		renderSystem->removeCameraView(_view);
+	}
+}
+
 void CameraComponent::setMain()
 {
 	_isMainInited = true;

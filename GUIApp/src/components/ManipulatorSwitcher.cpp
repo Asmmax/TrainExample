@@ -23,18 +23,36 @@ void ManipulatorSwitcher::addManipulator(ManipulatorPtr manipulator)
 	_manipulators.push_back(manipulator);
 }
 
-void ManipulatorSwitcher::switchManipulator()
+void ManipulatorSwitcher::removeManipulator(ManipulatorPtr manipulator)
 {
-	if (_manipulators.empty()) {
+	auto foundIt = std::find(_manipulators.begin(), _manipulators.end(), manipulator);
+	if (foundIt == _manipulators.end()) {
 		return;
 	}
+	_manipulators.erase(foundIt);
 
+	auto playerManager = getOwner()->getWorld()->getSystem<PlayerManager>();
+	if (playerManager) {
+		auto controller = playerManager->getCurrentController();
+		if (controller->getManipulator() == manipulator) {
+			switchManipulator();
+		}
+	}
+}
+
+void ManipulatorSwitcher::switchManipulator()
+{
 	auto playerManager = getOwner()->getWorld()->getSystem<PlayerManager>();
 	if (!playerManager) {
 		return;
 	}
 
 	auto controller = playerManager->getCurrentController();
+
+	if (_manipulators.empty()) {
+		controller->setManipulator(nullptr);
+		return;
+	}
 
 	auto foundIt = std::find(_manipulators.begin(), _manipulators.end(), controller->getManipulator());
 	if (foundIt != _manipulators.end()) {

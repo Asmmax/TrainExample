@@ -21,6 +21,8 @@ private:
 public:
 	RenderPointLight(const std::shared_ptr<Model>& model, float radius, float fadingArea, float intensity, const glm::vec3& color, const std::shared_ptr<Transform>& transform);
 
+	void init();
+	void deinit();
 	void update();
 
 	void setRadius(float radius);

@@ -11,7 +11,18 @@ RenderObject::RenderObject(const std::shared_ptr<Model>& model, const std::share
 	_transform(transform),
 	_object(nullptr)
 {
+}
+
+void RenderObject::init()
+{
 	applyMaterial();
+}
+
+void RenderObject::deinit()
+{
+	if (_material && _object) {
+		_material->free(_object);
+	}
 }
 
 void RenderObject::update()

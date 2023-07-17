@@ -14,7 +14,7 @@ PlayerController::PlayerController():
 void PlayerController::setManipulator(ManipulatorPtr target)
 {
 	_target = target;
-	if (_isInited) {
+	if (_isInited && _target) {
 		_target->apply();
 	}
 }

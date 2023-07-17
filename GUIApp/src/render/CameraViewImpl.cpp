@@ -30,6 +30,13 @@ void CameraViewImpl::init(Window* window)
 	_view = window->creteView(_fboTexture);
 }
 
+void CameraViewImpl::deinit(Window* window)
+{
+	window->releaseView(_view);
+	Loader* loader = window->getLoader();
+	loader->release(_fboTexture);
+}
+
 void CameraViewImpl::render(const Model& model)
 {
 	_view->render(&model);

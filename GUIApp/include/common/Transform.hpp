@@ -29,7 +29,7 @@ public:
 
 	void setParentMatrix(const glm::mat4& matrix = glm::mat4(1.0f));
 
-	const Transform* getParent() const { return _parent; }
+	Transform* getParent() const { return _parent; }
 
 #ifdef _DEBUG
 	void invalidate();
@@ -51,6 +51,7 @@ public:
 
 	void addChild(const std::shared_ptr<Transform>& child);
 	void removeChild(const std::shared_ptr<Transform>& child);
+	const std::vector<std::shared_ptr<Transform>>& getChildren() const { return _children; }
 
 	const glm::mat4& getLocalMatrix() const;
 	const glm::mat4& getGlobalMatrix() const;

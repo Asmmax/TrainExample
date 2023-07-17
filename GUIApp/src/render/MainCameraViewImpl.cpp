@@ -12,6 +12,10 @@ void MainCameraViewImpl::init(Window* window)
 	_window = window;
 }
 
+void MainCameraViewImpl::deinit(Window* window)
+{
+}
+
 void MainCameraViewImpl::render(const Model& model)
 {
 	_window->setViewMatrix(_viewMatrix);

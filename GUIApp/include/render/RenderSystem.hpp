@@ -38,8 +38,11 @@ public:
 	void setWindow(Window* window) override;
 
 	CameraViewPtr createCameraView(const std::shared_ptr<Transform>& transform);
+	void removeCameraView(const CameraViewPtr& view);
 	void setMainView(const CameraViewPtr& view);
 
 	RenderObjectPtr createObject(const std::shared_ptr<MeshAsset>& mesh, const std::shared_ptr<MaterialAsset>& material, const std::shared_ptr<Transform>& transform);
+	void removeObject(const RenderObjectPtr& object);
 	RenderPointLightPtr createPointLight(float radius, float fadingArea, float intensity, const glm::vec3& color, const std::shared_ptr<Transform>& transform);
+	void removePointLight(const RenderPointLightPtr& light);
 };

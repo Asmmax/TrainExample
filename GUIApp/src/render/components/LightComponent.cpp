@@ -25,6 +25,14 @@ void LightComponent::init()
 	_light = renderSystem->createPointLight(_radius, _fadingArea, _intensity, _color, transformComp->getTransform());
 }
 
+void LightComponent::deinit()
+{
+	auto renderSystem = getOwner()->getWorld()->getSystem<RenderSystem>();
+	if (renderSystem) {
+		renderSystem->removePointLight(_light);
+	}
+}
+
 void LightComponent::setRadius(float radius)
 {
 	_radius = radius;

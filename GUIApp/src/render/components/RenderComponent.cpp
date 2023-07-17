@@ -21,6 +21,14 @@ void RenderComponent::init()
 	_object = renderSystem->createObject(_mesh, _material, transformComp->getTransform());
 }
 
+void RenderComponent::deinit()
+{
+	auto renderSystem = getOwner()->getWorld()->getSystem<RenderSystem>();
+	if (renderSystem) {
+		renderSystem->removeObject(_object);
+	}
+}
+
 void RenderComponent::setMaterial(const std::shared_ptr<MaterialAsset>& material)
 {
 	_material = material;

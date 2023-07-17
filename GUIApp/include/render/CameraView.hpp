@@ -16,6 +16,7 @@ public:
 	CameraView(const std::shared_ptr<Transform>& transform);
 
 	void init(Window* window);
+	void deinit(Window* window);
 	void update();
 	void render(const Model& model);
 

@@ -77,7 +77,8 @@
     {
       "id": "spawner",
       "type": "SpawnerComponent",
-      "trainId": "prefabs/train"
+      "trainId": "prefabs/train",
+      "delay": 50.0
     },
     {
       "id": "plane_transform",

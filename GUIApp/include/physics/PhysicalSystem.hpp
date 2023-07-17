@@ -22,6 +22,7 @@ public:
 	void postUpdate(float delta_time) override;
 
 	void addEntity(const EntityPtr& entity);
+	void removeEntity(const EntityPtr& entity);
 
 private:
 	void fixedUpdate();

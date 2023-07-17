@@ -8,6 +8,7 @@ class ICameraView
 {
 public:
 	virtual void init(Window* window) = 0;
+	virtual void deinit(Window* window) = 0;
 	virtual void render(const Model& model) = 0;
 	virtual void setViewMatrix(const glm::mat4& matrix) = 0;
 };

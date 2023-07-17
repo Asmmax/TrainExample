@@ -17,6 +17,12 @@ void CameraView::init(Window* window)
 	_slaveImpl->init(window);
 }
 
+void CameraView::deinit(Window* window)
+{
+	_mainImpl->deinit(window);
+	_slaveImpl->deinit(window);
+}
+
 void CameraView::update()
 {
 	if (!_transform) {

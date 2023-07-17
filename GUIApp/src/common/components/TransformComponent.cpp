@@ -24,6 +24,33 @@ void TransformComponent::init()
 	_isInited = true;
 }
 
+void TransformComponent::deinit()
+{
+	_isInited = false;
+
+	auto children = _transform->getChildren();
+	for (auto& child : children) {
+		_transform->removeChild(child);
+	}
+
+	Transform* parent = _transform->getParent();
+	if (parent) {
+		parent->removeChild(_transform);
+		for (auto& child : children) {
+			parent->addChild(child);
+		}
+	}
+	else {
+		auto transformSystem = getOwner()->getWorld()->getSystem<TransformSystem>();
+		if (transformSystem) {
+			transformSystem->removeTransform(_transform);
+			for (auto& child : children) {
+				transformSystem->addTransform(child);
+			}
+		}
+	}
+}
+
 void TransformComponent::setPosition(const glm::vec3& position)
 {
 	_transform->setPosition(position);

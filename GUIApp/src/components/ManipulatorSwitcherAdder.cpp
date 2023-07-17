@@ -16,3 +16,12 @@ void ManipulatorSwitcherAdder::init()
 	}
 	switcher->addManipulator(_manipulator);
 }
+
+void ManipulatorSwitcherAdder::deinit()
+{
+	auto switcher = getOwner()->getWorld()->findComponent<ManipulatorSwitcher>();
+	if (!switcher) {
+		return;
+	}
+	switcher->removeManipulator(_manipulator);
+}

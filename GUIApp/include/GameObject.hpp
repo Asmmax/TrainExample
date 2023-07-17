@@ -33,6 +33,9 @@ public:
 	void addComponent(const std::shared_ptr<CompType>& comp);
 
 	template<typename CompType>
+	void removeComponent();
+
+	template<typename CompType>
 	std::shared_ptr<CompType> getComponent() const;
 };
 
@@ -48,6 +51,21 @@ void GameObject::addComponent(const std::shared_ptr<CompType>& comp)
 	comp->setOwner(this);
 	_components.emplace_back(comp);
 	_componentsMap.emplace(index, comp);
+}
+
+template<typename CompType>
+void GameObject::removeComponent()
+{
+	static_assert(!std::is_same_v<Component, CompType>);
+	static_assert(!std::is_same_v<ComponentCommon<CompType::OriginType>, CompType>);
+
+	std::type_index index = std::type_index(typeid(CompType::OriginType));
+	assert(_componentsMap.count(index) == 0);
+
+	auto foundIt = _componentsMap.find(index);
+	if (foundIt != _componentsMap.end()) {
+		_componentsMap.erase(foundIt);
+	}
 }
 
 template<typename CompType>

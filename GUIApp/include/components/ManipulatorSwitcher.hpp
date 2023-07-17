@@ -17,6 +17,7 @@ public:
 
 	void init() override;
 	void addManipulator(ManipulatorPtr manipulator);
+	void removeManipulator(ManipulatorPtr manipulator);
 
 protected:
 	void switchManipulator();

@@ -19,6 +19,7 @@ public:
 	TransformComponent(const std::vector<Ptr>& children = std::vector<Ptr>());
 
 	void init() override;
+	void deinit() override;
 
 	/// @inject
 	void setPosition(const glm::vec3& position);

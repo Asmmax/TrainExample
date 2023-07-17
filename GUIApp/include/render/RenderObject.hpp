@@ -19,6 +19,8 @@ private:
 public:
 	RenderObject(const std::shared_ptr<Model>& model, const std::shared_ptr<MeshAsset>& mesh, const std::shared_ptr<MaterialAsset>& material, const std::shared_ptr<Transform>& transform);
 
+	void init();
+	void deinit();
 	void update();
 
 	void setMaterial(const std::shared_ptr<MaterialAsset>& material);

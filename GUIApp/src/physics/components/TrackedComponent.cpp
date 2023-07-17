@@ -38,6 +38,16 @@ void TrackedComponent::init()
 	physicalSystem->addEntity(_entity);
 }
 
+void TrackedComponent::deinit()
+{
+	auto world = getOwner()->getWorld();
+	auto physicalSystem = world->getSystem<PhysicalSystem>();
+	if (!physicalSystem) {
+		return;
+	}
+	physicalSystem->removeEntity(_entity);
+}
+
 void TrackedComponent::setPath(const std::shared_ptr<ACurve>& path)
 {
 	_path = path;

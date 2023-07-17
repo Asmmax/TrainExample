@@ -12,6 +12,7 @@ public:
 	MainCameraViewImpl();
 
 	void init(Window* window) override;
+	void deinit(Window* window) override;
 	void render(const Model& model) override;
 	void setViewMatrix(const glm::mat4& matrix) override;
 };

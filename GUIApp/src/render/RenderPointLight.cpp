@@ -12,11 +12,20 @@ RenderPointLight::RenderPointLight(const std::shared_ptr<Model>& model, float ra
 	_transform(transform),
 	_light(nullptr)
 {
+}
+
+void RenderPointLight::init()
+{
 	_light = _model->createLight();
 	_light->setRadius(_radius);
 	_light->setFadingArea(_fadingArea);
 	_light->setIntensity(_intensity);
 	_light->setColor(_color);
+}
+
+void RenderPointLight::deinit()
+{
+	_model->removeLight(_light);
 }
 
 void RenderPointLight::update()

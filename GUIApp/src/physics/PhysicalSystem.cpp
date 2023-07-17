@@ -29,6 +29,12 @@ void PhysicalSystem::addEntity(const EntityPtr& entity)
 	_entities.push_back(entity);
 }
 
+void PhysicalSystem::removeEntity(const EntityPtr& entity)
+{
+	auto lastIt = std::remove(_entities.begin(), _entities.end(), entity);
+	_entities.erase(lastIt, _entities.end());
+}
+
 void PhysicalSystem::fixedUpdate()
 {
 	for (auto& entity : _entities) {

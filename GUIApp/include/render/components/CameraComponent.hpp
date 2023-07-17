@@ -18,6 +18,7 @@ public:
 	CameraComponent(bool isMain = false);
 
 	void init() override;
+	void deinit() override;
 
 	void setMain();
 };

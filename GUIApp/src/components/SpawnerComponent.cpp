@@ -4,8 +4,9 @@
 #include "assets/AssetManager.hpp"
 #include "assets/units/SceneUnit.hpp"
 
-SpawnerComponent::SpawnerComponent(const std::string& trainId):
-	_trainId(trainId)
+SpawnerComponent::SpawnerComponent(const std::string& trainId, float delay):
+	_trainId(trainId),
+	_delay(delay)
 {
 }
 
@@ -21,5 +22,10 @@ void SpawnerComponent::init()
 
 void SpawnerComponent::spawn()
 {
-	getOwner()->getWorld()->spawn(_trainId);
+	auto gameObjects = getOwner()->getWorld()->spawn(_trainId);
+	getOwner()->getWorld()->delay(_delay, [gameObjects](World* world) {
+		for (const auto& go : gameObjects) {
+			world->removeGameObject(go);
+		}
+		});
 }
