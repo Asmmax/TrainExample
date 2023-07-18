@@ -39,26 +39,65 @@ set(out_source_path "${PROJECT_BINARY_DIR}/.generated/GUIApp/${guiapp_src_dir}")
 set(cache_path "${PROJECT_BINARY_DIR}/.generated/GUIApp")
 set(scripts_dir "${PROJECT_SOURCE_DIR}/scripts")
 
-if (WIN32)
-	message (STATUS "Generating containers for Current")
+find_package (Python3 COMPONENTS Interpreter)
 
-    set(dgnix_DEPENDENCIES)
-    get_include_directories(dgnix_DEPENDENCIES dgnix)
-    set(DIAssets_DEPENDENCIES)
-    get_include_directories(DIAssets_DEPENDENCIES DIAssets)
-    set(ALL_DEPENDENCIES)
-    list(APPEND ALL_DEPENDENCIES ${dgnix_DEPENDENCIES})
-    list(APPEND ALL_DEPENDENCIES ${DIAssets_DEPENDENCIES})
-    list(REMOVE_DUPLICATES ALL_DEPENDENCIES)
-    string(REPLACE ";" "," add_includes "${ALL_DEPENDENCIES}")
+if (NOT Python3_FOUND AND NOT Python3_Interpreter_FOUND)
+    message( FATAL_ERROR "You need python3 to generate some projects files!" )
+endif()
 
-	set(in_path "${CMAKE_CURRENT_SOURCE_DIR}/${guiapp_include_dir}")
-	set(gen_dir "GUIApp")
-	execute_process(
-		COMMAND cmd /C set out_include_dir=${gen_dir} && set out_source_dir=${gen_dir} && set add_includes=${add_includes} && set cache_path=${cache_path} && call "${scripts_dir}/win/generate_containers.bat" ${in_path} ${out_include_path} ${out_source_path}
-		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+if (NOT EXISTS ${PROJECT_SOURCE_DIR}/.venv)
+    message (STATUS "Installing python env")
+    execute_process(
+		COMMAND ${Python3_EXECUTABLE} -m venv .venv
+		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 		)
 endif()
+
+if (WIN32)
+    set(Python3_ACTIVATE ${PROJECT_SOURCE_DIR}/.venv/Scripts/activate)
+    set(Python3_EXECUTABLE ${PROJECT_SOURCE_DIR}/.venv/Scripts/python)
+    set(Pip_EXECUTABLE ${PROJECT_SOURCE_DIR}/.venv/Scripts/pip)
+elseif()
+    set(Python3_ACTIVATE ${PROJECT_SOURCE_DIR}/.venv/bin/activate)
+    set(Python3_EXECUTABLE ${PROJECT_SOURCE_DIR}/.venv/bin/python)
+    set(Pip_EXECUTABLE ${PROJECT_SOURCE_DIR}/.venv/bin/pip)
+endif()
+
+execute_process(
+    COMMAND ${Python3_ACTIVATE}
+    )
+
+execute_process(
+    COMMAND ${Pip_EXECUTABLE} show libclang
+    RESULT_VARIABLE LIBCLANG_EXISTS
+    OUTPUT_QUIET
+)
+
+if (NOT ${LIBCLANG_EXISTS} EQUAL 0)
+    message (STATUS "Installing libclang package")
+    execute_process(
+        COMMAND ${Pip_EXECUTABLE} install libclang
+        )
+endif()
+
+get_target_property(DIAssets_SOURCE_DIR DIAssets SOURCE_DIR)
+message (STATUS "Generating containers for Current")
+set(dgnix_DEPENDENCIES)
+get_include_directories(dgnix_DEPENDENCIES dgnix)
+set(DIAssets_DEPENDENCIES)
+get_include_directories(DIAssets_DEPENDENCIES DIAssets)
+set(ALL_DEPENDENCIES)
+list(APPEND ALL_DEPENDENCIES ${dgnix_DEPENDENCIES})
+list(APPEND ALL_DEPENDENCIES ${DIAssets_DEPENDENCIES})
+list(REMOVE_DUPLICATES ALL_DEPENDENCIES)
+string(REPLACE ";" "," add_includes "${ALL_DEPENDENCIES}")
+
+set(in_path "${CMAKE_CURRENT_SOURCE_DIR}/${guiapp_include_dir}")
+set(gen_dir "GUIApp")
+execute_process(
+    COMMAND ${Python3_EXECUTABLE} generate.py ${in_path} ${out_include_path} ${out_source_path} --out_include_dir=${gen_dir} --out_source_dir=${gen_dir} --add_includes=${add_includes} --cache_path=${cache_path}
+    WORKING_DIRECTORY ${DIAssets_SOURCE_DIR}/utils/generator
+    )
 
 file(GLOB_RECURSE guiapp_include "${guiapp_include_dir}/*.hpp")
 file(GLOB_RECURSE guiapp_src "${guiapp_src_dir}/*.cpp")
