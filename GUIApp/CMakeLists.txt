@@ -55,33 +55,30 @@ if (NOT EXISTS ${PROJECT_SOURCE_DIR}/.venv)
 endif()
 
 if (WIN32)
-    set(Python3_ACTIVATE ${PROJECT_SOURCE_DIR}/.venv/Scripts/activate)
-    set(Python3_EXECUTABLE ${PROJECT_SOURCE_DIR}/.venv/Scripts/python)
-    set(Pip_EXECUTABLE ${PROJECT_SOURCE_DIR}/.venv/Scripts/pip)
-elseif()
-    set(Python3_ACTIVATE ${PROJECT_SOURCE_DIR}/.venv/bin/activate)
-    set(Python3_EXECUTABLE ${PROJECT_SOURCE_DIR}/.venv/bin/python)
-    set(Pip_EXECUTABLE ${PROJECT_SOURCE_DIR}/.venv/bin/pip)
+    set(Python3_ENV ${PROJECT_SOURCE_DIR}/.venv/Scripts)
+else()
+    set(Python3_ENV ${PROJECT_SOURCE_DIR}/.venv/bin)
 endif()
 
 execute_process(
-    COMMAND ${Python3_ACTIVATE}
-    )
-
-execute_process(
-    COMMAND ${Pip_EXECUTABLE} show libclang
+    COMMAND ${Python3_ENV}/python -m pip show libclang
     RESULT_VARIABLE LIBCLANG_EXISTS
     OUTPUT_QUIET
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 )
 
 if (NOT ${LIBCLANG_EXISTS} EQUAL 0)
     message (STATUS "Installing libclang package")
     execute_process(
-        COMMAND ${Pip_EXECUTABLE} install libclang
+        COMMAND ${Python3_ENV}/python -m pip install wheel
+	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+        )
+    execute_process(
+        COMMAND ${Python3_ENV}/python -m pip install libclang
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         )
 endif()
 
-get_target_property(DIAssets_SOURCE_DIR DIAssets SOURCE_DIR)
 message (STATUS "Generating containers for Current")
 set(dgnix_DEPENDENCIES)
 get_include_directories(dgnix_DEPENDENCIES dgnix)
@@ -96,7 +93,8 @@ string(REPLACE ";" "," add_includes "${ALL_DEPENDENCIES}")
 set(in_path "${CMAKE_CURRENT_SOURCE_DIR}/${guiapp_include_dir}")
 set(gen_dir "GUIApp")
 execute_process(
-    COMMAND ${Python3_EXECUTABLE} generate.py ${in_path} ${out_include_path} ${out_source_path} --out_include_dir=${gen_dir} --out_source_dir=${gen_dir} --add_includes=${add_includes} --cache_path=${cache_path}
+    COMMAND ${Python3_ENV}/python generate.py ${in_path} ${out_include_path} ${out_source_path} --out_include_dir=${gen_dir} --out_source_dir=${gen_dir} --add_includes=${add_includes} --cache_path=${cache_path}
+    RESULT_VARIABLE PY_OUTPUT
     WORKING_DIRECTORY ${DIAssets_SOURCE_DIR}/utils/generator
     )
 
@@ -126,5 +124,5 @@ if(WIN32)
 	set_target_properties(GUIApp PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup /SUBSYSTEM:WINDOWS")
 endif()
 
-file(RELATIVE_PATH RESOURCE_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${assets_dir})
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/settings.dat.in ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/settings.dat)
+file(RELATIVE_PATH RESOURCE_PATH ${PROJECT_BINARY_DIR} ${assets_dir})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/settings.dat.in ${PROJECT_BINARY_DIR}/settings.dat)
