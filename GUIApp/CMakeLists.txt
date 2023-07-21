@@ -41,7 +41,6 @@ set(cache_path "${PROJECT_BINARY_DIR}/.generated/GUIApp")
 set(scripts_dir "${PROJECT_SOURCE_DIR}/scripts")
 
 find_package (Python3 COMPONENTS Interpreter)
-
 if (NOT Python3_FOUND AND NOT Python3_Interpreter_FOUND)
     message( FATAL_ERROR "You need python3 to generate some projects files!" )
 endif()
@@ -49,7 +48,7 @@ endif()
 if (NOT EXISTS ${PROJECT_SOURCE_DIR}/.venv)
     message (STATUS "Installing python env")
     execute_process(
-		COMMAND ${Python3_EXECUTABLE} -m venv .venv
+		COMMAND py -3.7 -m venv .venv
 		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 		)
 endif()
