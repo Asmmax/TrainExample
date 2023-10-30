@@ -26,7 +26,9 @@ void AInputAxisImpl::fixedUpdate(float deltaTime)
 
 	if (glm::abs(dif) < _minSpeed) {
 		const float dir = glm::sign(dif);
-		setValue(dir * glm::min(dir * _value + _minSpeed * (1 - factor), dir * targetValue));
+		const float linValue = _value + dir * _minSpeed * (1 - factor);
+		const float clampedValue = dir > 0.f ? glm::min(linValue, targetValue) : glm::max(linValue, targetValue);
+		setValue(clampedValue);
 		return;
 	}
 
