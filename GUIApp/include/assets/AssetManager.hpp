@@ -23,10 +23,11 @@ public:
 	template<typename AssetType>
 	std::shared_ptr<AssetType> cloneAsset(const std::string& assetId);
 
+	void setLoader(Loader* loader);
 	Loader* getLoader() { return _loader; }
 	const Path& getPath() { return *_path; }
 
-	void init(const std::string& config, Loader* loader);
+	void init(const std::string& config);
 };
 
 template<typename AssetType>
