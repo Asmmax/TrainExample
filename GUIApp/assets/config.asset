@@ -6,7 +6,7 @@
       "systems": [
         {
           "type": "InputSystem",
-          "fixedTime": 0.02,
+          "fixedTime": 0.0166667,
           "actions": [
             {
               "type": "InputActionEntry",
@@ -237,6 +237,18 @@
           "type": "PlayerManager"
         }
       ]
+    }
+  ],
+  "generalSettings": [
+    {
+      "id": "main",
+      "type": "GeneralSettingsAsset",
+      "settings": {
+        "type": "GeneralSettings",
+        "logDir": "log",
+        "frameFrequence": 60.0,
+        "fullscreen": true
+      }
     }
   ]
 }

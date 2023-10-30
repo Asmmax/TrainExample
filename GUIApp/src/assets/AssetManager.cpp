@@ -12,12 +12,16 @@ AssetManager::AssetManager():
 {
 }
 
-void AssetManager::init(const std::string& config, Loader* loader)
+void AssetManager::setLoader(Loader* loader)
+{
+	_loader = loader;
+}
+
+void AssetManager::init(const std::string& config)
 {
 	ContextManager::Instance().BindImpl(std::make_shared<ContextManagerImpl>());
 
 	_path = std::make_unique<Path>(config);
-	_loader = loader;
 
 	auto assets = _path->findByExtension(".asset");
 	for (auto& assetPath : assets) {
