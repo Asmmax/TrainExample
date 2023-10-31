@@ -48,8 +48,8 @@ void LogManager::init(const std::string& directory)
 
 void LogManager::push(const std::string& title)
 {
-	_stack.push(title);
 	text(title + " - Begin:");
+	_stack.push(title);
 }
 
 LogSmartSection LogManager::pushSmart(const std::string& title)
@@ -60,8 +60,9 @@ LogSmartSection LogManager::pushSmart(const std::string& title)
 
 void LogManager::pop()
 {
-	text(_stack.top() + " - End:");
+	const std::string title = _stack.top();
 	_stack.pop();
+	text(title + " - End:");
 }
 
 void LogManager::text(const std::string& msg)

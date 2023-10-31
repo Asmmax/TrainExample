@@ -7,7 +7,7 @@
 #include "assets/SystemGroupAsset.hpp"
 #include "assets/GeneralSettingsAsset.hpp"
 #include "assets/SceneAsset.hpp"
-#include <thread>
+#include "SleepTimer.hpp"
 
 int main()
 {
@@ -15,7 +15,7 @@ int main()
 
 	auto generalSettings = AssetManager::getInstance().getAsset<GeneralSettingsAsset>("config");
 	const GeneralSettings& settings = generalSettings->getSettings();
-	const float minTimeStep = 1.f / settings.frameFrequence;
+	const double minTimeStep = 1.0 / settings.frameFrequence;
 
 	LogManager::getInstance().init(settings.logDir);
 
@@ -40,23 +40,20 @@ int main()
 	world->init();
 
 	// main loop
+	SleepTimer timer(minTimeStep);
 	float lastFrame = 0.0f;
 	while (!window->isDone())
 	{
+		timer.startLoop();
+
+		const float currentFrame = static_cast<float>(app.GetTime());
+		const float deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		window->handle();
+		world->update(deltaTime);
 
-		float currentFrame = static_cast<float>(app.GetTime());
-		float deltaTime = currentFrame - lastFrame;
-		const float excessTime = glm::max(minTimeStep - deltaTime, 0.f);
-
-		lastFrame = currentFrame + excessTime;
-
-		world->update(deltaTime + excessTime);
-
-		if (excessTime > 0.f) {
-			const std::chrono::duration<float, std::chrono::seconds::period> duration(excessTime);
-			std::this_thread::sleep_for(duration);
-		}
+		timer.endLoop();
 	}
 
 	world->deinit();
