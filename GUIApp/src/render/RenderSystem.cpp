@@ -3,7 +3,6 @@
 #include "render/RenderObject.hpp"
 #include "render/RenderPointLight.hpp"
 #include "Model.hpp"
-#include "LogManager.hpp"
 #include <thread>
 
 RenderSystem::RenderSystem():
@@ -36,11 +35,7 @@ void RenderSystem::postUpdate(float delta_time)
 	for (auto& camera : _cameras) {
 		camera->render(*_model);
 	}
-	const auto beforeRender = std::chrono::steady_clock::now();
 	_mainCamera->render(*_model);
-	const auto afterRender = std::chrono::steady_clock::now();
-	const auto renderTime = afterRender - beforeRender;
-	LogManager::getInstance().text("RenderTime = " + std::to_string(renderTime.count() / 1e9));
 }
 
 void RenderSystem::setWindow(Window* window)
