@@ -15,16 +15,22 @@ int main()
 
 	auto generalSettings = AssetManager::getInstance().getAsset<GeneralSettingsAsset>("config");
 	const GeneralSettings& settings = generalSettings->getSettings();
-	const double minTimeStep = 1.0 / settings.frameFrequence;
+	const double minTimeStep = 1.0 / settings.framerate;
 
 	LogManager::getInstance().init(settings.logDir);
 
 	// initialization
 	Application& app = Application::getInstance();
 	app.bindImpl<GLFWApplicationImpl>();
-	Window* window = settings.fullscreen ? app.getFullscreenWindow("Train Example") : app.getWindow(1600, 900, "Train Example");
+	Window* window = app.getWindow(settings.width, settings.height, "Train Example");
 	if (!window)
 		return -1;
+
+	window->setVSync(settings.vsync);
+	if (settings.fullscreen) {
+		window->setFullscreen(settings.width, settings.height, settings.framerate);
+	}
+	const int realFramerate = window->getFramerate();
 
 	AssetManager::getInstance().setLoader(window->getLoader());
 
@@ -40,20 +46,22 @@ int main()
 	world->init();
 
 	// main loop
-	SleepTimer timer(minTimeStep);
+	SleepTimer timer(minTimeStep, realFramerate != settings.framerate || !settings.vsync);
 	float lastFrame = 0.0f;
 	while (!window->isDone())
 	{
 		timer.startLoop();
 
-		const float currentFrame = static_cast<float>(app.GetTime());
-		const float deltaTime = currentFrame - lastFrame;
-		lastFrame = currentFrame;
+		const float deltaTime = static_cast<float>(timer.getNextTimeStep());
+		auto logSec = LogManager::getInstance().pushSmart("Frame");
+		LogManager::getInstance().text(std::to_string(deltaTime));
 
 		window->handle();
 		world->update(deltaTime);
 
 		timer.endLoop();
+
+		window->swapBuffers();
 	}
 
 	world->deinit();

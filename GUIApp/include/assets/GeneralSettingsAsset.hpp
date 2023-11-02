@@ -4,8 +4,11 @@
 struct GeneralSettings
 {
 	std::string logDir;
-	float frameFrequence{ 60.f };
+	int width{ 640 };
+	int height{ 420 };
+	int framerate{ 60 };
 	bool fullscreen{ false };
+	bool vsync{ true };
 };
 
 /// @serializable @shared generalSettings

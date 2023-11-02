@@ -20,9 +20,8 @@ void MainCameraViewImpl::render(const Model& model)
 {
 	_window->setViewMatrix(_viewMatrix);
 
-	_window->beginRender();
+	_window->prepareRender();
 	_window->render(&model);
-	_window->endRender();
 }
 
 void MainCameraViewImpl::setViewMatrix(const glm::mat4& matrix)
