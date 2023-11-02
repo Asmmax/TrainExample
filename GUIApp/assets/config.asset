@@ -6,7 +6,7 @@
       "systems": [
         {
           "type": "InputSystem",
-          "fixedTime": 0.0166667,
+          "fixedTime": 0.02,
           "actions": [
             {
               "type": "InputActionEntry",
@@ -246,8 +246,11 @@
       "settings": {
         "type": "GeneralSettings",
         "logDir": "log",
-        "frameFrequence": 60.0,
-        "fullscreen": true
+        "width": 1280,
+        "height": 960,
+        "framerate": 60,
+        "fullscreen": false,
+        "vsync": true
       }
     }
   ]
