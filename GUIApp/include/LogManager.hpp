@@ -33,3 +33,17 @@ public:
 	void pop();
 	void text(const std::string& msg);
 };
+
+#ifdef _DEBUG
+
+#define LOG_DEBUG(msg) LogManager::getInstance().text(msg)
+#define LOG_DEBUG_PUSH(title) LogManager::getInstance().push(title)
+#define LOG_DEBUG_POP() LogManager::getInstance().pop()
+
+#else
+
+#define LOG_DEBUG(msg)
+#define LOG_DEBUG_PUSH(title)
+#define LOG_DEBUG_POP()
+
+#endif // _DEBUG

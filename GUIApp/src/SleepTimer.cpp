@@ -57,15 +57,15 @@ void SleepTimer::endLoop()
 {
 	const auto endTime = std::chrono::high_resolution_clock::now();
 	const auto loopDeltaTime = endTime - _startTime;
-	LogManager::getInstance().text("LoopTime = " + std::to_string(loopDeltaTime.count() / 1e9));
+	LOG_DEBUG("LoopTime = " + std::to_string(loopDeltaTime.count() / 1e9));
 	_residualSleep += _minTimeStep - loopDeltaTime.count() / 1e9 - _loopOffset.getMean();
 	if (_residualSleep > 0) {
-		LogManager::getInstance().text("ResidualSleepTime = " + std::to_string(_residualSleep));
+		LOG_DEBUG("ResidualSleepTime = " + std::to_string(_residualSleep));
 		preciseSleep(_residualSleep);
 		const auto afterSleepTime = std::chrono::high_resolution_clock::now();
 		const double sleepTime = (afterSleepTime - endTime).count() / 1e9;
 		_sleepTimeOffset.addPoint(sleepTime - _residualSleep);
-		LogManager::getInstance().text("SleepTime = " + std::to_string(sleepTime));
+		LOG_DEBUG("SleepTime = " + std::to_string(sleepTime));
 		_residualSleep -= sleepTime;
 	}
 	if (!_qualitySync) {
@@ -103,10 +103,9 @@ void SleepTimer::init()
 
 void SleepTimer::preciseSleep(double duration)
 {
-	LogManager::getInstance().push("SleepLoop by process wait");
-
 	double residualDuration = duration;
 	double estimate = getSleepTime();
+	LOG_DEBUG_PUSH("SleepLoop by process wait");
 	while (residualDuration > estimate) {
 		const auto start = std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -116,12 +115,12 @@ void SleepTimer::preciseSleep(double duration)
 		const double observed = (end - start).count() / 1e9;
 		residualDuration -= observed;
 		
-		LogManager::getInstance().text("Estimate = " + std::to_string(estimate));
+		LOG_DEBUG("Estimate = " + std::to_string(estimate));
 		estimate = getSleepTime();
-		LogManager::getInstance().text("Observed = " + std::to_string(observed));
+		LOG_DEBUG("Observed = " + std::to_string(observed));
 	}
-	LogManager::getInstance().pop();
-	LogManager::getInstance().text("Process wait time = " + std::to_string(duration - residualDuration));
+	LOG_DEBUG_POP();
+	LOG_DEBUG("Process wait time = " + std::to_string(duration - residualDuration));
 
 	spinLock(residualDuration);
 }
@@ -139,7 +138,7 @@ void SleepTimer::spinLock(double duration)
 	const double spinLockTime = (stop - start).count() / 1e9;
 	const double observedSpinLockOffset = duration - spinLockTime;
 	_spinLockOffset.addPoint(observedSpinLockOffset);
-	LogManager::getInstance().text("Spin lock time = " + std::to_string(spinLockTime));
+	LOG_DEBUG("Spin lock time = " + std::to_string(spinLockTime));
 }
 
 void SleepTimer::computePrevTimeStep()
@@ -148,7 +147,7 @@ void SleepTimer::computePrevTimeStep()
 
 	if (_startTime.time_since_epoch().count() != 0) {
 		_prevFullTimeStep = (newStartTime - _startTime).count() / 1e9;
-		LogManager::getInstance().text("Full time step = " + std::to_string(_prevFullTimeStep));
+		LOG_DEBUG("Prev real time step = " + std::to_string(_prevFullTimeStep));
 		_prevLoopTimeStep = (_endTime - _startTime).count() / 1e9 + _loopOffset.getMean();
 	}
 }

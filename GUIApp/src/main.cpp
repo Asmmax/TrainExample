@@ -50,11 +50,11 @@ int main()
 	float lastFrame = 0.0f;
 	while (!window->isDone())
 	{
+		LOG_DEBUG_PUSH("Frame");
 		timer.startLoop();
 
 		const float deltaTime = static_cast<float>(timer.getNextTimeStep());
-		auto logSec = LogManager::getInstance().pushSmart("Frame");
-		LogManager::getInstance().text(std::to_string(deltaTime));
+		LOG_DEBUG("Predicted time step = " + std::to_string(deltaTime));
 
 		window->handle();
 		world->update(deltaTime);
@@ -62,6 +62,7 @@ int main()
 		timer.endLoop();
 
 		window->swapBuffers();
+		LOG_DEBUG_POP();
 	}
 
 	world->deinit();
