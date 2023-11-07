@@ -10,8 +10,6 @@ private:
 	WelfordEstimator _spinLockOffset;
 	WelfordEstimator _sleepTimePeriod;
 
-	size_t _sleepFrequency;
-
 	const double _sleepTimeMin{ 1e-3 };
 	const double _relativeTimeShift{ 5e-4 };
 

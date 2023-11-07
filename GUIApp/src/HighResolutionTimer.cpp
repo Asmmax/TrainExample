@@ -2,16 +2,14 @@
 #include "LogManager.hpp"
 #include <vector>
 
-HighResolutionTimer::HighResolutionTimer() :
-	_sleepFrequency(0)
+HighResolutionTimer::HighResolutionTimer()
 {
 }
 
 void HighResolutionTimer::reset()
 {
 	_spinLockOffset.reset();
-	computeSleepTimePeriod(10);
-	_sleepFrequency = static_cast<size_t>(round(1.0 / _sleepTimePeriod.getMean()));
+	computeSleepTimePeriod(1);
 }
 
 double HighResolutionTimer::processWait(double duration)
@@ -50,7 +48,7 @@ double HighResolutionTimer::spinLock(double duration)
 
 double HighResolutionTimer::getSleepTime() const
 {
-	const double sleepTimePeriod = 1.0 / _sleepFrequency;
+	const double sleepTimePeriod = 1.0 / round(1.0 / _sleepTimePeriod.getMean());
 	const auto currentTime = std::chrono::steady_clock::now();
 	const double argTimeMin = std::fmod((currentTime - _timeShiftEstimate).count() / 1e9 + _sleepTimeMin - _relativeTimeShift, sleepTimePeriod);
 	const double argTimeMax = std::fmod((currentTime - _timeShiftEstimate).count() / 1e9 + _sleepTimeMin + _relativeTimeShift, sleepTimePeriod);
@@ -80,9 +78,18 @@ void HighResolutionTimer::computeSleepTimePeriod(int periods)
 
 void HighResolutionTimer::accurizeSleepTimePeriod(double somePeriods)
 {
-	if (somePeriods < _sleepTimePeriod.getMax()) {
-		_sleepTimePeriod.addPoint(somePeriods);
-		_sleepFrequency = static_cast<size_t>(round(1.0 / _sleepTimePeriod.getMean()));
+	const double invRelativeErr = _sleepTimePeriod.getMean() / _sleepTimePeriod.getDeviation();
+	if (invRelativeErr < 9.0) {
 		return;
+	}
+
+	const double Nmax = invRelativeErr / 6 - 0.5;
+	const double realN = round(somePeriods / _sleepTimePeriod.getMean());
+	if (realN > Nmax) {
+		return;
+	}
+	const double period = somePeriods / realN;
+	for (int i = 0; i < static_cast<int>(realN*realN); i++) {
+		_sleepTimePeriod.addPoint(period);
 	}
 }
