@@ -1,4 +1,4 @@
-#include "WelfordEstimator.hpp"
+#include "timers/WelfordEstimator.hpp"
 #include <glm/glm.hpp>
 
 WelfordEstimator::WelfordEstimator() :

@@ -1,5 +1,5 @@
 #pragma once
-#include "WelfordEstimator.hpp"
+#include "timers/WelfordEstimator.hpp"
 #include <thread>
 
 class HighResolutionTimer

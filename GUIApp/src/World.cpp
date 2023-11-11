@@ -123,6 +123,13 @@ void World::update(float delta_time)
 	}
 }
 
+void World::render()
+{
+	for (auto& system : _systems) {
+		system->render();
+	}
+}
+
 void World::deinit()
 {
 	for (auto& game_object : _game_objects) {

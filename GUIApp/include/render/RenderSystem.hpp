@@ -33,7 +33,7 @@ public:
 	RenderSystem();
 
 	void init() override;
-	void postUpdate(float delta_time) override;
+	void render() override;
 
 	void setWindow(Window* window) override;
 

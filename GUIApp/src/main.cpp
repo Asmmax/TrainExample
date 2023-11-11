@@ -7,7 +7,7 @@
 #include "assets/SystemGroupAsset.hpp"
 #include "assets/GeneralSettingsAsset.hpp"
 #include "assets/SceneAsset.hpp"
-#include "SleepTimer.hpp"
+#include "timers/SleepTimer.hpp"
 
 int main()
 {
@@ -30,7 +30,6 @@ int main()
 	if (settings.fullscreen) {
 		window->setFullscreen(settings.width, settings.height, settings.framerate);
 	}
-	const int realFramerate = window->getFramerate();
 
 	AssetManager::getInstance().setLoader(window->getLoader());
 
@@ -46,20 +45,21 @@ int main()
 	world->init();
 
 	// main loop
-	SleepTimer timer(minTimeStep, realFramerate != settings.framerate || !settings.vsync);
+	std::shared_ptr<BaseTimer> timer = settings.vsync ? std::make_shared<BaseTimer>(minTimeStep) : std::make_shared<SleepTimer>(minTimeStep);
 	float lastFrame = 0.0f;
 	while (!window->isDone())
 	{
 		LOG_DEBUG_PUSH("Frame");
-		timer.startLoop();
+		timer->startLoop();
 
-		const float deltaTime = static_cast<float>(timer.getNextTimeStep());
+		const float deltaTime = static_cast<float>(timer->getNextTimeStep());
 		LOG_DEBUG("Predicted time step = " + std::to_string(deltaTime));
 
 		window->handle();
 		world->update(deltaTime);
+		world->render();
 
-		timer.endLoop();
+		timer->endLoop();
 
 		window->swapBuffers();
 		LOG_DEBUG_POP();

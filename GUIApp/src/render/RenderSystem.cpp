@@ -17,7 +17,7 @@ void RenderSystem::init()
 {
 }
 
-void RenderSystem::postUpdate(float delta_time)
+void RenderSystem::render()
 {
 	for (auto& light : _pointLights) {
 		light->update();

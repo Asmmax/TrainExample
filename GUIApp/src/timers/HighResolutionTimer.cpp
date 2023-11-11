@@ -1,4 +1,4 @@
-#include "HighResolutionTimer.hpp"
+#include "timers/HighResolutionTimer.hpp"
 #include "LogManager.hpp"
 #include <vector>
 
