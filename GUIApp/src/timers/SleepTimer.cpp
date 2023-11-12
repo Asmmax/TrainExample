@@ -4,8 +4,10 @@
 
 SleepTimer::SleepTimer(double timeStep):
 	BaseTimer(timeStep),
+	_sleepTimeOffset(10),
+	_loopOffset(10),
 	_minTimeStep(timeStep),
-	_prevLoopTimeStep(0.0),
+	_prevLoopTimeStep(timeStep),
 	_residualSleep(0.0)
 {
 	_timer.reset();
@@ -15,9 +17,9 @@ void SleepTimer::endLoop()
 {
 	const auto& startTime = getStartTime();
 	const auto endTime = getCurrentTime();
-	const auto loopDeltaTime = endTime - startTime;
-	LOG_DEBUG("LoopTime = " + std::to_string(loopDeltaTime.count() / 1e9));
-	_residualSleep += _minTimeStep - loopDeltaTime.count() / 1e9 - _loopOffset.getMean();
+	const double loopDeltaTime = (endTime - startTime).count() / 1e9;
+	LOG_DEBUG("LoopTime = " + std::to_string(loopDeltaTime));
+	_residualSleep += _minTimeStep - loopDeltaTime - _loopOffset.getMean();
 	if (_residualSleep > 0) {
 		LOG_DEBUG("ResidualSleepTime = " + std::to_string(_residualSleep));
 		preciseSleep(_residualSleep);

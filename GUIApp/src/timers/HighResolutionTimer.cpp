@@ -1,6 +1,9 @@
 #include "timers/HighResolutionTimer.hpp"
 #include "LogManager.hpp"
 #include <vector>
+#include <Windows.h>
+#include <timeapi.h>
+#include <assert.h>
 
 HighResolutionTimer::HighResolutionTimer()
 {
@@ -14,24 +17,37 @@ void HighResolutionTimer::reset()
 
 double HighResolutionTimer::processWait(double duration)
 {
-	double residualDuration = duration;
-	double estimate = getSleepTime();
-	while (residualDuration > estimate) {
-		const auto start = std::chrono::high_resolution_clock::now();
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
-		const auto end = std::chrono::high_resolution_clock::now();
-		accurizeSleepTimePeriod((end - _timeShiftEstimate).count() / 1e9);
-		_timeShiftEstimate = end;
+	const auto startWait = std::chrono::high_resolution_clock::now();
+	MMRESULT result = timeBeginPeriod(1);
+	double dbgDuration = 0.0;
+	if (result == TIMERR_NOERROR) {
+		double residualDuration = duration;
+		double estimate = getSleepTime();
+		while (residualDuration > estimate) {
+			const auto start = std::chrono::high_resolution_clock::now();
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			const auto end = std::chrono::high_resolution_clock::now();
+			accurizeSleepTimePeriod((end - _timeShiftEstimate).count() / 1e9);
+			_timeShiftEstimate = end;
 
-		const double observed = (end - start).count() / 1e9;
-		residualDuration -= observed;
+			const double observed = (end - start).count() / 1e9;
 
-		LOG_DEBUG("Estimate = " + std::to_string(estimate));
-		LOG_DEBUG("Observed = " + std::to_string(observed));
+			const auto startDbg = std::chrono::high_resolution_clock::now();
+			LOG_DEBUG("Estimate = " + std::to_string(estimate));
+			LOG_DEBUG("Observed = " + std::to_string(observed));
+			const auto endDbg = std::chrono::high_resolution_clock::now();
+			dbgDuration += (endDbg - startDbg).count() / 1e9;
 
-		estimate = getSleepTime();
+			estimate = getSleepTime();
+			const auto fullEnd = std::chrono::high_resolution_clock::now();
+			residualDuration -= (fullEnd - start).count() / 1e9;
+		}
+		timeEndPeriod(1);
 	}
-	return residualDuration;
+	const auto endWait = std::chrono::high_resolution_clock::now();
+	const double diff = duration - (endWait - startWait).count() / 1e9;
+	assert(dbgDuration < 0.0006);
+	return diff;
 }
 
 double HighResolutionTimer::spinLock(double duration)
@@ -52,12 +68,13 @@ double HighResolutionTimer::getSleepTime() const
 	const auto currentTime = std::chrono::steady_clock::now();
 	const double argTimeMin = std::fmod((currentTime - _timeShiftEstimate).count() / 1e9 + _sleepTimeMin - _relativeTimeShift, sleepTimePeriod);
 	const double argTimeMax = std::fmod((currentTime - _timeShiftEstimate).count() / 1e9 + _sleepTimeMin + _relativeTimeShift, sleepTimePeriod);
-	const double argTime = std::min(argTimeMin, argTimeMax);
+	const double argTime = min(argTimeMin, argTimeMax);
 	return _sleepTimeMin + sleepTimePeriod - argTime;
 }
 
 void HighResolutionTimer::computeSleepTimePeriod(int periods)
 {
+	MMRESULT result = timeBeginPeriod(1);
 	std::vector<double> _sleepTimeSet;
 	_sleepTimeSet.resize(periods);
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -69,6 +86,9 @@ void HighResolutionTimer::computeSleepTimePeriod(int periods)
 		start = end;
 	}
 	_timeShiftEstimate = start;
+	if (result == TIMERR_NOERROR) {
+		timeEndPeriod(1);
+	}
 
 	_sleepTimePeriod.reset();
 	for (double sleepTime : _sleepTimeSet) {

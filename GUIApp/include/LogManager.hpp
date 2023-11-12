@@ -22,6 +22,7 @@ private:
 	std::ofstream _file;
 
 	std::stack<std::string> _stack;
+	std::string _cachedText;
 
 public:
 	~LogManager();

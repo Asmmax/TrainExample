@@ -25,7 +25,8 @@ void LogSmartSection::release()
 
 LogManager::~LogManager()
 {
-	if (!_file.is_open()) {
+	if (_file.is_open()) {
+		_file << _cachedText;
 		_file.close();
 	}
 }
@@ -68,7 +69,7 @@ void LogManager::pop()
 void LogManager::text(const std::string& msg)
 {
 	for (int i = 0; i < _stack.size(); i++) {
-		_file << "\t";
+		_cachedText.append("\t");
 	}
-	_file << msg << std::endl;
+	_cachedText.append(msg + "\n");
 }
