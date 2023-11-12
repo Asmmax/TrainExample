@@ -10,6 +10,7 @@ struct GeneralSettings
 	int framerate{ 60 };
 	bool fullscreen{ false };
 	bool vsync{ true };
+	int storedFrameCount{ 1 };
 };
 
 /// @serializable @shared generalSettings

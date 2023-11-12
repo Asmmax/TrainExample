@@ -117,7 +117,7 @@ target_include_directories(GUIApp
 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
 PRIVATE "${out_include_path}")
 
-target_link_libraries(GUIApp PRIVATE dgnix PRIVATE DIAssets)
+target_link_libraries(GUIApp PRIVATE dgnix PRIVATE DIAssets PRIVATE $<$<PLATFORM_ID:Windows>:winmm>)
 
 if(WIN32)
 	set_target_properties(GUIApp PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup /SUBSYSTEM:WINDOWS")

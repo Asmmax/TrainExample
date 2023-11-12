@@ -1,8 +1,9 @@
 #include "timers/BaseTimer.hpp"
 #include "LogManager.hpp"
 
-BaseTimer::BaseTimer(double timeStep) :
-	_prevFullTimeStep(timeStep),
+BaseTimer::BaseTimer(double timeStep, size_t storedFrameCount) :
+	_nextTimeStep(storedFrameCount),
+	_prevTimeStep(timeStep),
 #ifdef _DEBUG
 	_currentTimeOffset(0.0)
 #endif // _DEBUG
@@ -11,9 +12,11 @@ BaseTimer::BaseTimer(double timeStep) :
 
 void BaseTimer::startLoop()
 {
-	computePrevTimeStep();
+	const auto newStartTime = getCurrentTime();
+	computePrevTimeStep(newStartTime);
 	computeLoopTimeStep();
-	_startTime = getCurrentTime();
+	_nextTimeStep.addPoint(_prevTimeStep);
+	_startTime = newStartTime;
 }
 
 void BaseTimer::endLoop()
@@ -21,13 +24,16 @@ void BaseTimer::endLoop()
 	_endTime = getCurrentTime();
 }
 
-void BaseTimer::computePrevTimeStep()
+double BaseTimer::getNextTimeStep() const
 {
-	const auto newStartTime = getCurrentTime();
+	return _nextTimeStep.getMean();
+}
 
+void BaseTimer::computePrevTimeStep(const TimePoint& newStartTime)
+{
 	if (_startTime.time_since_epoch().count() != 0) {
-		_prevFullTimeStep = (newStartTime - _startTime).count() / 1e9;
-		LOG_DEBUG("Prev real time step = " + std::to_string(_prevFullTimeStep));
+		_prevTimeStep = (newStartTime - _startTime).count() / 1e9;
+		LOG_DEBUG("Prev real time step = " + std::to_string(_prevTimeStep));
 	}
 }
 

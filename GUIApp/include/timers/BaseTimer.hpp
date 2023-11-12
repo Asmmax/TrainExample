@@ -1,5 +1,5 @@
 #pragma once
-#include "timers/WelfordEstimator.hpp"
+#include "timers/QueueAverager.hpp"
 #include "timers/HighResolutionTimer.hpp"
 #include <thread>
 
@@ -11,7 +11,8 @@ protected:
 private:
 	TimePoint _startTime;
 	TimePoint _endTime;
-	double _prevFullTimeStep;
+	QueueAverager _nextTimeStep;
+	double _prevTimeStep;
 
 #ifdef _DEBUG
 	TimePoint _prevCurrentTime;
@@ -21,11 +22,12 @@ private:
 #endif // _DEBUG
 
 public:
-	BaseTimer(double timeStep);
+	BaseTimer(double timeStep, size_t storedFrameCount = 1);
 
 	virtual void startLoop();
 	virtual void endLoop();
-	virtual double getNextTimeStep() const { return _prevFullTimeStep; }
+
+	double getNextTimeStep() const;
 
 #ifdef _DEBUG
 	virtual void reset() {}
@@ -33,10 +35,10 @@ public:
 
 protected:
 	virtual void computeLoopTimeStep() {}
-	void computePrevTimeStep();
+	void computePrevTimeStep(const TimePoint& newStartTime);
 	TimePoint getCurrentTime();
 	
 	const TimePoint& getStartTime() const { return _startTime; }
 	const TimePoint& getEndTime() const { return _endTime; }
-	double getPrevFullTimeStep() const { return _prevFullTimeStep; }
+	double getPrevTimeStep() const { return _prevTimeStep; }
 };

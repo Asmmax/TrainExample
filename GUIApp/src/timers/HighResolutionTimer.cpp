@@ -2,6 +2,11 @@
 #include "LogManager.hpp"
 #include <vector>
 
+#ifdef _WIN32
+#include <Windows.h>
+#include <timeapi.h>
+#endif
+
 HighResolutionTimer::HighResolutionTimer()
 {
 }
@@ -9,87 +14,52 @@ HighResolutionTimer::HighResolutionTimer()
 void HighResolutionTimer::reset()
 {
 	_spinLockOffset.reset();
-	computeSleepTimePeriod(1);
+	_sleepTime.reset();
+	_sleepTime.addPoint(1e-3);
 }
 
-double HighResolutionTimer::processWait(double duration)
+void HighResolutionTimer::processWait(double duration)
 {
-	double residualDuration = duration;
-	double estimate = getSleepTime();
-	while (residualDuration > estimate) {
-		const auto start = std::chrono::high_resolution_clock::now();
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
-		const auto end = std::chrono::high_resolution_clock::now();
-		accurizeSleepTimePeriod((end - _timeShiftEstimate).count() / 1e9);
-		_timeShiftEstimate = end;
+	if (startProcessWait()) {
+		double residualDuration = duration;
+		while (residualDuration > _sleepTime.getMean() + 3 * _sleepTime.getDeviation()) {
+			const auto start = std::chrono::high_resolution_clock::now();
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			const auto end = std::chrono::high_resolution_clock::now();
 
-		const double observed = (end - start).count() / 1e9;
-		residualDuration -= observed;
+			const double observed = (end - start).count() / 1e9;
 
-		LOG_DEBUG("Estimate = " + std::to_string(estimate));
-		LOG_DEBUG("Observed = " + std::to_string(observed));
+			LOG_DEBUG("Estimate = " + std::to_string(_sleepTime.getMean() + 3 * _sleepTime.getDeviation()));
+			LOG_DEBUG("Observed = " + std::to_string(observed));
 
-		estimate = getSleepTime();
+			_sleepTime.addPoint(observed);
+
+			const auto fullEnd = std::chrono::high_resolution_clock::now();
+			residualDuration -= (fullEnd - start).count() / 1e9;
+		}
+		endProcessWait();
 	}
-	return residualDuration;
 }
 
-double HighResolutionTimer::spinLock(double duration)
+void HighResolutionTimer::spinLock(double duration)
 {
 	const auto start = std::chrono::high_resolution_clock::now();
-	while ((std::chrono::high_resolution_clock::now() - start).count() / 1e9 < duration + _spinLockOffset.getMean());
-	auto stop = std::chrono::high_resolution_clock::now();
-
-	const double spinLockTime = (stop - start).count() / 1e9;
-	const double observedSpinLockOffset = duration - spinLockTime;
-	_spinLockOffset.addPoint(observedSpinLockOffset);
-	return observedSpinLockOffset;
+	while ((std::chrono::high_resolution_clock::now() - start).count() / 1e9 < duration);
 }
 
-double HighResolutionTimer::getSleepTime() const
+bool HighResolutionTimer::startProcessWait()
 {
-	const double sleepTimePeriod = 1.0 / round(1.0 / _sleepTimePeriod.getMean());
-	const auto currentTime = std::chrono::steady_clock::now();
-	const double argTimeMin = std::fmod((currentTime - _timeShiftEstimate).count() / 1e9 + _sleepTimeMin - _relativeTimeShift, sleepTimePeriod);
-	const double argTimeMax = std::fmod((currentTime - _timeShiftEstimate).count() / 1e9 + _sleepTimeMin + _relativeTimeShift, sleepTimePeriod);
-	const double argTime = std::min(argTimeMin, argTimeMax);
-	return _sleepTimeMin + sleepTimePeriod - argTime;
+#ifdef _WIN32
+	const MMRESULT result = timeBeginPeriod(1);
+	return result == TIMERR_NOERROR;
+#else
+	return true
+#endif
 }
 
-void HighResolutionTimer::computeSleepTimePeriod(int periods)
+void HighResolutionTimer::endProcessWait()
 {
-	std::vector<double> _sleepTimeSet;
-	_sleepTimeSet.resize(periods);
-	std::this_thread::sleep_for(std::chrono::milliseconds(1));
-	auto start = std::chrono::high_resolution_clock::now();
-	for (int i = 0; i < periods; i++) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
-		const auto end = std::chrono::high_resolution_clock::now();
-		_sleepTimeSet[i] = (end - start).count() / 1e9;
-		start = end;
-	}
-	_timeShiftEstimate = start;
-
-	_sleepTimePeriod.reset();
-	for (double sleepTime : _sleepTimeSet) {
-		_sleepTimePeriod.addPoint(sleepTime);
-	}
-}
-
-void HighResolutionTimer::accurizeSleepTimePeriod(double somePeriods)
-{
-	const double invRelativeErr = _sleepTimePeriod.getMean() / _sleepTimePeriod.getDeviation();
-	if (invRelativeErr < 9.0) {
-		return;
-	}
-
-	const double Nmax = invRelativeErr / 6 - 0.5;
-	const double realN = round(somePeriods / _sleepTimePeriod.getMean());
-	if (realN > Nmax) {
-		return;
-	}
-	const double period = somePeriods / realN;
-	for (int i = 0; i < static_cast<int>(realN*realN); i++) {
-		_sleepTimePeriod.addPoint(period);
-	}
+#ifdef _WIN32
+	timeEndPeriod(1);
+#endif
 }

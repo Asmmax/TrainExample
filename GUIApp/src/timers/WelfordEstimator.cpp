@@ -31,7 +31,8 @@ void WelfordEstimator::reset()
 void WelfordEstimator::init(double value)
 {
 	_mean = value;
-	_m2 = 0;
+	_m2 = 0.0;
+	_stddev = 0.0;
 	_count = 1;
 }
 
