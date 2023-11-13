@@ -45,7 +45,10 @@ int main()
 	world->init();
 
 	// main loop
-	std::shared_ptr<BaseTimer> timer = settings.vsync ? std::make_shared<BaseTimer>(minTimeStep) : std::make_shared<SleepTimer>(minTimeStep);
+	std::shared_ptr<BaseTimer> timer = settings.vsync 
+		? std::make_shared<BaseTimer>(minTimeStep, settings.storedFrameCount) 
+		: std::make_shared<SleepTimer>(minTimeStep, settings.storedFrameCount);
+
 	float lastFrame = 0.0f;
 	while (!window->isDone())
 	{

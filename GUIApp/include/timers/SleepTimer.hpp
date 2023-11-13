@@ -1,6 +1,6 @@
 #pragma once
 #include "timers/BaseTimer.hpp"
-#include "timers/QueueEstimator.hpp"
+#include "timers/WelfordEstimator.hpp"
 #include "timers/HighResolutionTimer.hpp"
 #include <thread>
 
@@ -8,20 +8,15 @@ class SleepTimer : public BaseTimer
 {
 private:
 	HighResolutionTimer _timer;
-	QueueEstimator _sleepTimeOffset;
-	QueueEstimator _loopOffset;
+	WelfordEstimator _externalTime;
 
 	double _minTimeStep;
 	double _prevLoopTimeStep;
-	double _residualSleep;
-
-	const int _maxResidualIteration{ 10 };
 
 public:
-	SleepTimer(double timeStep);
+	SleepTimer(double timeStep, size_t storedFrameCount = 1);
 
 	void endLoop() override;
-	double getNextTimeStep() const override;
 
 #ifdef _DEBUG
 	void reset() override;

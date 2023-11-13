@@ -249,8 +249,9 @@
         "width": 1280,
         "height": 960,
         "framerate": 60,
+        "storedFrameCount": 10,
         "fullscreen": false,
-        "vsync": false
+        "vsync": true
       }
     }
   ]

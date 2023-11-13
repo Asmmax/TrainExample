@@ -5,23 +5,17 @@
 class HighResolutionTimer
 {
 private:
-	std::chrono::steady_clock::time_point _timeShiftEstimate;
-
 	WelfordEstimator _spinLockOffset;
-	WelfordEstimator _sleepTimePeriod;
-
-	const double _sleepTimeMin{ 1e-3 };
-	const double _relativeTimeShift{ 5e-4 };
+	WelfordEstimator _sleepTime;
 
 public:
 	HighResolutionTimer();
 
 	void reset();
-	double processWait(double duration);
-	double spinLock(double duration);
-	double getSleepTime() const;
+	void processWait(double duration);
+	void spinLock(double duration);
 
-private:
-	void computeSleepTimePeriod(int periods);
-	void accurizeSleepTimePeriod(double somePeriods);
+public:
+	bool startProcessWait();
+	void endProcessWait();
 };
