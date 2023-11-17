@@ -70,7 +70,6 @@ public:
 	void unbindAllActionReleased(const std::string& name, EventListener* owner);
 
 protected:
-	void fixedUpdate();
 	void markMousePressed(size_t keyId, bool isPressed);
 	bool anyMousePressed();
 };

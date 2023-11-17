@@ -14,6 +14,10 @@ private:
 	float _smooth;
 	float _minSpeed;
 
+	float _currentRawValue;
+	float _residualValue;
+	float _interpolatingCoeff;
+
 protected:
 	Event<float> _actionChanged;
 
@@ -22,16 +26,16 @@ public:
 	virtual ~AInputAxisImpl() = default;
 
 	virtual void init(InputDistributor* distributor) = 0;
-	virtual void update(float deltaTime) = 0;
 
-	virtual void fixedUpdate(float deltaTime);
+	void startFrame(float frameTime);
+	void update(float deltaTime);
+	void endFrame(float interpolatingCoeff);
 
 	void bindToChanged(EventListener* owner, const Event<float>::Callback& callback);
 	void unbindAllChanged(EventListener* owner);
 	float getValue() const;
 
 protected:
-	virtual float getRawValue() const = 0;
-
+	virtual float getRawValue(float frameTime) const = 0;
 	void setValue(float value);
 };

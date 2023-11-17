@@ -57,14 +57,20 @@ void InputSystem::init()
 
 void InputSystem::update(float delta_time)
 {
+	for (auto& axis : _axes) {
+		axis.second->startFrame(delta_time);
+	}
+
 	_timeRedutant += delta_time;
 	while (_timeRedutant >= _fixedTime) {
 		_timeRedutant -= _fixedTime;
-		fixedUpdate();
+		for (auto& axis : _axes) {
+			axis.second->update(_fixedTime);
+		}
 	}
 
 	for (auto& axis : _axes) {
-		axis.second->update(delta_time);
+		axis.second->endFrame(_timeRedutant / _fixedTime);
 	}
 }
 
@@ -145,13 +151,6 @@ void InputSystem::unbindAllActionReleased(const std::string& name, EventListener
 {
 	assert(_actions.find(name) != _actions.end());
 	_actions.at(name)->unbindAllReleased(owner);
-}
-
-void InputSystem::fixedUpdate()
-{
-	for (auto& axis : _axes) {
-		axis.second->fixedUpdate(_fixedTime);
-	}
 }
 
 void InputSystem::markMousePressed(size_t keyId, bool isPressed)

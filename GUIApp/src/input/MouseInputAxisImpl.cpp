@@ -5,7 +5,6 @@ MouseInputAxisImpl::MouseInputAxisImpl(MouseAxis axis, float sensitivity, float 
 	AInputAxisImpl(smooth, minSpeed),
 	_axis(axis),
 	_sensitivity(sensitivity),
-	_rawValue(0.0f),
 	_lastXPos(0),
 	_lastYPos(0),
 	_xPos(0.0),
@@ -42,21 +41,9 @@ void MouseInputAxisImpl::init(InputDistributor* distributor)
 	}
 }
 
-void MouseInputAxisImpl::update(float deltaTime)
+float MouseInputAxisImpl::getRawValue(float frameTime) const
 {
-	_rawValue += getDelta() * _sensitivity;
-}
-
-void MouseInputAxisImpl::fixedUpdate(float deltaTime)
-{
-	AInputAxisImpl::fixedUpdate(deltaTime);
-
-	_rawValue = 0.f;
-}
-
-float MouseInputAxisImpl::getRawValue() const
-{
-	return _rawValue;
+	return getDelta() * _sensitivity / frameTime;
 }
 
 void MouseInputAxisImpl::setMousePos(double xPos, double yPos)

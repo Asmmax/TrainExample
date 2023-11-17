@@ -13,6 +13,13 @@ void InputAxis::init(InputDistributor* distributor)
 	}
 }
 
+void InputAxis::startFrame(float frameTime)
+{
+	for (auto& axisImpl : _impls) {
+		axisImpl->startFrame(frameTime);
+	}
+}
+
 void InputAxis::update(float deltaTime)
 {
 	for (auto& axisImpl : _impls) {
@@ -20,10 +27,10 @@ void InputAxis::update(float deltaTime)
 	}
 }
 
-void InputAxis::fixedUpdate(float deltaTime)
+void InputAxis::endFrame(float value)
 {
 	for (auto& axisImpl : _impls) {
-		axisImpl->fixedUpdate(deltaTime);
+		axisImpl->endFrame(value);
 	}
 }
 

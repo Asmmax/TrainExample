@@ -18,8 +18,9 @@ public:
 	InputAxis(const std::vector<ImplPtr>& impls);
 
 	void init(InputDistributor* distributor);
+	void startFrame(float frameTime);
 	void update(float deltaTime);
-	void fixedUpdate(float deltaTime);
+	void endFrame(float frameRedutant);
 	float getValue() const;
 
 	void bindToChanged(EventListener* owner, const std::function<void(float)>& callback);
