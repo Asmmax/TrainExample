@@ -3,9 +3,9 @@
 
 BaseTimer::BaseTimer(double timeStep, size_t storedFrameCount) :
 	_nextTimeStep(storedFrameCount),
-	_prevTimeStep(timeStep),
+	_prevTimeStep(timeStep)
 #ifdef _DEBUG
-	_currentTimeOffset(0.0)
+	,_currentTimeOffset(0.0)
 #endif // _DEBUG
 {
 }
