@@ -29,6 +29,8 @@ public:
 
 	void init(InputDistributor* distributor) override;
 
+	void resetMouse() override;
+
 private:
 	float getRawValue(float frameTime) const override;
 	void setMousePos(double xPos, double yPos);

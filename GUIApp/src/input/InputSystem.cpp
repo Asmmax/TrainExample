@@ -41,14 +41,14 @@ void InputSystem::init()
 
 		if (state == InputEvents::KeyState::KEY_DOWN) {
 			if (!anyMousePressed()) {
-				_window->captureMouse();
+				captureMouse();
 			}
 			markMousePressed(keyId, true);
 		}
 		else if (state == InputEvents::KeyState::KEY_UP) {
 			markMousePressed(keyId, false);
 			if (!anyMousePressed()) {
-				_window->uncaptureMouse();
+				uncaptureMouse();
 			}
 		}
 		});
@@ -93,19 +93,19 @@ void InputSystem::setMouseCaptureMode(MouseCaptureMode mode)
 	switch (mode)
 	{
 	case MouseCaptureMode::DISABLE:
-		_window->uncaptureMouse();
+		uncaptureMouse();
 		_needMouseCaptureWhileMousePressed = false;
 		break;
 	case MouseCaptureMode::ENABLE:
-		_window->captureMouse();
+		captureMouse();
 		_needMouseCaptureWhileMousePressed = false;
 		break;
 	case MouseCaptureMode::WHILE_MOUSE_PRESSED:
 		if (anyMousePressed()) {
-			_window->captureMouse();
+			captureMouse();
 		}
 		else {
-			_window->uncaptureMouse();
+			uncaptureMouse();
 		}
 		_needMouseCaptureWhileMousePressed = true;
 		break;
@@ -171,4 +171,20 @@ bool InputSystem::anyMousePressed()
 {
 	auto fountIt = std::find(_mousePressed.begin(), _mousePressed.end(), true);
 	return fountIt != _mousePressed.end();
+}
+
+void InputSystem::captureMouse()
+{
+	_window->captureMouse();
+	for (auto& axis : _axes) {
+		axis.second->resetMouse();
+	}
+}
+
+void InputSystem::uncaptureMouse()
+{
+	_window->uncaptureMouse();
+	for (auto& axis : _axes) {
+		axis.second->resetMouse();
+	}
 }

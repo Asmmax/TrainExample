@@ -72,6 +72,11 @@ float AInputAxisImpl::getValue() const
 	return _value;
 }
 
+void AInputAxisImpl::reset()
+{
+	_value = _currentRawValue;
+}
+
 void AInputAxisImpl::setValue(float value)
 {
 	LOG_DEBUG_EX("time", "New value " + std::to_string(value));

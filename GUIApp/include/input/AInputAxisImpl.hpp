@@ -35,6 +35,9 @@ public:
 	void unbindAllChanged(EventListener* owner);
 	float getValue() const;
 
+	void reset();
+	virtual void resetMouse() {}
+
 protected:
 	virtual float getRawValue(float frameTime) const = 0;
 	void setValue(float value);

@@ -44,6 +44,13 @@ float InputAxis::getValue() const
 	return avgValue;
 }
 
+void InputAxis::resetMouse()
+{
+	for (auto& axisImpl : _impls) {
+		axisImpl->resetMouse();
+	}
+}
+
 void InputAxis::bindToChanged(EventListener* owner, const std::function<void(float)>& callback)
 {
 	for (auto& axisImpl : _impls) {

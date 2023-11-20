@@ -72,4 +72,6 @@ public:
 protected:
 	void markMousePressed(size_t keyId, bool isPressed);
 	bool anyMousePressed();
+	void captureMouse();
+	void uncaptureMouse();
 };

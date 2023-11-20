@@ -41,6 +41,11 @@ void MouseInputAxisImpl::init(InputDistributor* distributor)
 	}
 }
 
+void MouseInputAxisImpl::resetMouse()
+{
+	reset();
+}
+
 float MouseInputAxisImpl::getRawValue(float frameTime) const
 {
 	return getDelta() * _sensitivity / frameTime;
