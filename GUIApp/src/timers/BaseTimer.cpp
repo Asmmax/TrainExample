@@ -33,7 +33,7 @@ void BaseTimer::computePrevTimeStep(const TimePoint& newStartTime)
 {
 	if (_startTime.time_since_epoch().count() != 0) {
 		_prevTimeStep = (newStartTime - _startTime).count() / 1e9;
-		LOG_DEBUG("Prev real time step = " + std::to_string(_prevTimeStep));
+		LOG_DEBUG_EX("time", "Prev real time step = " + std::to_string(_prevTimeStep));
 	}
 }
 

@@ -1,4 +1,5 @@
 #include "input/AInputAxisImpl.hpp"
+#include "LogManager.hpp"
 #include <glm/glm.hpp>
 
 AInputAxisImpl::AInputAxisImpl(float smooth, float minSpeed):
@@ -18,7 +19,10 @@ void AInputAxisImpl::startFrame(float frameTime)
 
 void AInputAxisImpl::update(float deltaTime)
 {
+	LOG_DEBUG_EX("time", "Raw value at frame " + std::to_string(_currentRawValue));
 	const float targetValue = _residualValue + (1.0f - _interpolatingCoeff) * _currentRawValue;
+	LOG_DEBUG_EX("time", "Residual value " + std::to_string(_residualValue));
+	LOG_DEBUG_EX("time", "Target value " + std::to_string(targetValue));
 	_residualValue = 0.f;
 	_interpolatingCoeff = 0.f;
 
@@ -70,6 +74,8 @@ float AInputAxisImpl::getValue() const
 
 void AInputAxisImpl::setValue(float value)
 {
+	LOG_DEBUG_EX("time", "New value " + std::to_string(value));
+
 	if (_value == value) {
 		return;
 	}

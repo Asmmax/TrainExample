@@ -14,21 +14,22 @@ int main()
 	AssetManager::getInstance().init("settings.dat");
 
 	auto generalSettings = AssetManager::getInstance().getAsset<GeneralSettingsAsset>("config");
-	const GeneralSettings& settings = generalSettings->getSettings();
-	const double minTimeStep = 1.0 / settings.framerate;
+	const GraphicsSettings& graphicsSettings = generalSettings->getGraphicsSettings();
+	const double minTimeStep = 1.0 / graphicsSettings.framerate;
 
-	LogManager::getInstance().init(settings.logDir);
+	const LogSettings& logSettings = generalSettings->getLogSettings();
+	LogManager::getInstance().init(logSettings.logDir, logSettings.logs);
 
 	// initialization
 	Application& app = Application::getInstance();
 	app.bindImpl<GLFWApplicationImpl>();
-	Window* window = app.getWindow(settings.width, settings.height, "Train Example");
+	Window* window = app.getWindow(graphicsSettings.width, graphicsSettings.height, "Train Example");
 	if (!window)
 		return -1;
 
-	window->setVSync(settings.vsync);
-	if (settings.fullscreen) {
-		window->setFullscreen(settings.width, settings.height, settings.framerate);
+	window->setVSync(graphicsSettings.vsync);
+	if (graphicsSettings.fullscreen) {
+		window->setFullscreen(graphicsSettings.width, graphicsSettings.height, graphicsSettings.framerate);
 	}
 
 	AssetManager::getInstance().setLoader(window->getLoader());
@@ -45,18 +46,18 @@ int main()
 	world->init();
 
 	// main loop
-	std::shared_ptr<BaseTimer> timer = settings.vsync 
-		? std::make_shared<BaseTimer>(minTimeStep, settings.storedFrameCount) 
-		: std::make_shared<SleepTimer>(minTimeStep, settings.storedFrameCount);
+	std::shared_ptr<BaseTimer> timer = graphicsSettings.vsync
+		? std::make_shared<BaseTimer>(minTimeStep, graphicsSettings.storedFrameCount)
+		: std::make_shared<SleepTimer>(minTimeStep, graphicsSettings.storedFrameCount);
 
 	float lastFrame = 0.0f;
 	while (!window->isDone())
 	{
-		LOG_DEBUG_PUSH("Frame");
+		LOG_DEBUG_PUSH_EX("time", "Frame");
 		timer->startLoop();
 
 		const float deltaTime = static_cast<float>(timer->getNextTimeStep());
-		LOG_DEBUG("Predicted time step = " + std::to_string(deltaTime));
+		LOG_DEBUG_EX("time", "Predicted time step = " + std::to_string(deltaTime));
 
 		window->handle();
 		world->update(deltaTime);
@@ -65,7 +66,7 @@ int main()
 		timer->endLoop();
 
 		window->swapBuffers();
-		LOG_DEBUG_POP();
+		LOG_DEBUG_POP_EX("time");
 	}
 
 	world->deinit();

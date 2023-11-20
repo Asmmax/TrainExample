@@ -243,9 +243,13 @@
     {
       "id": "main",
       "type": "GeneralSettingsAsset",
-      "settings": {
-        "type": "GeneralSettings",
+      "log": {
+        "type": "LogSettings",
         "logDir": "log",
+        "logs": ["common"]
+      },
+      "graphics": {
+        "type": "GraphicsSettings",
         "width": 1280,
         "height": 960,
         "framerate": 60,

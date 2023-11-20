@@ -29,8 +29,8 @@ void HighResolutionTimer::processWait(double duration)
 
 			const double observed = (end - start).count() / 1e9;
 
-			LOG_DEBUG("Estimate = " + std::to_string(_sleepTime.getMean() + 3 * _sleepTime.getDeviation()));
-			LOG_DEBUG("Observed = " + std::to_string(observed));
+			LOG_DEBUG_EX("time", "Estimate = " + std::to_string(_sleepTime.getMean() + 3 * _sleepTime.getDeviation()));
+			LOG_DEBUG_EX("time", "Observed = " + std::to_string(observed));
 
 			_sleepTime.addPoint(observed);
 

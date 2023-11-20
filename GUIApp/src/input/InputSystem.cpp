@@ -3,6 +3,7 @@
 #include "input/InputAction.hpp"
 #include "input/InputAxis.hpp"
 #include "input/InputDistributor.hpp"
+#include "LogManager.hpp"
 #include <algorithm>
 
 InputSystem::InputSystem(const std::vector<InputActionEntry>& actions, const std::vector<InputAxisEntry>& axes, float fixedTime) :
@@ -57,21 +58,29 @@ void InputSystem::init()
 
 void InputSystem::update(float delta_time)
 {
+	LOG_DEBUG_PUSH_EX("time", "Input Start Frame");
+
 	for (auto& axis : _axes) {
 		axis.second->startFrame(delta_time);
 	}
+	LOG_DEBUG_EX("time", "DeltaTime = " + std::to_string(delta_time));
 
 	_timeRedutant += delta_time;
 	while (_timeRedutant >= _fixedTime) {
 		_timeRedutant -= _fixedTime;
+		LOG_DEBUG_PUSH_EX("time", "Input Start Fixed Update");
+		LOG_DEBUG_EX("time", "FixedTime = " + std::to_string(_fixedTime));
 		for (auto& axis : _axes) {
 			axis.second->update(_fixedTime);
 		}
+		LOG_DEBUG_POP_EX("time");
 	}
 
 	for (auto& axis : _axes) {
 		axis.second->endFrame(_timeRedutant / _fixedTime);
 	}
+	LOG_DEBUG_EX("time", "ResidualTime = " + std::to_string(_timeRedutant / _fixedTime));
+	LOG_DEBUG_POP_EX("time");
 }
 
 void InputSystem::setWindow(Window* window)
