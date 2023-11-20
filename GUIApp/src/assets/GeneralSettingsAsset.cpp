@@ -1,6 +1,7 @@
 #include "assets/GeneralSettingsAsset.hpp"
 
-GeneralSettingsAsset::GeneralSettingsAsset(const GeneralSettings& settings):
-	_settings(settings)
+GeneralSettingsAsset::GeneralSettingsAsset(const LogSettings& log, const GraphicsSettings& graphics):
+	_logSettings(log),
+	_graphicsSettings(graphics)
 {
 }

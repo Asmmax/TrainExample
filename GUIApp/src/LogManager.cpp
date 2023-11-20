@@ -1,32 +1,32 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "LogManager.hpp"
 #include <filesystem>
-#include <assert.h>
-
-LogSmartSection::LogSmartSection(const std::string& title):
-	_isValid(true),
-	_title(title)
-{
-}
-
-LogSmartSection::~LogSmartSection()
-{
-	release();
-}
-
-void LogSmartSection::release()
-{
-	if (_isValid) {
-		LogManager& logManager = LogManager::getInstance();
-		assert(logManager._stack.top() == _title);
-		logManager.pop();
-		_isValid = false;
-	}
-}
+#include <fstream>
+#include <ctime>
 
 LogManager::~LogManager()
 {
-	if (!_file.is_open()) {
-		_file.close();
+	if (_cachedText.empty()) {
+		return;
+	}
+
+	std::ofstream file;
+
+	std::filesystem::create_directories(_dirPath);
+	if (std::filesystem::is_directory(_dirPath)) {
+		std::time_t currentTime_t = std::time(nullptr);
+		std::string currentTimeStr;
+		currentTimeStr.resize(std::size("yyyy.mm.dd_hh.mm.ss"), '_');
+		std::strftime(currentTimeStr.data(), currentTimeStr.size(), "%Y.%m.%d_%H.%M.%S", std::localtime(&currentTime_t));
+		currentTimeStr.resize(currentTimeStr.size() - 1);
+		std::string currentFilePath = _dirPath + "/log_" + currentTimeStr + ".txt";
+		file.open(currentFilePath, std::ios::ios_base::out);
+	}
+
+	if (file.is_open()) {
+		file << _cachedText;
+		file.close();
 	}
 }
 
@@ -36,39 +36,43 @@ LogManager& LogManager::getInstance()
 	return instance;
 }
 
-void LogManager::init(const std::string& directory)
+void LogManager::init(const std::string& directory, const std::vector<std::string>& logs)
 {
-	std::filesystem::create_directories(directory);
-	if (std::filesystem::is_directory(directory)) {
-		_dirPath = directory;
-		_currentFilePath = directory + "/log.txt";
-		_file.open(_currentFilePath, std::ios::ios_base::out);
+	_dirPath = directory;
+	for (auto& logName : logs) {
+		_logs.emplace(logName);
 	}
 }
 
-void LogManager::push(const std::string& title)
+void LogManager::push(const std::string& logName, const std::string& title)
 {
-	text(title + " - Begin:");
+	if (!_logs.count(logName)) {
+		return;
+	}
+
+	text(logName, title + " - Begin:");
 	_stack.push(title);
 }
 
-LogSmartSection LogManager::pushSmart(const std::string& title)
+void LogManager::pop(const std::string& logName)
 {
-	push(title);
-	return LogSmartSection(title);
-}
+	if (!_logs.count(logName)) {
+		return;
+	}
 
-void LogManager::pop()
-{
 	const std::string title = _stack.top();
 	_stack.pop();
-	text(title + " - End:");
+	text(logName, title + " - End:");
 }
 
-void LogManager::text(const std::string& msg)
+void LogManager::text(const std::string& logName, const std::string& msg)
 {
-	for (int i = 0; i < _stack.size(); i++) {
-		_file << "\t";
+	if (!_logs.count(logName)) {
+		return;
 	}
-	_file << msg << std::endl;
+
+	for (int i = 0; i < _stack.size(); i++) {
+		_cachedText.append("\t");
+	}
+	_cachedText.append(msg + "\n");
 }

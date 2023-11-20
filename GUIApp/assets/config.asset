@@ -6,7 +6,7 @@
       "systems": [
         {
           "type": "InputSystem",
-          "fixedTime": 0.02,
+          "fixedTime": 0.01,
           "actions": [
             {
               "type": "InputActionEntry",
@@ -71,7 +71,7 @@
                   {
                     "type": "MouseInputAxisImpl",
                     "axis": "HORIZONTAL",
-                    "sensitivity": 0.1,
+                    "sensitivity": 0.001,
                     "smooth": 0.01,
                     "minSpeed": 0.005
                   }
@@ -87,7 +87,7 @@
                   {
                     "type": "MouseInputAxisImpl",
                     "axis": "VERTICAL",
-                    "sensitivity": 0.1,
+                    "sensitivity": 0.001,
                     "smooth": 0.01,
                     "minSpeed": 0.005
                   }
@@ -183,7 +183,7 @@
                   {
                     "type": "MouseInputAxisImpl",
                     "axis": "SCROLL",
-                    "sensitivity": 3.0,
+                    "sensitivity": 0.1,
                     "smooth": 0.1,
                     "minSpeed": 0.05
                   },
@@ -243,12 +243,17 @@
     {
       "id": "main",
       "type": "GeneralSettingsAsset",
-      "settings": {
-        "type": "GeneralSettings",
+      "log": {
+        "type": "LogSettings",
         "logDir": "log",
+        "logs": ["common"]
+      },
+      "graphics": {
+        "type": "GraphicsSettings",
         "width": 1280,
         "height": 960,
         "framerate": 60,
+        "storedFrameCount": 10,
         "fullscreen": false,
         "vsync": true
       }

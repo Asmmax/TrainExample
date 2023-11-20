@@ -17,6 +17,7 @@ public:
 	virtual void init() = 0;
 	virtual void update(float delta_time) {}
 	virtual void postUpdate(float delta_time) {}
+	virtual void render() {}
 	virtual void deinit() {}
 
 	virtual void setWindow(Window* /*window*/) {}

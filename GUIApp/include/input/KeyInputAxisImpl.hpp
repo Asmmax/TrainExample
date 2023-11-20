@@ -17,8 +17,7 @@ public:
 	KeyInputAxisImpl(const InputActionPtr& negativeAction, const InputActionPtr& positiveAction, float smooth, float minSpeed);
 
 	void init(InputDistributor* distributor) override;
-	void update(float deltaTime) override;
 
 protected:
-	float getRawValue() const override;
+	float getRawValue(float frameTime) const override;
 };

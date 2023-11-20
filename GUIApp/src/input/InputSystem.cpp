@@ -3,6 +3,7 @@
 #include "input/InputAction.hpp"
 #include "input/InputAxis.hpp"
 #include "input/InputDistributor.hpp"
+#include "LogManager.hpp"
 #include <algorithm>
 
 InputSystem::InputSystem(const std::vector<InputActionEntry>& actions, const std::vector<InputAxisEntry>& axes, float fixedTime) :
@@ -40,14 +41,14 @@ void InputSystem::init()
 
 		if (state == InputEvents::KeyState::KEY_DOWN) {
 			if (!anyMousePressed()) {
-				_window->captureMouse();
+				captureMouse();
 			}
 			markMousePressed(keyId, true);
 		}
 		else if (state == InputEvents::KeyState::KEY_UP) {
 			markMousePressed(keyId, false);
 			if (!anyMousePressed()) {
-				_window->uncaptureMouse();
+				uncaptureMouse();
 			}
 		}
 		});
@@ -57,15 +58,29 @@ void InputSystem::init()
 
 void InputSystem::update(float delta_time)
 {
+	LOG_DEBUG_PUSH_EX("time", "Input Start Frame");
+
+	for (auto& axis : _axes) {
+		axis.second->startFrame(delta_time);
+	}
+	LOG_DEBUG_EX("time", "DeltaTime = " + std::to_string(delta_time));
+
 	_timeRedutant += delta_time;
 	while (_timeRedutant >= _fixedTime) {
 		_timeRedutant -= _fixedTime;
-		fixedUpdate();
+		LOG_DEBUG_PUSH_EX("time", "Input Start Fixed Update");
+		LOG_DEBUG_EX("time", "FixedTime = " + std::to_string(_fixedTime));
+		for (auto& axis : _axes) {
+			axis.second->update(_fixedTime);
+		}
+		LOG_DEBUG_POP_EX("time");
 	}
 
 	for (auto& axis : _axes) {
-		axis.second->update(delta_time);
+		axis.second->endFrame(_timeRedutant / _fixedTime);
 	}
+	LOG_DEBUG_EX("time", "ResidualTime = " + std::to_string(_timeRedutant / _fixedTime));
+	LOG_DEBUG_POP_EX("time");
 }
 
 void InputSystem::setWindow(Window* window)
@@ -78,19 +93,19 @@ void InputSystem::setMouseCaptureMode(MouseCaptureMode mode)
 	switch (mode)
 	{
 	case MouseCaptureMode::DISABLE:
-		_window->uncaptureMouse();
+		uncaptureMouse();
 		_needMouseCaptureWhileMousePressed = false;
 		break;
 	case MouseCaptureMode::ENABLE:
-		_window->captureMouse();
+		captureMouse();
 		_needMouseCaptureWhileMousePressed = false;
 		break;
 	case MouseCaptureMode::WHILE_MOUSE_PRESSED:
 		if (anyMousePressed()) {
-			_window->captureMouse();
+			captureMouse();
 		}
 		else {
-			_window->uncaptureMouse();
+			uncaptureMouse();
 		}
 		_needMouseCaptureWhileMousePressed = true;
 		break;
@@ -147,13 +162,6 @@ void InputSystem::unbindAllActionReleased(const std::string& name, EventListener
 	_actions.at(name)->unbindAllReleased(owner);
 }
 
-void InputSystem::fixedUpdate()
-{
-	for (auto& axis : _axes) {
-		axis.second->fixedUpdate(_fixedTime);
-	}
-}
-
 void InputSystem::markMousePressed(size_t keyId, bool isPressed)
 {
 	_mousePressed[keyId] = isPressed;
@@ -163,4 +171,20 @@ bool InputSystem::anyMousePressed()
 {
 	auto fountIt = std::find(_mousePressed.begin(), _mousePressed.end(), true);
 	return fountIt != _mousePressed.end();
+}
+
+void InputSystem::captureMouse()
+{
+	_window->captureMouse();
+	for (auto& axis : _axes) {
+		axis.second->resetMouse();
+	}
+}
+
+void InputSystem::uncaptureMouse()
+{
+	_window->uncaptureMouse();
+	for (auto& axis : _axes) {
+		axis.second->resetMouse();
+	}
 }

@@ -14,11 +14,7 @@ void KeyInputAxisImpl::init(InputDistributor* distributor)
 	_positiveAction->init(distributor);
 }
 
-void KeyInputAxisImpl::update(float deltaTime)
-{
-}
-
-float KeyInputAxisImpl::getRawValue() const
+float KeyInputAxisImpl::getRawValue(float frameTime) const
 {
 	float rawValue = 0.f;
 	if (_negativeAction->isPressed()) {
