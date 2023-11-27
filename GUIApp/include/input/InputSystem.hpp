@@ -1,8 +1,9 @@
 #pragma once
-#include "ASystem.hpp"
+#include "SystemCommon.hpp"
 #include <vector>
 #include <unordered_map>
 #include <functional>
+#include <string>
 
 class InputAction;
 class InputAxis;

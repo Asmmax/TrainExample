@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.hpp"
+#include "ASystem.hpp"
 #include <memory>
 #include <vector>
 #include <map>
@@ -13,7 +14,6 @@
 
 #define MAX_COUNT_TIMED_CALLBACKS 1000
 
-class System;
 class Transform;
 
 class World
@@ -72,9 +72,8 @@ template<typename SysType>
 void World::addSystem(const std::shared_ptr<SysType>& sys)
 {
 	static_assert(!std::is_same_v<System, SysType>);
-	static_assert(!std::is_same_v<SystemCommon<SysType::OriginType>, SysType>);
 
-	std::type_index index = std::type_index(typeid(SysType::OriginType));
+	std::type_index index = std::type_index(typeid(typename SysType::OriginType));
 	assert(_systemsMap.count(index) == 0);
 
 	_systems.emplace_back(sys);
@@ -85,9 +84,8 @@ template<typename SysType>
 std::shared_ptr<SysType> World::getSystem() const
 {
 	static_assert(!std::is_same_v<System, SysType>);
-	static_assert(!std::is_same_v<SystemCommon<SysType::OriginType>, SysType>);
 
-	std::type_index index = std::type_index(typeid(SysType::OriginType));
+	std::type_index index = std::type_index(typeid(typename SysType::OriginType));
 
 	auto foundIt = _systemsMap.find(index);
 	if (foundIt != _systemsMap.end()) {

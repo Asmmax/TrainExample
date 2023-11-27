@@ -1,5 +1,6 @@
 #include "common/TransformSystem.hpp"
 #include "common/Transform.hpp"
+#include <algorithm>
 
 TransformSystem::TransformSystem()
 {

@@ -37,7 +37,7 @@ void BaseTimer::computePrevTimeStep(const TimePoint& newStartTime)
 	}
 }
 
-std::chrono::steady_clock::time_point BaseTimer::getCurrentTime()
+std::chrono::high_resolution_clock::time_point BaseTimer::getCurrentTime()
 {
 #ifdef _DEBUG
 	auto currentTime = std::chrono::high_resolution_clock::now() - std::chrono::nanoseconds(static_cast<long long>(_currentTimeOffset * 1e9));

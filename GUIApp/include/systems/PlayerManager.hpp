@@ -1,5 +1,5 @@
 #pragma once
-#include "ASystem.hpp"
+#include "SystemCommon.hpp"
 #include <memory>
 
 class PlayerController;

@@ -3,8 +3,8 @@
 
 KeyInputAxisImpl::KeyInputAxisImpl(const InputActionPtr& negativeAction, const InputActionPtr& positiveAction, float smooth, float minSpeed):
 	AInputAxisImpl(smooth, minSpeed),
-	_negativeAction(negativeAction),
-	_positiveAction(positiveAction)
+	_positiveAction(positiveAction),
+	_negativeAction(negativeAction)
 {
 }
 

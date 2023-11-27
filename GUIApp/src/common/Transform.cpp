@@ -2,8 +2,7 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <cmath>
-
-const float pi = 3.1415926536f;
+#include <algorithm>
 
 Transform::Transform(const glm::vec3& localPosition,
 	const glm::quat& localRotation,

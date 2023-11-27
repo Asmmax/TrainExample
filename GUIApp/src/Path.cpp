@@ -2,6 +2,7 @@
 #include <fstream>
 #include <filesystem>
 #include <array>
+#include <algorithm>
 
 Path::Path(const std::string& settings)
 {
@@ -21,11 +22,11 @@ std::string Path::find(const std::string& localPath) const
 	return std::string();
 }
 
-std::string Path::relative(const std::string& fullPath) const
+std::string Path::relative(const std::string& fullPathStr) const
 {
 	for (auto& path : _resorcePaths) {
 		std::filesystem::path basePath(path);
-		std::filesystem::path fullPath(fullPath);
+		std::filesystem::path fullPath(fullPathStr);
 
 		auto parent = fullPath.parent_path();
 		while (!parent.empty() && parent != basePath) {
@@ -78,7 +79,7 @@ void Path::loadSettings(const std::string& settings)
 	if (!file.is_open()) {
 		std::string settingsPath = std::filesystem::current_path().string() + "/" + settings;
 		std::string errorMessage = "Settings file: " + settingsPath + " could not be open!\n";
-		fprintf(stderr, errorMessage.c_str());
+		fprintf(stderr, "%s", errorMessage.c_str());
 		return;
 	}
 

@@ -38,7 +38,7 @@ void RenderPointLight::update()
 		return;
 	}
 
-	auto& position = _transform->getGlobalPosition();
+	auto position = _transform->getGlobalPosition();
 	_light->setPosition(position);
 }
 

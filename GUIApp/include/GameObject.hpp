@@ -1,4 +1,5 @@
 #pragma once
+#include "AComponent.hpp"
 #include <memory>
 #include <vector>
 #include <unordered_map>
@@ -43,9 +44,8 @@ template<typename CompType>
 void GameObject::addComponent(const std::shared_ptr<CompType>& comp)
 {
 	static_assert(!std::is_same_v<Component, CompType>);
-	static_assert(!std::is_same_v<ComponentCommon<CompType::OriginType>, CompType>);
 
-	std::type_index index = std::type_index(typeid(CompType::OriginType));
+	std::type_index index = std::type_index(typeid(typename CompType::OriginType));
 	assert(_componentsMap.count(index) == 0);
 
 	comp->setOwner(this);
@@ -57,9 +57,8 @@ template<typename CompType>
 void GameObject::removeComponent()
 {
 	static_assert(!std::is_same_v<Component, CompType>);
-	static_assert(!std::is_same_v<ComponentCommon<CompType::OriginType>, CompType>);
 
-	std::type_index index = std::type_index(typeid(CompType::OriginType));
+	std::type_index index = std::type_index(typeid(typename CompType::OriginType));
 	assert(_componentsMap.count(index) == 0);
 
 	auto foundIt = _componentsMap.find(index);
@@ -72,9 +71,8 @@ template<typename CompType>
 std::shared_ptr<CompType> GameObject::getComponent() const
 {
 	static_assert(!std::is_same_v<Component, CompType>);
-	static_assert(!std::is_same_v<ComponentCommon<CompType::OriginType>, CompType>);
 
-	std::type_index index = std::type_index(typeid(CompType::OriginType));
+	std::type_index index = std::type_index(typeid(typename CompType::OriginType));
 
 	auto foundIt = _componentsMap.find(index);
 	if (foundIt != _componentsMap.end()) {

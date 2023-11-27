@@ -7,8 +7,8 @@
 
 RenderSystem::RenderSystem():
 	_window(nullptr),
-	_mainCamera(nullptr),
-	_model(std::make_shared<Model>())
+	_model(std::make_shared<Model>()),
+	_mainCamera(nullptr)
 {
 
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "AComponent.hpp"
+#include "ComponentCommon.hpp"
 #include "components/ICameraManipulator.hpp"
 #include <glm/gtx/quaternion.hpp>
 #include <memory>

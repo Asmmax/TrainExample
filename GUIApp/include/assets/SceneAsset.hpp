@@ -15,5 +15,5 @@ private:
 public:
 	SceneAsset(const std::vector<UnitPtr>& units);
 
-	virtual void attachTo(World& world);
+	void attachTo(World& world);
 };

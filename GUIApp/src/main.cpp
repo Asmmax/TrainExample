@@ -50,7 +50,6 @@ int main()
 		? std::make_shared<BaseTimer>(minTimeStep, graphicsSettings.storedFrameCount)
 		: std::make_shared<SleepTimer>(minTimeStep, graphicsSettings.storedFrameCount);
 
-	float lastFrame = 0.0f;
 	while (!window->isDone())
 	{
 		LOG_DEBUG_PUSH_EX("time", "Frame");

@@ -6,7 +6,7 @@
 class BaseTimer
 {
 protected:
-	using TimePoint = std::chrono::steady_clock::time_point;
+	using TimePoint = std::chrono::high_resolution_clock::time_point;
 
 private:
 	TimePoint _startTime;
@@ -23,6 +23,7 @@ private:
 
 public:
 	BaseTimer(double timeStep, size_t storedFrameCount = 1);
+	virtual ~BaseTimer() {}
 
 	virtual void startLoop();
 	virtual void endLoop();

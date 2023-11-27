@@ -1,7 +1,7 @@
 #include "physics/TrackedEntity.hpp"
 #include "ACurve.hpp"
 #include "common/Transform.hpp"
-
+#include <cmath>
 #include <glm/glm.hpp>
 
 TrackedEntity::TrackedEntity(const std::shared_ptr<ACurve>& path, float velocity):
@@ -16,7 +16,8 @@ void TrackedEntity::fixedUpdate(float fixed_time)
 	auto parameter_velocity = _velocity / glm::length(_path->getDerivative(_parameter));
 	float step = fixed_time * parameter_velocity;
 	_parameter += step;
-	_parameter = std::fmodf(_parameter, 1.0f);
+	float intPart;
+	_parameter = std::modf(_parameter, &intPart);
 
 	setNextPosition(_path->getValue(_parameter));
 

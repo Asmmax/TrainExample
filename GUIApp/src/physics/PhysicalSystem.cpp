@@ -1,5 +1,6 @@
 #include "physics/PhysicalSystem.hpp"
 #include "physics/APhysicalEntity.hpp"
+#include <algorithm>
 
 PhysicalSystem::PhysicalSystem(float fixed_time):
 	_fixed_time(fixed_time),

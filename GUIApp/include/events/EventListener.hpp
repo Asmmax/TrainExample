@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 
+class AEvent;
+
 class EventListener
 {
 	friend class AEvent;

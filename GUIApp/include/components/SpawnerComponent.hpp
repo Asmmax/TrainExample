@@ -1,5 +1,6 @@
 #pragma once
-#include "AComponent.hpp"
+#include "ComponentCommon.hpp"
+#include <string>
 
 class SpawnerComponent : public ComponentCommon<SpawnerComponent>
 {
