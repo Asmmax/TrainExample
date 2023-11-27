@@ -1,3 +1,4 @@
+bind "../Vec3Reader.hpp";
 bind "components/TransformComponent.hpp";
 bind "TransformSystem.hpp";
 

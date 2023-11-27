@@ -1,6 +1,5 @@
 #pragma once
 #include "DrawState.hpp"
-#include "Vec3Reader.hpp"
 #include <memory>
 #include <glm/vec3.hpp>
 

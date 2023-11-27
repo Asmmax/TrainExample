@@ -1,6 +1,7 @@
-bind "SceneAsset.hpp";
-bind "units/OverriddenSceneUnit.hpp";
+bind "units/SceneObjectReader.hpp";
 bind "units/SceneUnit.hpp";
+bind "units/OverriddenSceneUnit.hpp";
+bind "SceneAsset.hpp";
 
 shared SceneAsset
 {

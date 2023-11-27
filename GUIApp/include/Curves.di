@@ -1,3 +1,4 @@
+bind "Vec3Reader.hpp";
 bind "ACurve.hpp";
 bind "Circle2D.hpp";
 bind "Spline.hpp";

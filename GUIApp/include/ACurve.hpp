@@ -1,5 +1,4 @@
 #pragma once
-#include "Vec3Reader.hpp"
 #include <vector>
 #include <glm/vec3.hpp>
 

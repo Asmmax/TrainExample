@@ -1,4 +1,5 @@
 bind "ShaderAsset.hpp";
+bind "../Vec3Reader.hpp";
 bind "MaterialAsset.hpp";
 
 shared ShaderAsset

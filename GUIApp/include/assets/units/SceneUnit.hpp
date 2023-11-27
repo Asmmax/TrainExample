@@ -1,5 +1,4 @@
 #pragma once
-#include "Containers/Context.hpp"
 #include <vector>
 #include <memory>
 
@@ -8,7 +7,6 @@ class GameObject;
 class World;
 
 using SceneObject = std::vector<std::shared_ptr<Component>>;
-DECLARE_READER(SceneObject)
 
 class SceneUnit
 {

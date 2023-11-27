@@ -1,4 +1,5 @@
 bind "components/CameraComponent.hpp";
+bind "../Vec3Reader.hpp";
 bind "components/LightComponent.hpp";
 bind "components/RenderComponent.hpp";
 bind "RenderSystem.hpp";
