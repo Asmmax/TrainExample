@@ -5,7 +5,6 @@
 
 class Transform;
 
-/// @serializable
 class TransformSystem : public SystemCommon<TransformSystem>
 {
 	using TransformPtr = std::shared_ptr<Transform>;

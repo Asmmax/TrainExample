@@ -3,7 +3,6 @@
 #include "components/ICameraManipulator.hpp"
 #include <glm/glm.hpp>
 
-/// @serializable
 class FlyCameraManipulator : public RotateCameraManipulator
 {
 private:

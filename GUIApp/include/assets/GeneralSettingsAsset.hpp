@@ -2,14 +2,12 @@
 #include <string>
 #include <vector>
 
-/// @serializable
 struct LogSettings
 {
 	std::string logDir;
 	std::vector<std::string> logs;
 };
 
-/// @serializable
 struct GraphicsSettings
 {
 	int width{ 640 };
@@ -20,7 +18,6 @@ struct GraphicsSettings
 	int storedFrameCount{ 1 };
 };
 
-/// @serializable @shared generalSettings
 class GeneralSettingsAsset
 {
 private:

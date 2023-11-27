@@ -3,7 +3,6 @@
 #include <vector>
 #include <glm/vec3.hpp>
 
-/// @serializable @abstract @shared curves
 class ACurve
 {
 public:

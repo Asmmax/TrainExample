@@ -4,7 +4,6 @@
 
 class ACurve;
 
-/// @serializable
 class Sleepers : public MeshAsset
 {
 public:

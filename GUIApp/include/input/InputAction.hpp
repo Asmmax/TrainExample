@@ -7,7 +7,6 @@ class InputDistributor;
 class AInputActionImpl;
 class EventListener;
 
-/// @serializable @polymorphic
 class InputAction
 {
 private:

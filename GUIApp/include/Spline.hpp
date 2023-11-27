@@ -1,7 +1,6 @@
 #pragma once
 #include "ACurve.hpp"
 
-/// @serializable
 class Spline : public ACurve
 {
 public:

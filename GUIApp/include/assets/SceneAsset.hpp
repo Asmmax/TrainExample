@@ -5,7 +5,6 @@
 class World;
 class SceneUnit;
 
-/// @serializable @shared scenes
 class SceneAsset
 {
 	using UnitPtr = std::shared_ptr<SceneUnit>;

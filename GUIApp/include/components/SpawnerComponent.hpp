@@ -1,7 +1,6 @@
 #pragma once
 #include "AComponent.hpp"
 
-/// @serializable
 class SpawnerComponent : public ComponentCommon<SpawnerComponent>
 {
 private:

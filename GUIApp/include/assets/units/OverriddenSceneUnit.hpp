@@ -3,7 +3,6 @@
 
 class Component;
 
-/// @serializable
 struct SceneObjectChange 
 {
 	using CompPtr = std::shared_ptr<Component>;
@@ -12,14 +11,12 @@ struct SceneObjectChange
 	std::vector<CompPtr> overrides;
 };
 
-/// @serializable
 struct SceneUnitChange
 {
 	std::shared_ptr<SceneUnit> original;
 	std::vector<SceneObjectChange> changes;
 };
 
-/// @serializable
 class OverriddenSceneUnit : public SceneUnit
 {
 	using CompPtr = std::shared_ptr<Component>;

@@ -6,7 +6,6 @@ class System;
 class Window;
 class World;
 
-/// @serializable @shared systemGroups
 class SystemGroupAsset
 {
 	using SystemPtr = std::shared_ptr<System>;
@@ -17,7 +16,6 @@ private:
 public:
 	SystemGroupAsset();
 
-	/// @inject
 	void setSystems(const std::vector<SystemPtr>& systems);
 
 	void init(Window* window);

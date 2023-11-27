@@ -60,20 +60,16 @@ else()
 endif()
 
 execute_process(
-    COMMAND ${Python3_ENV}/python -m pip show libclang
-    RESULT_VARIABLE LIBCLANG_EXISTS
+    COMMAND ${Python3_ENV}/python -m pip show lark
+    RESULT_VARIABLE LARK_EXISTS
     OUTPUT_QUIET
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 )
 
-if (NOT ${LIBCLANG_EXISTS} EQUAL 0)
-    message (STATUS "Installing libclang package")
+if (NOT ${LARK_EXISTS} EQUAL 0)
+    message (STATUS "Installing lark package")
     execute_process(
-        COMMAND ${Python3_ENV}/python -m pip install wheel
-	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        )
-    execute_process(
-        COMMAND ${Python3_ENV}/python -m pip install libclang
+        COMMAND ${Python3_ENV}/python -m pip install lark
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         )
 endif()

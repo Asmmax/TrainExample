@@ -5,7 +5,6 @@
 class Window;
 class World;
 
-/// @serializable @polymorphic @abstract
 class System
 {
 public:

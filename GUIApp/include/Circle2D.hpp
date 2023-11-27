@@ -1,7 +1,6 @@
 #pragma once
 #include "ACurve.hpp"
 
-/// @serializable
 class Circle2D : public ACurve
 {
 public:

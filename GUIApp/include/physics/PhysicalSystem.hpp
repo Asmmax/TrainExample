@@ -5,7 +5,6 @@
 
 class PhysicalEntity;
 
-/// @serializable
 class PhysicalSystem : public SystemCommon<PhysicalSystem>
 {
 	using EntityPtr = std::shared_ptr<PhysicalEntity>;

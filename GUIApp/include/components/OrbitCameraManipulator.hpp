@@ -6,7 +6,6 @@
 
 class TransformComponent;
 
-/// @serializable
 class OrbitCameraManipulator : public ComponentCommon<OrbitCameraManipulator>, public ICameraManipulator
 {
 private:
@@ -22,7 +21,6 @@ private:
 public:
 	OrbitCameraManipulator(float rotSpeed, float zoomSpeed);
 
-	/// @inject
 	void setEye(const std::shared_ptr<TransformComponent>& eye);
 
 	void init() override;

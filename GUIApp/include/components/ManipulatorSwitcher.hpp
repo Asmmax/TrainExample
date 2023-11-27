@@ -5,7 +5,6 @@
 
 class ICameraManipulator;
 
-/// @serializable
 class ManipulatorSwitcher : public ComponentCommon<ManipulatorSwitcher>
 {
 private:

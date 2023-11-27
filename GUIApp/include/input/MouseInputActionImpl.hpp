@@ -1,7 +1,6 @@
 #pragma once
 #include "input/AInputActionImpl.hpp"
 
-/// @serializable
 enum class MouseActionKey : int
 {
 	LEFT_BUTTON,
@@ -10,7 +9,6 @@ enum class MouseActionKey : int
 	UNDEFINED
 };
 
-/// @serializable @polymorphic
 class MouseInputActionImpl : public AInputActionImpl
 {
 private:

@@ -9,7 +9,6 @@ class Object;
 class Model;
 class ShaderAsset;
 
-/// @serializable @shared materials
 class MaterialAsset
 {
 private:
@@ -25,8 +24,6 @@ public:
 	Object* apply(const std::shared_ptr<Model>& model);
 	void free(Object* object);
 
-	/// @inject
 	void setShader(const std::shared_ptr<ShaderAsset>& shader);
-	/// @inject
 	void setColor(const glm::vec3& color);
 };

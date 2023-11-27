@@ -4,7 +4,6 @@
 
 class PlayerController;
 
-/// @serializable
 class PlayerManager : public SystemCommon<PlayerManager>
 {
 	using ContollerPtr = std::shared_ptr<PlayerController>;

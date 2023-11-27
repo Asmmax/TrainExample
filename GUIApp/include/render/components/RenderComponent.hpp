@@ -8,7 +8,6 @@ class MaterialAsset;
 class MeshAsset;
 class GameObject;
 
-/// @serializable
 class RenderComponent : public ComponentCommon<RenderComponent>
 {
 private:
@@ -23,8 +22,6 @@ public:
 	void init() override;
 	void deinit() override;
 
-	/// @inject
 	void setMaterial(const std::shared_ptr<MaterialAsset>& material);
-	/// @inject
 	void setMesh(const std::shared_ptr<MeshAsset>& mesh);
 };

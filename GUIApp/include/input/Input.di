@@ -1,7 +1,49 @@
-#pragma once
-#include "input/AInputActionImpl.hpp"
+bind "InputSystem.hpp";
+bind "InputAction.hpp";
+bind "AInputActionImpl.hpp";
+bind "KeyboardInputActionImpl.hpp";
+bind "MouseInputActionImpl.hpp";
+bind "InputAxis.hpp";
+bind "AInputAxisImpl.hpp";
+bind "KeyInputAxisImpl.hpp";
+bind "MouseInputAxisImpl.hpp";
 
-enum class InputActionKey : int
+value InputActionEntry
+{
+	std::string name;
+	InputAction action;
+};
+
+value InputAxisEntry
+{
+	std::string name;
+	InputAxis axis;
+};
+
+single InputSystem : System
+{
+	InputSystem(vector<InputActionEntry> actions, vector<InputAxisEntry> axes, float fixedTime);
+};
+
+single InputAction
+{
+	InputAction(vector<AInputActionImpl> impls);
+};
+
+abstract single AInputActionImpl
+{
+};
+
+single InputAxis
+{
+	InputAxis(vector<AInputAxisImpl> impls);
+};
+
+abstract single AInputAxisImpl
+{
+};
+
+enum InputActionKey
 {
 	KEY_SPACE,
 	KEY_APOSTROPHE,
@@ -126,15 +168,37 @@ enum class InputActionKey : int
 	UNDEFINED
 };
 
-class KeyboardInputActionImpl : public AInputActionImpl
+single KeyboardInputActionImpl : AInputActionImpl
 {
-private:
-	bool _state;
-	InputActionKey _key;
-
-public:
 	KeyboardInputActionImpl(InputActionKey key);
+};
 
-	void init(InputDistributor* distributor) override;
-	bool isPressed() const override;
+enum MouseActionKey
+{
+	LEFT_BUTTON,
+	RIGHT_BUTTON,
+	MIDDLE_BUTTON,
+	UNDEFINED
+};
+
+single MouseInputActionImpl : AInputActionImpl
+{
+	MouseInputActionImpl(MouseActionKey key);
+};
+
+single KeyInputAxisImpl : AInputAxisImpl
+{
+	KeyInputAxisImpl(InputAction negativeAction, InputAction positiveAction, float smooth, float minSpeed);
+};
+
+enum MouseAxis
+{
+	HORIZONTAL,
+	VERTICAL,
+	SCROLL
+};
+
+single MouseInputAxisImpl : AInputAxisImpl
+{
+	MouseInputAxisImpl(MouseAxis axis, float sensitivity, float smooth, float minSpeed);
 };

@@ -4,7 +4,6 @@
 
 class ACurve;
 
-/// @serializable
 class Rails : public MeshAsset
 {
 public:

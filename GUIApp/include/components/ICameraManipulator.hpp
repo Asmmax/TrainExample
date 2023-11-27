@@ -4,7 +4,6 @@
 
 class Transform;
 
-/// @serializable @abstract @shared
 class ICameraManipulator
 {
 public:

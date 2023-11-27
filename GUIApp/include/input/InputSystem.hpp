@@ -17,21 +17,18 @@ enum class MouseCaptureMode
 	WHILE_MOUSE_PRESSED
 };
 
-/// @serializable
 struct InputActionEntry
 {
 	std::string name;
 	std::shared_ptr<InputAction> action;
 };
 
-/// @serializable
 struct InputAxisEntry
 {
 	std::string name;
 	std::shared_ptr<InputAxis> axis;
 };
 
-/// @serializable
 class InputSystem : public SystemCommon<InputSystem>
 {
 private:

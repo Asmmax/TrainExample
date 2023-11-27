@@ -13,7 +13,6 @@ class MeshAsset;
 class MaterialAsset;
 class Transform;
 
-/// @serializable
 class RenderSystem : public SystemCommon<RenderSystem>
 {
 	using CameraViewPtr = std::shared_ptr<CameraView>;

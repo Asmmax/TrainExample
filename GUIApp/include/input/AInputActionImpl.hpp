@@ -6,7 +6,6 @@
 
 class InputDistributor;
 
-/// @serializable @polymorphic @abstract
 class AInputActionImpl
 {
 protected:

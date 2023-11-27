@@ -4,7 +4,6 @@
 
 class InputAction;
 
-/// @serializable @polymorphic
 class KeyInputAxisImpl : public AInputAxisImpl
 {
 private:

@@ -5,7 +5,6 @@
 class TrackedEntity;
 class ACurve;
 
-/// @serializable
 class TrackedComponent : public ComponentCommon<TrackedComponent>
 {
 private:
@@ -20,10 +19,7 @@ public:
 	void init() override;
 	void deinit() override;
 
-	/// @inject
 	void setPath(const std::shared_ptr<ACurve>& path);
-	/// @inject
 	void setVelocity(float velocity);
-	/// @inject
 	void setParameter(float param);
 };

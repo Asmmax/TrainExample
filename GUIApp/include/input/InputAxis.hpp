@@ -7,7 +7,6 @@ class InputDistributor;
 class AInputAxisImpl;
 class EventListener;
 
-/// @serializable @polymorphic
 class InputAxis
 {
 private:

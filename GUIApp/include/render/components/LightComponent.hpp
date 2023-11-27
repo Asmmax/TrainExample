@@ -5,7 +5,6 @@
 
 class RenderPointLight;
 
-/// @serializable
 class LightComponent : public ComponentCommon<LightComponent>
 {
 private:
@@ -22,12 +21,8 @@ public:
 	void init() override;
 	void deinit() override;
 
-	/// @inject
 	void setRadius(float radius);
-	/// @inject
 	void setFadingArea(float fadingArea);
-	/// @inject
 	void setIntensity(float intensity);
-	/// @inject
 	void setColor(const glm::vec3& color);
 };

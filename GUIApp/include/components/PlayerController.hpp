@@ -5,7 +5,6 @@
 
 class ICameraManipulator;
 
-/// @serializable
 class PlayerController : public ComponentCommon<PlayerController>
 {
 private:
@@ -16,7 +15,6 @@ private:
 public:
 	PlayerController();
 
-	/// @inject
 	void setManipulator(ManipulatorPtr target);
 
 	ManipulatorPtr getManipulator() const { return _target; }

@@ -3,7 +3,6 @@
 #include "events/EventListener.hpp"
 #include <memory>
 
-/// @serializable @shared components @abstract
 class Component : public EventListener
 {
 	friend class GameObject;

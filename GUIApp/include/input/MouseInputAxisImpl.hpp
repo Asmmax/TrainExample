@@ -1,7 +1,6 @@
 #pragma once
 #include "input/AInputAxisImpl.hpp"
 
-/// @serializable
 enum class MouseAxis : int
 {
 	HORIZONTAL,
@@ -9,7 +8,6 @@ enum class MouseAxis : int
 	SCROLL
 };
 
-/// @serializable @polymorphic
 class MouseInputAxisImpl : public AInputAxisImpl
 {
 private:

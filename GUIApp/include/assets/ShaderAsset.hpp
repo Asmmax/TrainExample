@@ -3,7 +3,6 @@
 
 class Shader;
 
-/// @serializable @shared shaders
 class ShaderAsset
 {
 private:

@@ -4,7 +4,6 @@
 class Mesh;
 class Loader;
 
-/// @serializable @abstract @shared meshes
 class MeshAsset
 {
 private:

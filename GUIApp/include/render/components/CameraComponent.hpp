@@ -7,7 +7,6 @@ class Transform;
 class GameObject;
 class CameraView;
 
-/// @serializable
 class CameraComponent : public ComponentCommon<CameraComponent>
 {
 private:

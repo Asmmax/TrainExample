@@ -10,7 +10,6 @@ class World;
 using SceneObject = std::vector<std::shared_ptr<Component>>;
 DECLARE_READER(SceneObject)
 
-/// @serializable @shared units
 class SceneUnit
 {
 protected:
