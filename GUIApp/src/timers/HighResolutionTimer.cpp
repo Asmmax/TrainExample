@@ -53,7 +53,7 @@ bool HighResolutionTimer::startProcessWait()
 	const MMRESULT result = timeBeginPeriod(1);
 	return result == TIMERR_NOERROR;
 #else
-	return true
+	return true;
 #endif
 }
 

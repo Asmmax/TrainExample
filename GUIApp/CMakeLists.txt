@@ -48,7 +48,7 @@ endif()
 if (NOT EXISTS ${PROJECT_SOURCE_DIR}/.venv)
     message (STATUS "Installing python env")
     execute_process(
-		COMMAND py -3.7 -m venv .venv
+		COMMAND ${Python3_EXECUTABLE} -m venv .venv
 		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 		)
 endif()
@@ -113,7 +113,7 @@ target_include_directories(GUIApp
 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
 PRIVATE "${out_include_path}")
 
-target_link_libraries(GUIApp PRIVATE dgnix PRIVATE DIAssets PRIVATE $<$<PLATFORM_ID:Windows>:winmm>)
+target_link_libraries(GUIApp PRIVATE dgnix PRIVATE DIAssets PRIVATE $<$<PLATFORM_ID:Windows>:winmm> $<$<AND:$<PLATFORM_ID:Linux>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>)
 
 if(WIN32)
 	set_target_properties(GUIApp PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup /SUBSYSTEM:WINDOWS")
