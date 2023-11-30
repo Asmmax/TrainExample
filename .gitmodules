@@ -16,3 +16,9 @@
 [submodule "Core"]
 	path = Core
 	url = git@github.com:Asmmax/ZeroEngine.git
+[submodule "modules/Input"]
+	path = modules/Input
+	url = git@github.com:Asmmax/ZeroEngineInput.git
+[submodule "modules/Render"]
+	path = modules/Render
+	url = git@github.com:Asmmax/ZeroEngineRender.git
