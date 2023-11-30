@@ -13,3 +13,6 @@
 [submodule "deps/infrastruct"]
 	path = deps/infrastruct
 	url = git@github.com:Asmmax/infrastruct.git
+[submodule "Core"]
+	path = Core
+	url = git@github.com:Asmmax/ZeroEngine.git
