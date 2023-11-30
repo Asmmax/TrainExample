@@ -1,8 +1,8 @@
-bind "components/CameraComponent.hpp";
-bind "../Vec3Reader.hpp";
-bind "components/LightComponent.hpp";
-bind "components/RenderComponent.hpp";
-bind "RenderSystem.hpp";
+bind "render/components/CameraComponent.hpp";
+bind "Vec3Reader.hpp";
+bind "render/components/LightComponent.hpp";
+bind "render/components/RenderComponent.hpp";
+bind "render/RenderSystem.hpp";
 
 shared CameraComponent : Component
 {

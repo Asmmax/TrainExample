@@ -1,4 +1,4 @@
-bind "GeneralSettingsAsset.hpp";
+bind "assets/GeneralSettingsAsset.hpp";
 
 value LogSettings
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "ICameraView.hpp"
+#include "render/ICameraView.hpp"
 
 class Texture;
 class View;

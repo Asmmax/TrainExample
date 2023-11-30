@@ -1,6 +1,6 @@
-bind "ShaderAsset.hpp";
-bind "../Vec3Reader.hpp";
-bind "MaterialAsset.hpp";
+bind "assets/ShaderAsset.hpp";
+bind "Vec3Reader.hpp";
+bind "assets/MaterialAsset.hpp";
 
 shared ShaderAsset
 {

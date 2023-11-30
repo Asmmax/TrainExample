@@ -12,4 +12,7 @@ endif()
 
 add_subdirectory ("deps/dgnix")
 add_subdirectory ("deps/DIAssets")
+add_subdirectory ("Core")
+add_subdirectory ("modules/Render")
+add_subdirectory ("modules/Input")
 add_subdirectory ("GUIApp")

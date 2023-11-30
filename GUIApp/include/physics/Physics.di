@@ -1,5 +1,5 @@
-bind "components/TrackedComponent.hpp";
-bind "PhysicalSystem.hpp";
+bind "physics/components/TrackedComponent.hpp";
+bind "physics/PhysicalSystem.hpp";
 
 shared TrackedComponent : Component
 {

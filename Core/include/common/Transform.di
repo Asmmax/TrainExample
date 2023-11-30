@@ -1,6 +1,6 @@
-bind "../Vec3Reader.hpp";
-bind "components/TransformComponent.hpp";
-bind "TransformSystem.hpp";
+bind "Vec3Reader.hpp";
+bind "common/components/TransformComponent.hpp";
+bind "common/TransformSystem.hpp";
 
 shared TransformComponent : Component
 {

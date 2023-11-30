@@ -1,12 +1,12 @@
-bind "InputSystem.hpp";
-bind "InputAction.hpp";
-bind "AInputActionImpl.hpp";
-bind "KeyboardInputActionImpl.hpp";
-bind "MouseInputActionImpl.hpp";
-bind "InputAxis.hpp";
-bind "AInputAxisImpl.hpp";
-bind "KeyInputAxisImpl.hpp";
-bind "MouseInputAxisImpl.hpp";
+bind "input/InputSystem.hpp";
+bind "input/InputAction.hpp";
+bind "input/AInputActionImpl.hpp";
+bind "input/KeyboardInputActionImpl.hpp";
+bind "input/MouseInputActionImpl.hpp";
+bind "input/InputAxis.hpp";
+bind "input/AInputAxisImpl.hpp";
+bind "input/KeyInputAxisImpl.hpp";
+bind "input/MouseInputAxisImpl.hpp";
 
 value InputActionEntry
 {

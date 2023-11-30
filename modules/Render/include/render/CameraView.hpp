@@ -1,5 +1,5 @@
 #pragma once
-#include "ICameraView.hpp"
+#include "render/ICameraView.hpp"
 #include <memory>
 
 class Transform;

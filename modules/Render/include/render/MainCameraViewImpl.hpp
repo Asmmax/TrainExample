@@ -1,5 +1,5 @@
 #pragma once
-#include "ICameraView.hpp"
+#include "render/ICameraView.hpp"
 #include <glm/mat4x4.hpp>
 
 class MainCameraViewImpl : public ICameraView

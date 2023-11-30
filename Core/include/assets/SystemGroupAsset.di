@@ -1,4 +1,4 @@
-bind "SystemGroupAsset.hpp";
+bind "assets/SystemGroupAsset.hpp";
 
 shared SystemGroupAsset
 {

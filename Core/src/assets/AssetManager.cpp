@@ -19,6 +19,7 @@ void AssetManager::setLoader(Loader* loader)
 
 void AssetManager::init(const std::string& config)
 {
+	ContextManager::Instance().Register();
 	ContextManager::Instance().BindImpl(std::make_shared<ContextManagerImpl>());
 
 	_path = std::make_unique<Path>(config);
