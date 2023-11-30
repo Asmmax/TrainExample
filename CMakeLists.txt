@@ -10,6 +10,7 @@ set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR} )
 set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR} )
 endif()
 
+add_subdirectory ("deps/json")
 add_subdirectory ("deps/dgnix")
 add_subdirectory ("deps/DIAssets")
 add_subdirectory ("Core")
