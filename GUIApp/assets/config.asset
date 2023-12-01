@@ -243,6 +243,11 @@
     {
       "id": "main",
       "type": "GeneralSettingsAsset",
+      "app": {
+        "type": "AppSettings",
+        "name": "Train Example",
+        "startSceneId": "scenes/train_scene"
+      },
       "log": {
         "type": "LogSettings",
         "logDir": "log",
