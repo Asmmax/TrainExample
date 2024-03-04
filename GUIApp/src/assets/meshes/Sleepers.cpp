@@ -3,7 +3,7 @@
 #include "ACurve.hpp"
 #include "ParallelCurve.hpp"
 
-Sleepers::Sleepers(const std::shared_ptr<ACurve>& path, float thickness, float width, float step)
+Sleepers::Sleepers(ACurve* path, float thickness, float width, float step)
 {
 	float length = path->getLength();
 	int seg_count = static_cast<int>(std::roundf(length / step));

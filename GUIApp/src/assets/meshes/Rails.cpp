@@ -3,7 +3,7 @@
 #include "MeshGenerator.hpp"
 #include "ParallelCurve.hpp"
 
-Rails::Rails(const std::shared_ptr<ACurve>& path, float width, float gap, int seg_count)
+Rails::Rails(ACurve* path, float width, float gap, int seg_count)
 {
 	auto parameters = path->getUniformDistribution(seg_count + 1);
 

@@ -1,18 +1,15 @@
 #pragma once
 #include "ComponentCommon.hpp"
-#include <memory>
-#include <vector>
 
 class ICameraManipulator;
 
 class ManipulatorSwitcherAdder : public ComponentCommon<ManipulatorSwitcherAdder>
 {
 private:
-	using ManipulatorPtr = std::shared_ptr<ICameraManipulator>;
-	ManipulatorPtr _manipulator;
+	ICameraManipulator* _manipulator;
 
 public:
-	ManipulatorSwitcherAdder(const ManipulatorPtr& manipulator);
+	ManipulatorSwitcherAdder(ICameraManipulator* manipulator);
 
 	void init() override;
 	void deinit() override;

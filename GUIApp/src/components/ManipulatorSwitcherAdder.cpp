@@ -3,7 +3,7 @@
 #include "systems/PlayerManager.hpp"
 #include "World.hpp"
 
-ManipulatorSwitcherAdder::ManipulatorSwitcherAdder(const ManipulatorPtr& manipulator):
+ManipulatorSwitcherAdder::ManipulatorSwitcherAdder(ICameraManipulator* manipulator):
 	_manipulator(manipulator)
 {
 }
