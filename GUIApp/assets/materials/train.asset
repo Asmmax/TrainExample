@@ -1,10 +1,13 @@
 {
-	"materials":[
-	{
-		"id":"main",
-		"type":"MaterialAsset",
-		"shader":"shaders/simple/main",
-		"color": [ 0.62, 0.58, 0.51 ]
-	}
+	"usedContexts": [
+		"shaders/simple"
+	],
+	"materials": [
+		{
+			"id": "main",
+			"type": "MaterialAsset",
+			"shader": "shaders/simple/main",
+			"color": [ 0.62, 0.58, 0.51 ]
+		}
 	]
 }

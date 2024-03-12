@@ -1,4 +1,8 @@
 {
+  "usedContexts": [
+    "prefabs/train_block",
+    "curves/path"
+  ],
   "contextCopies": [
     {
       "id": "prefabs/train_head",

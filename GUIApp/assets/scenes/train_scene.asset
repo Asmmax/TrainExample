@@ -1,4 +1,12 @@
 {
+  "usedContexts": [
+    "meshes/plane",
+    "materials/grass",
+    "meshes/rails",
+    "materials/metal",
+    "meshes/sleepers",
+    "materials/wood"
+  ],
   "components": [
     {
       "id": "sun_transform",
