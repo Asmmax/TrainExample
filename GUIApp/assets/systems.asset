@@ -23,6 +23,32 @@
             },
             {
               "type": "InputActionEntry",
+              "name": "NextLevel",
+              "action": {
+                "type": "InputAction",
+                "impls": [
+                  {
+                    "type": "KeyboardInputActionImpl",
+                    "key": "KEY_PAGE_UP"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputActionEntry",
+              "name": "PrevLevel",
+              "action": {
+                "type": "InputAction",
+                "impls": [
+                  {
+                    "type": "KeyboardInputActionImpl",
+                    "key": "KEY_PAGE_DOWN"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputActionEntry",
               "name": "SwitchManipulator",
               "action": {
                 "type": "InputAction",
@@ -235,6 +261,11 @@
         },
         {
           "type": "PlayerManager"
+        },
+        {
+          "type": "LevelManager",
+          "levels": [ "scenes/train_scene", "scenes/cross_scene" ],
+          "currentLevel": "scenes/train_scene"
         }
       ]
     }

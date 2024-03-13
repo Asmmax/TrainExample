@@ -1,11 +1,7 @@
 {
   "usedContexts": [
     "meshes/plane",
-    "materials/grass",
-    "meshes/rails",
-    "materials/metal",
-    "meshes/sleepers",
-    "materials/wood"
+    "materials/grass"
   ],
   "components": [
     {
@@ -83,12 +79,6 @@
       "target": "orbit_manipulator"
     },
     {
-      "id": "spawner",
-      "type": "SpawnerComponent",
-      "trainId": "prefabs/train",
-      "delay": 50.0
-    },
-    {
       "id": "levelSwitcher",
       "type": "LevelSwitcherComponent"
     },
@@ -107,40 +97,32 @@
       "material": "materials/grass/main"
     },
     {
-      "id": "rails_group_transform",
+      "id": "plane_transform_1",
       "type": "TransformComponent",
-      "position": [ 0.0, 0.0, 0.0 ],
+      "position": [ 0.0, -0.01, 0.0 ],
       "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": [ "rails_transform", "sleepers_transform" ]
-    },
-    {
-      "id": "rails_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 0.01, 0.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
+      "scale": [ 20.0, 20.0, 20.0 ],
       "children": []
     },
     {
-      "id": "rails_graphics",
+      "id": "plane_graphics_1",
       "type": "RenderComponent",
-      "mesh": "meshes/rails/main",
-      "material": "materials/metal/main"
+      "mesh": "meshes/plane/main",
+      "material": "materials/grass/main"
     },
     {
-      "id": "sleepers_transform",
+      "id": "plane_transform_2",
       "type": "TransformComponent",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
+      "position": [ 0.0, -0.01, 0.0 ],
+      "rotation": [ 0.0, 90.0, 0.0 ],
+      "scale": [ 20.0, 20.0, 20.0 ],
       "children": []
     },
     {
-      "id": "sleepers_graphics",
+      "id": "plane_graphics_2",
       "type": "RenderComponent",
-      "mesh": "meshes/sleepers/main",
-      "material": "materials/wood/main"
+      "mesh": "meshes/plane/main",
+      "material": "materials/grass/main"
     }
   ],
   "units": [
@@ -152,11 +134,10 @@
         [ "camera_target_transform", "orbit_manipulator" ],
         [ "camera_eye_transform", "orbit_camera" ],
         [ "fly_camera_transform", "fly_camera", "fly_manipulator" ],
-        [ "player", "manipulator_switcher", "spawner", "levelSwitcher" ],
+        [ "player", "manipulator_switcher", "levelSwitcher" ],
         [ "plane_transform", "plane_graphics" ],
-        [ "rails_group_transform" ],
-        [ "rails_transform", "rails_graphics" ],
-        [ "sleepers_transform", "sleepers_graphics" ]
+        [ "plane_transform_1", "plane_graphics_1" ],
+        [ "plane_transform_2", "plane_graphics_2" ]
       ]
     }
   ],
