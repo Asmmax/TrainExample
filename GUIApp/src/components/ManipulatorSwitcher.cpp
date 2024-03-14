@@ -5,7 +5,7 @@
 #include "input/InputSystem.hpp"
 #include "World.hpp"
 
-ManipulatorSwitcher::ManipulatorSwitcher(const std::vector<ManipulatorPtr>& manipulators) :
+ManipulatorSwitcher::ManipulatorSwitcher(const std::vector<ICameraManipulator*>& manipulators) :
 	_manipulators(manipulators)
 {
 }
@@ -18,12 +18,12 @@ void ManipulatorSwitcher::init()
 	}
 }
 
-void ManipulatorSwitcher::addManipulator(ManipulatorPtr manipulator)
+void ManipulatorSwitcher::addManipulator(ICameraManipulator* manipulator)
 {
 	_manipulators.push_back(manipulator);
 }
 
-void ManipulatorSwitcher::removeManipulator(ManipulatorPtr manipulator)
+void ManipulatorSwitcher::removeManipulator(ICameraManipulator* manipulator)
 {
 	auto foundIt = std::find(_manipulators.begin(), _manipulators.end(), manipulator);
 	if (foundIt == _manipulators.end()) {
@@ -34,7 +34,7 @@ void ManipulatorSwitcher::removeManipulator(ManipulatorPtr manipulator)
 	auto playerManager = getOwner()->getWorld()->getSystem<PlayerManager>();
 	if (playerManager) {
 		auto controller = playerManager->getCurrentController();
-		if (controller->getManipulator() == manipulator) {
+		if (controller && controller->getManipulator() == manipulator) {
 			switchManipulator();
 		}
 	}
@@ -58,7 +58,7 @@ void ManipulatorSwitcher::switchManipulator()
 	if (foundIt != _manipulators.end()) {
 		foundIt++;
 	}
-	ManipulatorPtr target = nullptr;
+	ICameraManipulator* target = nullptr;
 	if (foundIt == _manipulators.end()) {
 		target = _manipulators.front();
 	}

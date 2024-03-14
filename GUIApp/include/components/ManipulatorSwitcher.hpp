@@ -1,6 +1,5 @@
 #pragma once
 #include "ComponentCommon.hpp"
-#include <memory>
 #include <vector>
 
 class ICameraManipulator;
@@ -8,15 +7,14 @@ class ICameraManipulator;
 class ManipulatorSwitcher : public ComponentCommon<ManipulatorSwitcher>
 {
 private:
-	using ManipulatorPtr = std::shared_ptr<ICameraManipulator>;
-	std::vector<ManipulatorPtr> _manipulators;
+	std::vector<ICameraManipulator*> _manipulators;
 
 public:
-	ManipulatorSwitcher(const std::vector<ManipulatorPtr>& manipulators);
+	ManipulatorSwitcher(const std::vector<ICameraManipulator*>& manipulators);
 
 	void init() override;
-	void addManipulator(ManipulatorPtr manipulator);
-	void removeManipulator(ManipulatorPtr manipulator);
+	void addManipulator(ICameraManipulator* manipulator);
+	void removeManipulator(ICameraManipulator* manipulator);
 
 protected:
 	void switchManipulator();

@@ -9,7 +9,7 @@ class TransformComponent;
 class OrbitCameraManipulator : public ComponentCommon<OrbitCameraManipulator>, public ICameraManipulator
 {
 private:
-	std::shared_ptr<TransformComponent> _eye;
+	TransformComponent* _eye;
 	glm::quat _storagedRotation;
 	float _sumDeltaX;
 	float _sumDeltaY;
@@ -21,7 +21,7 @@ private:
 public:
 	OrbitCameraManipulator(float rotSpeed, float zoomSpeed);
 
-	void setEye(const std::shared_ptr<TransformComponent>& eye);
+	void setEye(TransformComponent* eye);
 
 	void init() override;
 	void update(float deltaTime) override;

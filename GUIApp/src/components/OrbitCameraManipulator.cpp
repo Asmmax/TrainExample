@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 
 OrbitCameraManipulator::OrbitCameraManipulator(float rotSpeed, float zoomSpeed) :
+    _eye(nullptr),
 	_storagedRotation(1.0f, 0.0f, 0.0f ,0.0f),
 	_sumDeltaX(0.0f),
 	_sumDeltaY(0.0f),
@@ -17,7 +18,7 @@ OrbitCameraManipulator::OrbitCameraManipulator(float rotSpeed, float zoomSpeed) 
 {
 }
 
-void OrbitCameraManipulator::setEye(const std::shared_ptr<TransformComponent>& eye)
+void OrbitCameraManipulator::setEye(TransformComponent* eye)
 {
     _eye = eye;
 }

@@ -1,5 +1,4 @@
 {
-  "contextId": "",
   "systemGroups": [
     {
       "id": "main",
@@ -18,6 +17,32 @@
                   {
                     "type": "KeyboardInputActionImpl",
                     "key": "KEY_SPACE"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputActionEntry",
+              "name": "NextLevel",
+              "action": {
+                "type": "InputAction",
+                "impls": [
+                  {
+                    "type": "KeyboardInputActionImpl",
+                    "key": "KEY_PAGE_UP"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "InputActionEntry",
+              "name": "PrevLevel",
+              "action": {
+                "type": "InputAction",
+                "impls": [
+                  {
+                    "type": "KeyboardInputActionImpl",
+                    "key": "KEY_PAGE_DOWN"
                   }
                 ]
               }
@@ -236,33 +261,13 @@
         },
         {
           "type": "PlayerManager"
+        },
+        {
+          "type": "LevelManager",
+          "levels": [ "scenes/train_scene", "scenes/cross_scene" ],
+          "currentLevel": "scenes/train_scene"
         }
       ]
-    }
-  ],
-  "generalSettings": [
-    {
-      "id": "main",
-      "type": "GeneralSettingsAsset",
-      "app": {
-        "type": "AppSettings",
-        "name": "Train Example",
-        "startSceneId": "scenes/train_scene"
-      },
-      "log": {
-        "type": "LogSettings",
-        "logDir": "log",
-        "logs": [ "common" ]
-      },
-      "graphics": {
-        "type": "GraphicsSettings",
-        "width": 1280,
-        "height": 960,
-        "framerate": 60,
-        "storedFrameCount": 10,
-        "fullscreen": false,
-        "vsync": true
-      }
     }
   ]
 }

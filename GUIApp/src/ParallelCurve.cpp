@@ -2,7 +2,7 @@
 #include "ACurve.hpp"
 #include <glm/glm.hpp>
 
-ParallelCurve::ParallelCurve(const std::shared_ptr<ACurve>& base, const glm::vec3& offset):
+ParallelCurve::ParallelCurve(ACurve* base, const glm::vec3& offset):
 	_base(base),
 	_offset(offset)
 {

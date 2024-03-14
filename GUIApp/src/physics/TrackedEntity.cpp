@@ -4,7 +4,7 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
-TrackedEntity::TrackedEntity(const std::shared_ptr<ACurve>& path, float velocity):
+TrackedEntity::TrackedEntity(ACurve* path, float velocity):
 	_path(path),
 	_velocity(velocity),
 	_parameter(0.0f)

@@ -11,7 +11,7 @@ PlayerController::PlayerController():
 {
 }
 
-void PlayerController::setManipulator(ManipulatorPtr target)
+void PlayerController::setManipulator(ICameraManipulator* target)
 {
 	_target = target;
 	if (_isInited && _target) {
@@ -23,12 +23,21 @@ void PlayerController::init()
 {
 	auto playerManager = getOwner()->getWorld()->getSystem<PlayerManager>();
 	if (playerManager) {
-		playerManager->setCurrentController(getOwner()->getComponent<PlayerController>());
+		playerManager->setCurrentController(this);
 	}
 	if (_target) {
 		_target->apply();
 	}
 	_isInited = true;
+}
+
+void PlayerController::deinit()
+{
+	Super::deinit();
+	auto playerManager = getOwner()->getWorld()->getSystem<PlayerManager>();
+	if (playerManager && playerManager->getCurrentController() == this) {
+		playerManager->setCurrentController(nullptr);
+	}
 }
 
 void PlayerController::update(float deltaTime)

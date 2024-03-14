@@ -10,8 +10,7 @@ void PlayerManager::init()
 {
 }
 
-void PlayerManager::setCurrentController(const ContollerPtr& contoller)
+void PlayerManager::setCurrentController(PlayerController* controller)
 {
-	assert(!_currentController);
-	_currentController = contoller;
+	_currentController = controller;
 }

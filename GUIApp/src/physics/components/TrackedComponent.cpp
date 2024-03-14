@@ -8,6 +8,7 @@
 #include "ACurve.hpp"
 
 TrackedComponent::TrackedComponent():
+	_path(nullptr),
 	_velocity(0.0f),
 	_parameter(0.0f)
 {
@@ -48,7 +49,7 @@ void TrackedComponent::deinit()
 	physicalSystem->removeEntity(_entity);
 }
 
-void TrackedComponent::setPath(const std::shared_ptr<ACurve>& path)
+void TrackedComponent::setPath(ACurve* path)
 {
 	_path = path;
 }

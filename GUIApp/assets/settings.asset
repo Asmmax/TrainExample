@@ -1,0 +1,27 @@
+{
+  "generalSettings": [
+    {
+      "id": "main",
+      "type": "GeneralSettingsAsset",
+      "app": {
+        "type": "AppSettings",
+        "name": "Train Example",
+        "startSceneId": "scenes/train_scene"
+      },
+      "log": {
+        "type": "LogSettings",
+        "logDir": "log",
+        "logs": [ "common" ]
+      },
+      "graphics": {
+        "type": "GraphicsSettings",
+        "width": 1280,
+        "height": 960,
+        "framerate": 60,
+        "storedFrameCount": 10,
+        "fullscreen": false,
+        "vsync": true
+      }
+    }
+  ]
+}
