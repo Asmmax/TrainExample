@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.8)
 
 set(assets_dir "${CMAKE_CURRENT_SOURCE_DIR}/assets")
 
-generate_di_files(TARGET GUIApp DEPS Core Render Input WITH_REGISTER)
+generate_di_files(TARGET GUIApp DEPS Core Render Input WITH_REGISTER WITH_META)
 
 file(GLOB_RECURSE cur_include "${DI_CURRENT_INCLUDE_DIR}/*.hpp")
 file(GLOB_RECURSE cur_src "${DI_CURRENT_SOURCE_DIR}/*.cpp")
