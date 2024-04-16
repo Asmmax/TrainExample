@@ -162,7 +162,7 @@
   ],
   "scenes": [
     {
-      "id": "main",
+      "id": "main_scene",
       "type": "SceneAsset",
       "units": [
         "main"
