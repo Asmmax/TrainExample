@@ -1,13 +1,42 @@
 {
-	"usedContexts": [
-		"shaders/simple"
-	],
-	"materials": [
-		{
-			"id": "main",
-			"type": "MaterialAsset",
-			"shader": "shaders/simple/main",
-			"color": [ 0.2, 0.37, 0.2 ]
-		}
-	]
+    "materials": [
+        {
+            "id": "main",
+            "params": [
+                {
+                    "name": "Material.DiffuseColor",
+                    "param": {
+                        "type": "MaterialVec3Param",
+                        "value": [
+                            0.20000000298023224,
+                            0.3700000047683716,
+                            0.20000000298023224
+                        ]
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "Material.AmbientFactor",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 0.20000000298023224
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "Material.DiffuseFactor",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 0.800000011920929
+                    },
+                    "type": "MaterialEntry"
+                }
+            ],
+            "shader": "shaders/simple/main",
+            "type": "MaterialAsset"
+        }
+    ],
+    "usedContexts": [
+        "shaders/simple"
+    ]
 }
