@@ -1,0 +1,9 @@
+{
+    "textures": [
+        {
+            "id": "main",
+            "imagePath": "textures/rustediron/rustediron_base.png",
+            "type": "FileTextureAsset"
+        }
+    ]
+}

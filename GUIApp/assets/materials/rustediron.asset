@@ -1,0 +1,88 @@
+{
+    "materials": [
+        {
+            "id": "main",
+            "params": [
+                {
+                    "name": "Material.DiffuseColor",
+                    "param": {
+                        "type": "MaterialVec3Param",
+                        "value": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "Material.AmbientFactor",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 0.20000000298023224
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "AmbientColor",
+                    "param": {
+                        "type": "MaterialVec3Param",
+                        "value": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "type": "MaterialEntry"
+                }
+            ],
+            "shader": "shaders/standart/main",
+            "textures": [
+                {
+                    "name": "baseMap",
+                    "texture": "textures/rustediron/rustediron_base/main",
+                    "type": "TextureEntry"
+                },
+                {
+                    "name": "normalMap",
+                    "texture": "textures/rustediron/rustediron_normal/main",
+                    "type": "TextureEntry"
+                },
+                {
+                    "name": "roughMap",
+                    "texture": "textures/rustediron/rustediron_rough/main",
+                    "type": "TextureEntry"
+                },
+                {
+                    "name": "metalMap",
+                    "texture": "textures/rustediron/rustediron_metal/main",
+                    "type": "TextureEntry"
+                },
+                {
+                    "name": "aoMap",
+                    "texture": "white_texture",
+                    "type": "TextureEntry"
+                }
+            ],
+            "type": "MaterialAsset"
+        }
+    ],
+    "textures": [
+        {
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "id": "white_texture",
+            "type": "DummyTextureAsset"
+        }
+    ],
+    "usedContexts": [
+        "shaders/standart",
+        "textures/rustediron/rustediron_base",
+        "textures/rustediron/rustediron_metal",
+        "textures/rustediron/rustediron_normal",
+        "textures/rustediron/rustediron_rough"
+    ]
+}

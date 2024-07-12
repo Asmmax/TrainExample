@@ -1,0 +1,9 @@
+{
+    "textures": [
+        {
+            "id": "main",
+            "imagePath": "textures/plastic/plastic_normal.png",
+            "type": "FileTextureAsset"
+        }
+    ]
+}

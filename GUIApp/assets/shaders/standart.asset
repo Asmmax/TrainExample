@@ -1,0 +1,10 @@
+{
+	"shaders":[
+	{
+		"id":"main",
+		"type":"ShaderAsset",
+		"vertexShaderPath":"shaders/standart.vert",
+		"fragmentShaderPath":"shaders/standart.frag"
+	}
+	]
+}

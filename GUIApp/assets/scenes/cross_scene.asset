@@ -1,153 +1,204 @@
 {
-  "usedContexts": [
-    "meshes/plane",
-    "materials/grass"
-  ],
-  "components": [
-    {
-      "id": "sun_transform",
-      "type": "TransformComponent",
-      "position": [ 100.0, 200.0, 100.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": []
-    },
-    {
-      "id": "sun_light",
-      "type": "LightComponent",
-      "radius": 1000.0,
-      "intensity": 0.5,
-      "fadingArea": 0.0,
-      "color": [ 1.0, 1.0, 1.0 ]
-    },
-    {
-      "id": "camera_target_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "rotation": [ -45.0, 90.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": [ "camera_eye_transform" ]
-    },
-    {
-      "id": "camera_eye_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 0.0, 25.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": []
-    },
-    {
-      "id": "fly_camera_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 5.0, 25.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": []
-    },
-    {
-      "id": "orbit_camera",
-      "type": "CameraComponent",
-      "isMain": false
-    },
-    {
-      "id": "fly_camera",
-      "type": "CameraComponent",
-      "isMain": true
-    },
-    {
-      "id": "orbit_manipulator",
-      "type": "OrbitCameraManipulator",
-      "eye": "camera_eye_transform",
-      "rotSpeed": 200.0,
-      "zoomSpeed": 20.0
-    },
-    {
-      "id": "fly_manipulator",
-      "type": "FlyCameraManipulator",
-      "rotSpeed": 100.0,
-      "speed": 10.0,
-      "speedUpCoef": 2.0
-    },
-    {
-      "id": "manipulator_switcher",
-      "type": "ManipulatorSwitcher",
-      "manipulators": [ "fly_manipulator", "orbit_manipulator" ]
-    },
-    {
-      "id": "player",
-      "type": "PlayerController",
-      "target": "orbit_manipulator"
-    },
-    {
-      "id": "levelSwitcher",
-      "type": "LevelSwitcherComponent"
-    },
-    {
-      "id": "plane_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, -0.01, 0.0 ],
-      "rotation": [ -90.0, 0.0, 0.0 ],
-      "scale": [ 20.0, 20.0, 20.0 ],
-      "children": []
-    },
-    {
-      "id": "plane_graphics",
-      "type": "RenderComponent",
-      "mesh": "meshes/plane/main",
-      "material": "materials/grass/main"
-    },
-    {
-      "id": "plane_transform_1",
-      "type": "TransformComponent",
-      "position": [ 0.0, -0.01, 0.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 20.0, 20.0, 20.0 ],
-      "children": []
-    },
-    {
-      "id": "plane_graphics_1",
-      "type": "RenderComponent",
-      "mesh": "meshes/plane/main",
-      "material": "materials/grass/main"
-    },
-    {
-      "id": "plane_transform_2",
-      "type": "TransformComponent",
-      "position": [ 0.0, -0.01, 0.0 ],
-      "rotation": [ 0.0, 90.0, 0.0 ],
-      "scale": [ 20.0, 20.0, 20.0 ],
-      "children": []
-    },
-    {
-      "id": "plane_graphics_2",
-      "type": "RenderComponent",
-      "mesh": "meshes/plane/main",
-      "material": "materials/grass/main"
-    }
-  ],
-  "units": [
-    {
-      "id": "main",
-      "type": "SceneUnit",
-      "objects": [
-        [ "sun_transform", "sun_light" ],
-        [ "camera_target_transform", "orbit_manipulator" ],
-        [ "camera_eye_transform", "orbit_camera" ],
-        [ "fly_camera_transform", "fly_camera", "fly_manipulator" ],
-        [ "player", "manipulator_switcher", "levelSwitcher" ],
-        [ "plane_transform", "plane_graphics" ],
-        [ "plane_transform_1", "plane_graphics_1" ],
-        [ "plane_transform_2", "plane_graphics_2" ]
-      ]
-    }
-  ],
-  "scenes": [
-    {
-      "id": "main_scene",
-      "type": "SceneAsset",
-      "units": [
-        "main"
-      ]
-    }
-  ]
+    "components": [
+        {
+            "children": [],
+            "id": "sun_transform",
+            "position": [
+                100.0,
+                200.0,
+                100.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "color": [
+                1.0,
+                0.75,
+                0.75
+            ],
+            "fadingArea": 0.0,
+            "id": "sun_light",
+            "intensity": 3.0,
+            "radius": 1000.0,
+            "type": "LightComponent"
+        },
+        {
+            "children": [
+                "camera_eye_transform"
+            ],
+            "id": "camera_target_transform",
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                -45.0,
+                90.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "children": [],
+            "id": "camera_eye_transform",
+            "position": [
+                0.0,
+                0.0,
+                25.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "id": "orbit_camera",
+            "isMain": true,
+            "type": "CameraComponent"
+        },
+        {
+            "eye": "camera_eye_transform",
+            "id": "orbit_manipulator",
+            "rotSpeed": 200.0,
+            "type": "OrbitCameraManipulator",
+            "zoomSpeed": 20.0
+        },
+        {
+            "id": "player",
+            "target": "orbit_manipulator",
+            "type": "PlayerController"
+        },
+        {
+            "id": "levelSwitcher",
+            "type": "LevelSwitcherComponent"
+        },
+        {
+            "children": [],
+            "id": "cube_transform",
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "id": "cube_graphics",
+            "material": "materials/wood_wicker/main",
+            "mesh": "meshes/sphere/main",
+            "type": "RenderComponent"
+        },
+        {
+            "children": [],
+            "id": "sun_2_transform",
+            "position": [
+                -100.0,
+                200.0,
+                -100.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "color": [
+                0.75,
+                0.75,
+                1.0
+            ],
+            "fadingArea": 0.0,
+            "id": "sun_2_light",
+            "intensity": 3.0,
+            "radius": 1000.0,
+            "type": "LightComponent"
+        }
+    ],
+    "scenes": [
+        {
+            "id": "main_scene",
+            "type": "SceneAsset",
+            "units": [
+                "main"
+            ]
+        }
+    ],
+    "units": [
+        {
+            "id": "main",
+            "objects": [
+                [
+                    "sun_transform",
+                    "sun_light"
+                ],
+                [
+                    "camera_target_transform",
+                    "orbit_manipulator"
+                ],
+                [
+                    "camera_eye_transform",
+                    "orbit_camera"
+                ],
+                [
+                    "player",
+                    "levelSwitcher"
+                ],
+                [
+                    "cube_transform",
+                    "cube_graphics"
+                ],
+                [
+                    "sun_2_transform",
+                    "sun_2_light"
+                ]
+            ],
+            "type": "SceneUnit"
+        }
+    ],
+    "usedContexts": [
+        "meshes/sphere",
+        "materials/rustediron",
+        "materials/plastic",
+        "materials/wood_wicker"
+    ]
 }

@@ -1,0 +1,9 @@
+{
+    "textures": [
+        {
+            "id": "main",
+            "imagePath": "textures/wood_wicker/wood_wicker_base.png",
+            "type": "FileTextureAsset"
+        }
+    ]
+}

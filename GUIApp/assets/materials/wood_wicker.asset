@@ -1,0 +1,88 @@
+{
+    "materials": [
+        {
+            "id": "main",
+            "params": [
+                {
+                    "name": "Material.DiffuseColor",
+                    "param": {
+                        "type": "MaterialVec3Param",
+                        "value": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "Material.AmbientFactor",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 0.20000000298023224
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "AmbientColor",
+                    "param": {
+                        "type": "MaterialVec3Param",
+                        "value": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "type": "MaterialEntry"
+                }
+            ],
+            "shader": "shaders/standart/main",
+            "textures": [
+                {
+                    "name": "baseMap",
+                    "texture": "textures/wood_wicker/wood_wicker_base/main",
+                    "type": "TextureEntry"
+                },
+                {
+                    "name": "normalMap",
+                    "texture": "textures/wood_wicker/wood_wicker_normal/main",
+                    "type": "TextureEntry"
+                },
+                {
+                    "name": "roughMap",
+                    "texture": "textures/wood_wicker/wood_wicker_rough/main",
+                    "type": "TextureEntry"
+                },
+                {
+                    "name": "metalMap",
+                    "texture": "black_texture",
+                    "type": "TextureEntry"
+                },
+                {
+                    "name": "aoMap",
+                    "texture": "textures/wood_wicker/wood_wicker_ao/main",
+                    "type": "TextureEntry"
+                }
+            ],
+            "type": "MaterialAsset"
+        }
+    ],
+    "textures": [
+        {
+            "color": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "id": "black_texture",
+            "type": "DummyTextureAsset"
+        }
+    ],
+    "usedContexts": [
+        "shaders/standart",
+        "textures/wood_wicker/wood_wicker_ao",
+        "textures/wood_wicker/wood_wicker_base",
+        "textures/wood_wicker/wood_wicker_normal",
+        "textures/wood_wicker/wood_wicker_rough"
+    ]
+}

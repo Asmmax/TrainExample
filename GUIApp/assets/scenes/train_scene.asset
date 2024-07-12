@@ -1,172 +1,309 @@
 {
-  "usedContexts": [
-    "meshes/plane",
-    "materials/grass",
-    "meshes/rails",
-    "materials/metal",
-    "meshes/sleepers",
-    "materials/wood"
-  ],
-  "components": [
-    {
-      "id": "sun_transform",
-      "type": "TransformComponent",
-      "position": [ 100.0, 200.0, 100.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": []
-    },
-    {
-      "id": "sun_light",
-      "type": "LightComponent",
-      "radius": 1000.0,
-      "intensity": 0.5,
-      "fadingArea": 0.0,
-      "color": [ 1.0, 1.0, 1.0 ]
-    },
-    {
-      "id": "camera_target_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "rotation": [ -45.0, 90.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": [ "camera_eye_transform" ]
-    },
-    {
-      "id": "camera_eye_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 0.0, 25.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": []
-    },
-    {
-      "id": "fly_camera_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 5.0, 25.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": []
-    },
-    {
-      "id": "orbit_camera",
-      "type": "CameraComponent",
-      "isMain": false
-    },
-    {
-      "id": "fly_camera",
-      "type": "CameraComponent",
-      "isMain": true
-    },
-    {
-      "id": "orbit_manipulator",
-      "type": "OrbitCameraManipulator",
-      "eye": "camera_eye_transform",
-      "rotSpeed": 200.0,
-      "zoomSpeed": 20.0
-    },
-    {
-      "id": "fly_manipulator",
-      "type": "FlyCameraManipulator",
-      "rotSpeed": 100.0,
-      "speed": 10.0,
-      "speedUpCoef": 2.0
-    },
-    {
-      "id": "manipulator_switcher",
-      "type": "ManipulatorSwitcher",
-      "manipulators": [ "fly_manipulator", "orbit_manipulator" ]
-    },
-    {
-      "id": "player",
-      "type": "PlayerController",
-      "target": "orbit_manipulator"
-    },
-    {
-      "id": "spawner",
-      "type": "SpawnerComponent",
-      "trainId": "prefabs/train",
-      "delay": 50.0
-    },
-    {
-      "id": "levelSwitcher",
-      "type": "LevelSwitcherComponent"
-    },
-    {
-      "id": "plane_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, -0.01, 0.0 ],
-      "rotation": [ -90.0, 0.0, 0.0 ],
-      "scale": [ 20.0, 20.0, 20.0 ],
-      "children": []
-    },
-    {
-      "id": "plane_graphics",
-      "type": "RenderComponent",
-      "mesh": "meshes/plane/main",
-      "material": "materials/grass/main"
-    },
-    {
-      "id": "rails_group_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": [ "rails_transform", "sleepers_transform" ]
-    },
-    {
-      "id": "rails_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 0.01, 0.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": []
-    },
-    {
-      "id": "rails_graphics",
-      "type": "RenderComponent",
-      "mesh": "meshes/rails/main",
-      "material": "materials/metal/main"
-    },
-    {
-      "id": "sleepers_transform",
-      "type": "TransformComponent",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "rotation": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "children": []
-    },
-    {
-      "id": "sleepers_graphics",
-      "type": "RenderComponent",
-      "mesh": "meshes/sleepers/main",
-      "material": "materials/wood/main"
-    }
-  ],
-  "units": [
-    {
-      "id": "main",
-      "type": "SceneUnit",
-      "objects": [
-        [ "sun_transform", "sun_light" ],
-        [ "camera_target_transform", "orbit_manipulator" ],
-        [ "camera_eye_transform", "orbit_camera" ],
-        [ "fly_camera_transform", "fly_camera", "fly_manipulator" ],
-        [ "player", "manipulator_switcher", "spawner", "levelSwitcher" ],
-        [ "plane_transform", "plane_graphics" ],
-        [ "rails_group_transform" ],
-        [ "rails_transform", "rails_graphics" ],
-        [ "sleepers_transform", "sleepers_graphics" ]
-      ]
-    }
-  ],
-  "scenes": [
-    {
-      "id": "main_scene",
-      "type": "SceneAsset",
-      "units": [
-        "main"
-      ]
-    }
-  ]
+    "components": [
+        {
+            "children": [],
+            "id": "sun_transform",
+            "position": [
+                100.0,
+                200.0,
+                100.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "fadingArea": 0.0,
+            "id": "sun_light",
+            "intensity": 0.5,
+            "radius": 1000.0,
+            "type": "LightComponent"
+        },
+        {
+            "children": [
+                "camera_eye_transform"
+            ],
+            "id": "camera_target_transform",
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                -45.0,
+                90.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "children": [],
+            "id": "camera_eye_transform",
+            "position": [
+                0.0,
+                0.0,
+                25.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "children": [],
+            "id": "fly_camera_transform",
+            "position": [
+                0.0,
+                5.0,
+                25.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "id": "orbit_camera",
+            "isMain": false,
+            "type": "CameraComponent"
+        },
+        {
+            "id": "fly_camera",
+            "isMain": true,
+            "type": "CameraComponent"
+        },
+        {
+            "eye": "camera_eye_transform",
+            "id": "orbit_manipulator",
+            "rotSpeed": 200.0,
+            "type": "OrbitCameraManipulator",
+            "zoomSpeed": 20.0
+        },
+        {
+            "id": "fly_manipulator",
+            "rotSpeed": 100.0,
+            "speed": 10.0,
+            "speedUpCoef": 2.0,
+            "type": "FlyCameraManipulator"
+        },
+        {
+            "id": "manipulator_switcher",
+            "manipulators": [
+                "fly_manipulator",
+                "orbit_manipulator"
+            ],
+            "type": "ManipulatorSwitcher"
+        },
+        {
+            "id": "player",
+            "target": "orbit_manipulator",
+            "type": "PlayerController"
+        },
+        {
+            "delay": 50.0,
+            "id": "spawner",
+            "trainId": "prefabs/train",
+            "type": "SpawnerComponent"
+        },
+        {
+            "id": "levelSwitcher",
+            "type": "LevelSwitcherComponent"
+        },
+        {
+            "children": [],
+            "id": "plane_transform",
+            "position": [
+                0.0,
+                -0.009999999776482582,
+                0.0
+            ],
+            "rotation": [
+                -90.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                20.0,
+                20.0,
+                20.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "id": "plane_graphics",
+            "material": "materials/grass/main",
+            "mesh": "meshes/plane/main",
+            "type": "RenderComponent"
+        },
+        {
+            "children": [
+                "rails_transform",
+                "sleepers_transform"
+            ],
+            "id": "rails_group_transform",
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "children": [],
+            "id": "rails_transform",
+            "position": [
+                0.0,
+                0.009999999776482582,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "id": "rails_graphics",
+            "material": "materials/metal/main",
+            "mesh": "meshes/rails/main",
+            "type": "RenderComponent"
+        },
+        {
+            "children": [],
+            "id": "sleepers_transform",
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "TransformComponent"
+        },
+        {
+            "id": "sleepers_graphics",
+            "material": "materials/wood/main",
+            "mesh": "meshes/sleepers/main",
+            "type": "RenderComponent"
+        }
+    ],
+    "scenes": [
+        {
+            "id": "main_scene",
+            "type": "SceneAsset",
+            "units": [
+                "main"
+            ]
+        }
+    ],
+    "units": [
+        {
+            "id": "main",
+            "objects": [
+                [
+                    "sun_transform",
+                    "sun_light"
+                ],
+                [
+                    "camera_target_transform",
+                    "orbit_manipulator"
+                ],
+                [
+                    "camera_eye_transform",
+                    "orbit_camera"
+                ],
+                [
+                    "fly_camera_transform",
+                    "fly_camera",
+                    "fly_manipulator"
+                ],
+                [
+                    "player",
+                    "manipulator_switcher",
+                    "spawner",
+                    "levelSwitcher"
+                ],
+                [
+                    "plane_transform",
+                    "plane_graphics"
+                ],
+                [
+                    "rails_group_transform"
+                ],
+                [
+                    "rails_transform",
+                    "rails_graphics"
+                ],
+                [
+                    "sleepers_transform",
+                    "sleepers_graphics"
+                ]
+            ],
+            "type": "SceneUnit"
+        }
+    ],
+    "usedContexts": [
+        "meshes/plane",
+        "materials/grass",
+        "meshes/rails",
+        "materials/metal",
+        "meshes/sleepers",
+        "materials/wood"
+    ]
 }
