@@ -4,9 +4,9 @@
             "children": [],
             "id": "sun_transform",
             "position": [
-                100.0,
                 200.0,
-                100.0
+                200.0,
+                200.0
             ],
             "rotation": [
                 0.0,
@@ -125,9 +125,9 @@
             "children": [],
             "id": "sun_2_transform",
             "position": [
-                -100.0,
+                -200.0,
                 200.0,
-                -100.0
+                -200.0
             ],
             "rotation": [
                 0.0,
