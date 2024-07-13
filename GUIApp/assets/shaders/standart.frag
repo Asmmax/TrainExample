@@ -61,17 +61,20 @@ void main()
 		float intensity = PointLights[i].Intensity * IntensityFunc(length(toLight), PointLights[i].Radius, PointLights[i].Radius + PointLights[i].FadingArea);
 		
 		vec3 light = normalize(SurfaceMatrix * normalize(toLight));
-		vec3 h = normalize(light + view);
-		
 		float NdL = max(dot(normal, light), 0.001);
-		float HdN = max(dot(h, normal), 0.0);
-		float VdH = max(dot(view, h), 0.001);
 		
-		float D = (power + 2.0) / (2.0 * PI) * pow(HdN, power);
-		float G = min(1.0, min(2 * HdN * NdV / VdH, 2 * HdN * NdL / VdH));
-		float F = f0 + (1 - f0) * pow(1.0 - VdH, 5.0);
-		
-		float spec = D * G * F / (4 * NdL * NdV);		
+		float spec = 0.0;
+		if (light.z > 0.0){
+			vec3 h = normalize(light + view);
+			float HdN = max(dot(h, normal), 0.0);
+			float VdH = max(dot(view, h), 0.001);
+			
+			float D = (power + 2.0) / (2.0 * PI) * pow(HdN, power);
+			float G = min(1.0, min(2.0 * HdN * NdV / VdH, 2.0 * HdN * NdL / VdH));
+			float F = f0 + (1 - f0) * pow(1.0 - VdH, 5.0);
+			
+			spec = D * G * F / (4 * NdL * NdV);
+		}		
 		
 		sumLightIntensity += PointLights[i].Color * intensity * NdL * mix(base, vec3(spec), specFactor);
 	}

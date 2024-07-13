@@ -28,7 +28,7 @@
             ],
             "fadingArea": 0.0,
             "id": "sun_light",
-            "intensity": 3.0,
+            "intensity": 2.0,
             "radius": 1000.0,
             "type": "LightComponent"
         },
@@ -149,7 +149,7 @@
             ],
             "fadingArea": 0.0,
             "id": "sun_2_light",
-            "intensity": 3.0,
+            "intensity": 2.0,
             "radius": 1000.0,
             "type": "LightComponent"
         }
