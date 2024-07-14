@@ -24,6 +24,14 @@
                     "type": "MaterialEntry"
                 },
                 {
+                    "name": "Material.SpecularFactor",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 0.10000000149011612
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
                     "name": "AmbientColor",
                     "param": {
                         "type": "MaterialVec3Param",
@@ -36,53 +44,43 @@
                     "type": "MaterialEntry"
                 }
             ],
-            "shader": "shaders/standart/main",
+            "shader": "shaders/cook_torance/main",
+            "shaderDefines": [
+                "USE_BASE_MAP",
+                "USE_NORMAL_MAP",
+                "USE_ROUGH_MAP",
+                "USE_METAL_MAP"
+            ],
             "textures": [
                 {
-                    "name": "baseMap",
+                    "name": "BaseMap",
                     "texture": "textures/rustediron/rustediron_base/main",
                     "type": "TextureEntry"
                 },
                 {
-                    "name": "normalMap",
+                    "name": "NormalMap",
                     "texture": "textures/rustediron/rustediron_normal/main",
                     "type": "TextureEntry"
                 },
                 {
-                    "name": "roughMap",
+                    "name": "RoughMap",
                     "texture": "textures/rustediron/rustediron_rough/main",
                     "type": "TextureEntry"
                 },
                 {
-                    "name": "metalMap",
+                    "name": "MetalMap",
                     "texture": "textures/rustediron/rustediron_metal/main",
-                    "type": "TextureEntry"
-                },
-                {
-                    "name": "aoMap",
-                    "texture": "white_texture",
                     "type": "TextureEntry"
                 }
             ],
             "type": "MaterialAsset"
         }
     ],
-    "textures": [
-        {
-            "color": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "id": "white_texture",
-            "type": "DummyTextureAsset"
-        }
-    ],
     "usedContexts": [
-        "shaders/standart",
         "textures/rustediron/rustediron_base",
         "textures/rustediron/rustediron_metal",
         "textures/rustediron/rustediron_normal",
-        "textures/rustediron/rustediron_rough"
+        "textures/rustediron/rustediron_rough",
+        "shaders/cook_torance"
     ]
 }

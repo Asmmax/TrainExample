@@ -1,0 +1,16 @@
+{
+    "shaders": [
+        {
+            "defines": [
+                "USE_BASE_MAP",
+                "USE_NORMAL_MAP",
+                "USE_AO_MAP",
+                "USE_SPEC_MAP"
+            ],
+            "fragmentShaderPath": "shaders/blinn_phong.frag",
+            "id": "main",
+            "type": "ShaderAsset",
+            "vertexShaderPath": "shaders/standart.vert"
+        }
+    ]
+}

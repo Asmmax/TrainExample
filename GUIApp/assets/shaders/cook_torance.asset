@@ -1,0 +1,18 @@
+{
+    "shaders": [
+        {
+            "defines": [
+                "USE_BASE_MAP",
+                "USE_NORMAL_MAP",
+                "USE_ROUGH_MAP",
+                "USE_METAL_MAP",
+                "USE_AO_MAP",
+                "USE_SPEC_MAP"
+            ],
+            "fragmentShaderPath": "shaders/cook_torance.frag",
+            "id": "main",
+            "type": "ShaderAsset",
+            "vertexShaderPath": "shaders/standart.vert"
+        }
+    ]
+}

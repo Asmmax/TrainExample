@@ -1,10 +1,13 @@
 {
-	"shaders":[
-	{
-		"id":"main",
-		"type":"ShaderAsset",
-		"vertexShaderPath":"shaders/simple.vert",
-		"fragmentShaderPath":"shaders/simple.frag"
-	}
-	]
+    "shaders": [
+        {
+            "defines": [
+                "USE_BASE_MAP"
+            ],
+            "fragmentShaderPath": "shaders/simple.frag",
+            "id": "main",
+            "type": "ShaderAsset",
+            "vertexShaderPath": "shaders/simple.vert"
+        }
+    ]
 }
