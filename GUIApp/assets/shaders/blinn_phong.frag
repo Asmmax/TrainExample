@@ -75,6 +75,7 @@ void main()
 #endif
 	
 	vec3 view = normalize(SurfaceMatrix * normalize(-EyeCoords));
+	float NdV = max(dot(normal, view), 0.0);
 	
 	vec3 sumLightIntensity = vec3(0.0f);
 	for(int i = 0; i < PointLightCount; i++){
@@ -86,7 +87,7 @@ void main()
 			
 		vec3 diff = diffuseBase * NdL;
 		float spec = 0.0;
-		if (light.z > 0 && NdL > 0){
+		if (light.z > -0.2 && NdL > 0.0 && NdV > 0.0){
 			vec3 h = normalize(light + view);
 			float HdN = max(dot(h, normal), 0.0);	
 			spec = pow(HdN, Material.SpecularPower);
