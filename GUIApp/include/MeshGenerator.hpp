@@ -6,6 +6,7 @@ class ACurve;
 
 class MeshGenerator {
 public:
+	MeshGenerator();
 	const MeshData& getMeshData() const { return _data; }
 
 	void meshPointsStrip(const std::vector<glm::vec3>& left, const std::vector<glm::vec3>& right, bool loop = true);

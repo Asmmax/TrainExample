@@ -103,7 +103,10 @@ void main()
 	float f0 = mix(0.04, 1.0, metal);
 	
 	vec3 view = normalize(SurfaceMatrix * normalize(-EyeCoords));
-	float NdV = max(dot(normal, view), 0.001);
+	float NdV = max(dot(normal, view), 0.0);
+	
+	//FragColor = vec4(vec3(NdV), 1.0);
+	//return;
 	
 	vec3 sumLightIntensity = vec3(0.0f);
 	for(int i = 0; i < PointLightCount; i++){
@@ -114,17 +117,16 @@ void main()
 		float NdL = max(dot(normal, light), 0.0);
 		
 		float spec = 0.0;
-		if (light.z > 0 && NdL > 0){
+		if (light.z > -0.2 && NdL > 0.0 && NdV > 0.0){
 			vec3 h = normalize(light + view);
 			float HdN = max(dot(h, normal), 0.0);
-			float NdL = max(dot(normal, light), 0.001);
 			float VdH = max(dot(view, h), 0.001);
 			
 			float D = (power + 2.0) / (2.0 * PI) * pow(HdN, power);
 			float G = min(1.0, min(2.0 * HdN * NdV / VdH, 2.0 * HdN * NdL / VdH));
 			float F = f0 + (1 - f0) * pow(1.0 - VdH, 5.0);
 			
-			spec = D * G * F / (4 * NdL * NdV);
+			spec = D * G * F / max(4 * NdL * NdV, 0.001);
 		}
 		
 		sumLightIntensity += PointLights[i].Color * intensity * NdL * mix(diffuseBase, vec3(spec), specFactor);
