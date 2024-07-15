@@ -105,9 +105,6 @@ void main()
 	vec3 view = normalize(SurfaceMatrix * normalize(-EyeCoords));
 	float NdV = max(dot(normal, view), 0.0);
 	
-	//FragColor = vec4(vec3(NdV), 1.0);
-	//return;
-	
 	vec3 sumLightIntensity = vec3(0.0f);
 	for(int i = 0; i < PointLightCount; i++){
 		vec3 toLight = vec3(PointLights[i].Position) - EyeCoords;
