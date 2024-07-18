@@ -1,0 +1,14 @@
+{
+    "skies": [
+        {
+            "id": "main",
+            "material": "materials/default_sky/main",
+            "mesh": "meshes/sphere/main",
+            "type": "SkyAsset"
+        }
+    ],
+    "usedContexts": [
+        "meshes/sphere",
+        "materials/default_sky"
+    ]
+}

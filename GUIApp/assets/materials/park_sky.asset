@@ -1,0 +1,22 @@
+{
+    "materials": [
+        {
+            "id": "main",
+            "params": [],
+            "shader": "shaders/spherical_sky/main",
+            "shaderDefines": [],
+            "textures": [
+                {
+                    "name": "skyMap",
+                    "texture": "textures/skyboxes/park_envirounment/main",
+                    "type": "TextureEntry"
+                }
+            ],
+            "type": "MaterialAsset"
+        }
+    ],
+    "usedContexts": [
+        "textures/skyboxes/park_envirounment",
+        "shaders/spherical_sky"
+    ]
+}

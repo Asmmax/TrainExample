@@ -95,13 +95,25 @@
             "type": "TransformComponent"
         },
         {
+            "backgroundColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
             "id": "orbit_camera",
             "isMain": false,
+            "skybox": "skies/default_sky/main",
             "type": "CameraComponent"
         },
         {
+            "backgroundColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
             "id": "fly_camera",
             "isMain": true,
+            "skybox": "skies/default_sky/main",
             "type": "CameraComponent"
         },
         {
@@ -304,6 +316,7 @@
         "meshes/rails",
         "materials/metal",
         "meshes/sleepers",
-        "materials/wood"
+        "materials/wood",
+        "skies/default_sky"
     ]
 }

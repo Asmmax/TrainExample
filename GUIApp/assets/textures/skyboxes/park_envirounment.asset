@@ -1,0 +1,9 @@
+{
+    "textures": [
+        {
+            "id": "main",
+            "imagePath": "textures/skyboxes/park_envirounment.png",
+            "type": "FileTextureAsset"
+        }
+    ]
+}

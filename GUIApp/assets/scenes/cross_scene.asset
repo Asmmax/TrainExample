@@ -75,8 +75,14 @@
             "type": "TransformComponent"
         },
         {
+            "backgroundColor": [
+                0.25,
+                0.25,
+                0.25
+            ],
             "id": "orbit_camera",
             "isMain": true,
+            "skybox": null,
             "type": "CameraComponent"
         },
         {

@@ -1,0 +1,11 @@
+{
+    "shaders": [
+        {
+            "defines": [],
+            "fragmentShaderPath": "shaders/procedural_sky.frag",
+            "id": "main",
+            "type": "ShaderAsset",
+            "vertexShaderPath": "shaders/sky.vert"
+        }
+    ]
+}

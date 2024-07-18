@@ -67,5 +67,4 @@ void ManipulatorSwitcher::switchManipulator()
 	}
 
 	controller->setManipulator(target);
-	target->apply();
 }

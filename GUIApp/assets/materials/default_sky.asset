@@ -1,0 +1,60 @@
+{
+    "materials": [
+        {
+            "id": "main",
+            "params": [
+                {
+                    "name": "skyColor",
+                    "param": {
+                        "type": "MaterialVec3Param",
+                        "value": [
+                            0.30000001192092896,
+                            0.4000000059604645,
+                            0.6000000238418579
+                        ]
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "farColor",
+                    "param": {
+                        "type": "MaterialVec3Param",
+                        "value": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "groundColor",
+                    "param": {
+                        "type": "MaterialVec3Param",
+                        "value": [
+                            0.25,
+                            0.25,
+                            0.25
+                        ]
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "borderFactor",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 5.0
+                    },
+                    "type": "MaterialEntry"
+                }
+            ],
+            "shader": "shaders/procedural_sky/main",
+            "shaderDefines": [],
+            "textures": [],
+            "type": "MaterialAsset"
+        }
+    ],
+    "usedContexts": [
+        "shaders/procedural_sky"
+    ]
+}
