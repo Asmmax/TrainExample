@@ -55,7 +55,6 @@ void main()
 	float atmLength = lookToGround ? inner : outer;
 	
 	int N = 16;
-	int M = 8;
 	float ds = atmLength / N;
 	
 	vec3 sumR = vec3(0.0);
@@ -64,14 +63,17 @@ void main()
 	float opticalDepthR = 0.0;
 	float opticalDepthM = 0.0;
 	
+	float H0r = Hr * AtmosphereLength;
+	float H0m = Hm * AtmosphereLength;
+	
 	if (ds > 0.0){
 		for (int i = 0; i < N; i++){
 			vec3 pos = cameraPos + view * (i + 0.5) * ds;
 			vec3 centerToPos = pos - center;
 			
 			float height = length(centerToPos) - 1.0;
-			float Hr_sample = exp( - height/(Hr * AtmosphereLength)) * ds;
-			float Hm_sample = exp( - height/(Hm * AtmosphereLength)) * ds;
+			float Hr_sample = exp( - height/H0r) * ds;
+			float Hm_sample = exp( - height/H0m) * ds;
 			
 			opticalDepthR += Hr_sample;
 			opticalDepthM += Hm_sample;
@@ -84,18 +86,11 @@ void main()
 				continue;
 			}
 			
-			float pathL = hr + sqrt(outerRadius2 - rr2);
-			
-			float opticalDepthRL = 0.0;
-			float opticalDepthML = 0.0;
-			float dl = pathL / M;
-			int j = 0;
-			for (j = 0; j < M; j++){
-				vec3 posL = pos + light * (j + 0.5) * dl;
-				float heightL = length(posL - center) - 1.0;
-				opticalDepthRL += exp( - heightL /(Hr * AtmosphereLength)) * dl;
-				opticalDepthML += exp( - heightL /(Hm * AtmosphereLength)) * dl;
-			}
+			float LdN = dot(light, normalize(-centerToPos));
+			float xr = exp(H0r/(0.2136-0.9551*LdN))-1.011426;
+			float xm = exp(H0m/(0.1691-1.2365*LdN))-1.001834;
+			float opticalDepthRL = exp((xr - height)/H0r);
+			float opticalDepthML = exp((xm - height)/H0m);
 			
 			vec3 tauR = AtmosphereWeight * bettaR * (opticalDepthRL + opticalDepthR);
 			vec3 attnR = vec3(exp(-tauR[0]), exp(-tauR[1]), exp(-tauR[2]));
