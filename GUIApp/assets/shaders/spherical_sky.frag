@@ -2,7 +2,7 @@
 
 const float PI = 3.14159265;
 
-in vec3 GlobalCoords;
+in vec3 EyeRay;
 
 out vec4 FragColor;
 
@@ -20,6 +20,6 @@ vec2 vec3ToUV( vec3 vector )
 
 void main(void)
 {
-	vec2 uv = vec3ToUV(normalize(GlobalCoords));
+	vec2 uv = vec3ToUV(normalize(EyeRay));
 	FragColor = texture(skyMap, uv);
 }

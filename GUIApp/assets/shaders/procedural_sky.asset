@@ -5,7 +5,7 @@
             "fragmentShaderPath": "shaders/procedural_sky.frag",
             "id": "main",
             "type": "ShaderAsset",
-            "vertexShaderPath": "shaders/sky.vert"
+            "vertexShaderPath": "shaders/procedural_sky.vert"
         }
     ]
 }

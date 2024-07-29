@@ -1,0 +1,10 @@
+{
+    "meshes": [
+        {
+            "id": "main",
+            "slices": 512,
+            "stacks": 256,
+            "type": "Sphere"
+        }
+    ]
+}

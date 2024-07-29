@@ -4,46 +4,66 @@
             "id": "main",
             "params": [
                 {
-                    "name": "skyColor",
+                    "name": "GroundColor",
                     "param": {
                         "type": "MaterialVec3Param",
                         "value": [
-                            0.30000001192092896,
-                            0.4000000059604645,
-                            0.6000000238418579
+                            0.5,
+                            0.5,
+                            0.5
                         ]
                     },
                     "type": "MaterialEntry"
                 },
                 {
-                    "name": "farColor",
+                    "name": "SunDirection",
                     "param": {
                         "type": "MaterialVec3Param",
                         "value": [
                             1.0,
-                            1.0,
-                            1.0
+                            -1.0,
+                            0.0
                         ]
                     },
                     "type": "MaterialEntry"
                 },
                 {
-                    "name": "groundColor",
-                    "param": {
-                        "type": "MaterialVec3Param",
-                        "value": [
-                            0.25,
-                            0.25,
-                            0.25
-                        ]
-                    },
-                    "type": "MaterialEntry"
-                },
-                {
-                    "name": "borderFactor",
+                    "name": "SunSize",
                     "param": {
                         "type": "MaterialFloatParam",
-                        "value": 5.0
+                        "value": 0.019999999552965164
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "SunSmooth",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 50.0
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "MoonSize",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 0.029999999329447746
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "AtmosphereLength",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 0.009999999776482582
+                    },
+                    "type": "MaterialEntry"
+                },
+                {
+                    "name": "CameraHeight",
+                    "param": {
+                        "type": "MaterialFloatParam",
+                        "value": 0.0020000000949949026
                     },
                     "type": "MaterialEntry"
                 }
