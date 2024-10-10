@@ -31,7 +31,7 @@
                     "name": "SunSize",
                     "param": {
                         "type": "MaterialFloatParam",
-                        "value": 0.019999999552965164
+                        "value": 0.029999999329447746
                     },
                     "type": "MaterialEntry"
                 },
@@ -39,7 +39,7 @@
                     "name": "SunSmooth",
                     "param": {
                         "type": "MaterialFloatParam",
-                        "value": 50.0
+                        "value": 30.0
                     },
                     "type": "MaterialEntry"
                 },

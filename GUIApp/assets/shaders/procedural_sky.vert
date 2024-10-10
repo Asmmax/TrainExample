@@ -4,7 +4,8 @@ layout (location = 0) in vec3 Position;
 
 out vec3 EyeRay;
 out vec3 Rayleigh;
-out float Mie;
+out vec3 SunColor;
+out vec3 Mie;
 out vec3 Ground;
 
 uniform mat4 ModelMatrix;
@@ -14,7 +15,7 @@ uniform vec3 SunDirection;
 
 uniform float AtmosphereLength = 0.01;
 uniform float AtmosphereWeight = 1.0;
-uniform float FogWeight = 0.1;
+uniform float FogWeight = 0.2;
 uniform float CameraHeight = 0.0;
 uniform float SunIntensity = 30.0;
 uniform float MoonIntensity = 3.0;
@@ -22,12 +23,26 @@ uniform float MoonIntensity = 3.0;
 uniform vec3 GroundColor;
 
 const float PI = 3.14159265;
+const float PI_2 = 3.14159265/2;
+const float PI_4 = 3.14159265/4;
 const float Hr = 0.15;
 const float Kr = 8.8421135e-8 * 6.371e6;
 const vec3 bettaR = 4.0 * 3.14159265 * Kr * 1.0 / pow(vec3(0.650, 0.570, 0.475), vec3(4.0));
 const float Hm = 0.02;
 const float bettaM = 21e-6 * 6.371e6;
 const vec3 center = vec3(0.0, -1.0, 0.0);
+
+float scale(float c, float H0)
+{
+	float x = -PI_4*abs(c);
+	return x + sqrt(x*x + PI_2*H0);
+}
+
+float scale(float c, float H0, float dh)
+{
+	float lightDepth = scale(c, H0);
+	return c > 0.0 ? lightDepth : 2*sqrt(PI_2*H0)*exp(-dh/H0) - lightDepth;
+}
 
 void main()
 {
@@ -44,6 +59,7 @@ void main()
 	
 	vec3 centerToCameraPos = cameraPos - center;
 	float h = -view.y * (cameraHeight + 1.0); // dot(-centerToCameraPos, view);
+	float VdN = -h/(cameraHeight + 1);
 	vec3 r = centerToCameraPos + h * view;
 	float r2 = dot(r, r);
 	
@@ -54,29 +70,30 @@ void main()
 	
 	float atmLength = lookToGround ? inner : outer;
 	
-	int N = 16;
+	int N = 8;
 	float ds = atmLength / N;
 	
 	vec3 sumR = vec3(0.0);
-	float sumM = 0.0;
-	
-	float opticalDepthR = 0.0;
-	float opticalDepthM = 0.0;
+	vec3 sumM = vec3(0.0);
 	
 	float H0r = Hr * AtmosphereLength;
 	float H0m = Hm * AtmosphereLength;
 	
+	SunColor = vec3(SunIntensity);
+	
 	if (ds > 0.0){
+		float hmin = sqrt(r2) - 1;
+		float dh = max(hmin, 0.0) - cameraHeight;
+		float opticalDepthRFull = scale(VdN, H0r, dh)*exp(-cameraHeight/H0r);
+		float opticalDepthMFull = scale(VdN, H0m, dh)*exp(-cameraHeight/H0m);
+		
 		for (int i = 0; i < N; i++){
 			vec3 pos = cameraPos + view * (i + 0.5) * ds;
 			vec3 centerToPos = pos - center;
 			
 			float height = length(centerToPos) - 1.0;
-			float Hr_sample = exp( - height/H0r) * ds;
-			float Hm_sample = exp( - height/H0m) * ds;
-			
-			opticalDepthR += Hr_sample;
-			opticalDepthM += Hm_sample;
+			float Hr_sample = exp( - height/H0r);
+			float Hm_sample = exp( - height/H0m);
 			
 			float hr = dot(-centerToPos, light);
 			vec3 rr = centerToPos + hr * light;
@@ -86,19 +103,27 @@ void main()
 				continue;
 			}
 			
-			float LdN = dot(light, normalize(-centerToPos));
-			float xr = exp(H0r/(0.2136-0.9551*LdN))-1.011426;
-			float xm = exp(H0m/(0.1691-1.2365*LdN))-1.001834;
-			float opticalDepthRL = exp((xr - height)/H0r);
-			float opticalDepthML = exp((xm - height)/H0m);
+			float LdN = -hr/(height + 1);
+			float dhl = max(sqrt(rr2) - 1, 0.0) - height;
+			float opticalDepthRL = scale(LdN, H0r, dhl)*Hr_sample;
+			float opticalDepthML = scale(LdN, H0m, dhl)*Hm_sample;
 			
-			vec3 tauR = AtmosphereWeight * bettaR * (opticalDepthRL + opticalDepthR);
-			vec3 attnR = vec3(exp(-tauR[0]), exp(-tauR[1]), exp(-tauR[2]));
-			float tauM = FogWeight * bettaM * (opticalDepthML + opticalDepthM);
-			float attnM = exp(-tauM);
-			sumR += Hr_sample * attnR;
-			sumM += Hm_sample * attnM;
+			float VdNL = dot(centerToPos, view)/(height + 1);
+			float dhr = max(hmin, 0.0) - height;
+			float opticalDepthR = opticalDepthRFull - scale(VdNL, H0r, dhr)*Hr_sample;
+			float opticalDepthM = opticalDepthMFull - scale(VdNL, H0m, dhr)*Hm_sample;
+			
+			vec3 tau = AtmosphereWeight * bettaR * (opticalDepthRL + opticalDepthR) + FogWeight * bettaM * (opticalDepthML + opticalDepthM);
+			vec3 attn = vec3(exp(-tau[0]), exp(-tau[1]), exp(-tau[2]));
+			sumR += Hr_sample * attn;
+			sumM += Hm_sample * attn;
 		}
+		sumR *= ds;
+		sumM *= ds;
+		
+		vec3 tauSun = AtmosphereWeight * bettaR * opticalDepthRFull + FogWeight * bettaM * opticalDepthMFull;
+		vec3 attnSun = vec3(exp(-tauSun[0]), exp(-tauSun[1]), exp(-tauSun[2]));
+		SunColor = SunIntensity * attnSun;
 	}
 	
 	Rayleigh = SunIntensity * AtmosphereWeight * bettaR * sumR;
@@ -106,11 +131,14 @@ void main()
 	
 	Ground = vec3(0.0);
 	if (lookToGround){
-		vec3 tauR = AtmosphereWeight * bettaR * opticalDepthR;
-		vec3 attnR = vec3(exp(-tauR[0]), exp(-tauR[1]), exp(-tauR[2]));
-		float tauM = FogWeight * bettaM * opticalDepthM;
-		float attnM = exp(-tauM);
+		vec3 centerToGroundPos = centerToCameraPos + view * inner;
+		float VdG = dot(centerToGroundPos, -view); // centerToGroundPos has one length
+		float opticalDepthR = max(scale(VdG, H0r) - scale(-VdN, H0r)*exp(-cameraHeight/H0r), 0.0);
+		float opticalDepthM = max(scale(VdG, H0m) - scale(-VdN, H0m)*exp(-cameraHeight/H0m), 0.0);
+
+		vec3 tau = AtmosphereWeight * bettaR * opticalDepthR + FogWeight * bettaM * opticalDepthM;
+		vec3 attn = vec3(exp(-tau[0]), exp(-tau[1]), exp(-tau[2]));
 		vec3 groundDiff = GroundColor * (light.y > 0.0 ? light.y : -light.y * MoonIntensity / SunIntensity);
-		Ground = groundDiff * (attnR + attnM);
+		Ground = groundDiff * attn;
 	}
 }
