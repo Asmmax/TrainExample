@@ -31,6 +31,7 @@ const vec3 bettaR = 4.0 * 3.14159265 * Kr * 1.0 / pow(vec3(0.650, 0.570, 0.475),
 const float Hm = 0.02;
 const float bettaM = 21e-6 * 6.371e6;
 const vec3 center = vec3(0.0, -1.0, 0.0);
+const int sampleCount = 8;
 
 float scale(float c, float H0)
 {
@@ -70,8 +71,7 @@ void main()
 	
 	float atmLength = lookToGround ? inner : outer;
 	
-	int N = 8;
-	float ds = atmLength / N;
+	float ds = atmLength / sampleCount;
 	
 	vec3 sumR = vec3(0.0);
 	vec3 sumM = vec3(0.0);
@@ -87,7 +87,7 @@ void main()
 		float opticalDepthRFull = scale(VdN, H0r, dh)*exp(-cameraHeight/H0r);
 		float opticalDepthMFull = scale(VdN, H0m, dh)*exp(-cameraHeight/H0m);
 		
-		for (int i = 0; i < N; i++){
+		for (int i = 0; i < sampleCount; i++){
 			vec3 pos = cameraPos + view * (i + 0.5) * ds;
 			vec3 centerToPos = pos - center;
 			
