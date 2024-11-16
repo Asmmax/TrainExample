@@ -2,9 +2,16 @@
 
 #define PI 3.1415926
 
-struct LightInfo 
+struct DirectLightInfo 
 {
-	vec4 Position;
+	vec3 Direction;
+	vec3 Color;
+	float Intensity;
+};
+
+struct PointLightInfo 
+{
+	vec3 Position;
 	vec3 Color;
 	float Intensity;
 	float Radius;
@@ -18,15 +25,18 @@ struct MaterialInfo
 	float SpecularFactor;
 };
 
-in vec3 EyeCoords;
+in vec3 OutPosition;
 in mat3 SurfaceMatrix;
 in vec2 TexCoords;
 
 out vec4 FragColor;
 
+uniform vec3 ViewOrigin;
 uniform vec3 AmbientColor;
 uniform MaterialInfo Material;
-uniform LightInfo PointLights[10];
+uniform DirectLightInfo DirectLights[4];
+uniform PointLightInfo PointLights[10];
+uniform int DirectLightCount = 0;
 uniform int PointLightCount = 0;
 
 #ifdef USE_BASE_MAP
@@ -60,6 +70,28 @@ uniform float Metalness = 0.0;
 float IntensityFunc(float distance, float radius, float maxRadius)
 {
 	return clamp(1.0 - (distance - radius)/(maxRadius - radius + 0.000001), 0.0, 1.0);
+}
+
+vec3 ShadeCookTorance(vec3 toLight, vec3 normal, vec3 view, vec3 intensity, vec3 diffuseBase, float specFactor, float power, float f0)
+{
+	vec3 light = normalize(SurfaceMatrix * normalize(toLight));
+	float NdV = max(dot(normal, view), 0.0);
+	float NdL = max(dot(normal, light), 0.0);
+	
+	float spec = 0.0;
+	if (light.z > -0.2 && NdL > 0.0 && NdV > 0.0){
+		vec3 h = normalize(light + view);
+		float HdN = max(dot(h, normal), 0.0);
+		float VdH = max(dot(view, h), 0.001);
+		
+		float D = (power + 2.0) / (2.0 * PI) * pow(HdN, power);
+		float G = min(1.0, min(2.0 * HdN * NdV / VdH, 2.0 * HdN * NdL / VdH));
+		float F = f0 + (1 - f0) * pow(1.0 - VdH, 5.0);
+		
+		spec = D * G * F / max(4 * NdL * NdV, 0.001);
+	}
+	
+	return intensity * NdL * mix(diffuseBase, vec3(spec), specFactor);
 }
 
 void main()
@@ -102,31 +134,18 @@ void main()
 	float power = 2.0 / alpha2 - 2.0;
 	float f0 = mix(0.04, 1.0, metal);
 	
-	vec3 view = normalize(SurfaceMatrix * normalize(-EyeCoords));
-	float NdV = max(dot(normal, view), 0.0);
+	vec3 view = normalize(SurfaceMatrix * normalize(ViewOrigin-OutPosition));
 	
 	vec3 sumLightIntensity = vec3(0.0f);
+	for(int i = 0; i < DirectLightCount; i++){
+		vec3 toLight = -DirectLights[i].Direction.xyz;
+		float intensity = DirectLights[i].Intensity;
+		sumLightIntensity += ShadeCookTorance(toLight, normal, view, DirectLights[i].Color * intensity, diffuseBase, specFactor, power, f0);
+	}
 	for(int i = 0; i < PointLightCount; i++){
-		vec3 toLight = vec3(PointLights[i].Position) - EyeCoords;
+		vec3 toLight = PointLights[i].Position.xyz - OutPosition;
 		float intensity = PointLights[i].Intensity * IntensityFunc(length(toLight), PointLights[i].Radius, PointLights[i].Radius + PointLights[i].FadingArea);
-		
-		vec3 light = normalize(SurfaceMatrix * normalize(toLight));
-		float NdL = max(dot(normal, light), 0.0);
-		
-		float spec = 0.0;
-		if (light.z > -0.2 && NdL > 0.0 && NdV > 0.0){
-			vec3 h = normalize(light + view);
-			float HdN = max(dot(h, normal), 0.0);
-			float VdH = max(dot(view, h), 0.001);
-			
-			float D = (power + 2.0) / (2.0 * PI) * pow(HdN, power);
-			float G = min(1.0, min(2.0 * HdN * NdV / VdH, 2.0 * HdN * NdL / VdH));
-			float F = f0 + (1 - f0) * pow(1.0 - VdH, 5.0);
-			
-			spec = D * G * F / max(4 * NdL * NdV, 0.001);
-		}
-		
-		sumLightIntensity += PointLights[i].Color * intensity * NdL * mix(diffuseBase, vec3(spec), specFactor);
+		sumLightIntensity += ShadeCookTorance(toLight, normal, view, PointLights[i].Color * intensity, diffuseBase, specFactor, power, f0);
 	}
 	
 	vec3 ambientPart = ambientBase * Material.AmbientFactor;

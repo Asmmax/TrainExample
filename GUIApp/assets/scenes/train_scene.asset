@@ -4,14 +4,14 @@
             "children": [],
             "id": "sun_transform",
             "position": [
-                100.0,
-                200.0,
-                100.0
-            ],
-            "rotation": [
                 0.0,
                 0.0,
                 0.0
+            ],
+            "rotation": [
+                45.0,
+                0.0,
+                45.0
             ],
             "scale": [
                 1.0,
@@ -26,11 +26,9 @@
                 1.0,
                 1.0
             ],
-            "fadingArea": 0.0,
             "id": "sun_light",
             "intensity": 0.5,
-            "radius": 1000.0,
-            "type": "LightComponent"
+            "type": "DirectLightComponent"
         },
         {
             "children": [
@@ -253,6 +251,16 @@
             "material": "materials/wood/main",
             "mesh": "meshes/sleepers/main",
             "type": "RenderComponent"
+        },
+        {
+            "axis": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "id": "auto_rotate_component_0",
+            "speed": 10.0,
+            "type": "AutoRotateComponent"
         }
     ],
     "scenes": [
@@ -270,7 +278,8 @@
             "objects": [
                 [
                     "sun_transform",
-                    "sun_light"
+                    "sun_light",
+                    "auto_rotate_component_0"
                 ],
                 [
                     "camera_target_transform",

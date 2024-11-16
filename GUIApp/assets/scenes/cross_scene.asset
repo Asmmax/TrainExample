@@ -30,7 +30,7 @@
             "id": "sun_light",
             "intensity": 2.0,
             "radius": 1000.0,
-            "type": "LightComponent"
+            "type": "PointLightComponent"
         },
         {
             "children": [
@@ -157,7 +157,7 @@
             "id": "sun_2_light",
             "intensity": 2.0,
             "radius": 1000.0,
-            "type": "LightComponent"
+            "type": "PointLightComponent"
         }
     ],
     "scenes": [

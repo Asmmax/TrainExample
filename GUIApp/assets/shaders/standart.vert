@@ -5,12 +5,12 @@ layout (location = 1) in vec2 inTexCoords;
 layout (location = 2) in vec3 Normal;
 layout (location = 3) in vec3 Tangent;
 
-out vec3 EyeCoords;
+out vec3 OutPosition;
 out mat3 SurfaceMatrix;
 out vec2 TexCoords;
 
 uniform mat3 NormalMatrix;
-uniform mat4 ModelViewMatrix;
+uniform mat4 ModelMatrix;
 uniform mat4 MVP;
 
 void main()
@@ -25,7 +25,7 @@ void main()
 		tang.y, binormal.y, norm.y,
 		tang.z, binormal.z, norm.z);
 	
-	EyeCoords = (ModelViewMatrix * vec4(Position, 1.0f)).xyz;
+	OutPosition = (ModelMatrix * vec4(Position, 1.0f)).xyz;
 	
     gl_Position = MVP * vec4(Position, 1.0f);
 }
