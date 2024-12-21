@@ -16,18 +16,6 @@
                     "type": "MaterialEntry"
                 },
                 {
-                    "name": "SunDirection",
-                    "param": {
-                        "type": "MaterialVec3Param",
-                        "value": [
-                            1.0,
-                            -1.0,
-                            0.0
-                        ]
-                    },
-                    "type": "MaterialEntry"
-                },
-                {
                     "name": "SunSize",
                     "param": {
                         "type": "MaterialFloatParam",
